@@ -1,0 +1,98 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Sport Picks - Fixtures</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style>
+	<script type="text/javascript">
+		function localTime(utcTime){
+			var m_lng = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+			var m_sht = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+			var d_lng = new Array("Sunday","Monday","Tuesday","Wednesday","Thusday","Friday","Saturday")
+			var minutes = new String;
+			var origTime = new Date(utcTime);
+			if (origTime.getMinutes()<10){minutes = "0"+origTime.getMinutes();}else{minutes = origTime.getMinutes()}
+    		document.write(d_lng[origTime.getDay()]+" "+origTime.getHours()+":"+minutes+", "+m_sht[origTime.getMonth()]+" "+origTime.getDate()+" "+origTime.getFullYear());
+		}
+	</script>
+
+	
+</head>
+<body>
+<div class="container">
+	<!-- show any messages that come back with authentication -->
+
+	<div class="page-header text-center">
+		<h1><span class="fa fa-check-square-o"></span>Fixture</h1>
+		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+	</div>
+
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="/competitions">Competitions</a></li>
+			<li><a href="/rounds?competition=<%= competition %>">Rounds</a></li>
+			<li><a href="/fixtures?competition=<%= competition %>&round=<%= fixture.round %>">Fixtures</a></li>
+			<li class="active"><%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %></li>
+		</ol>
+		<!-- LOCAL INFORMATION -->
+		
+		<div class="col-sm-6">
+			<h3><%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %></h3>
+			<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>
+			<form action="/submitPick" method="post" role="form">
+				<fieldset>
+					<legend>Winner</legend>
+					<div class="radio">
+						<label for="<%= fixture.homeTeam %>">
+							<input type="radio" name="winner" id="<%= fixture.homeTeam %>" value="<%= fixture.homeTeam %>"
+								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.homeTeam==pick.winner.toString()) { %> checked <% } %> <% } %>
+								<% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %> />									
+							<%=teams[fixture.homeTeam].name %>
+						</label>
+					</div>
+					<div class="radio">					
+						<label for="<%= draw.id %>">
+							<input type="radio" name="winner" id="<%= draw.id %>" value="<%= draw.id %>"
+								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (draw.id==pick.winner.toString()) { %> checked <% } %> <% } %>
+								   <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %>/>									
+							<%=draw.name %>
+						</label>
+					</div>					
+					<div class="radio">					
+						<label for="<%= fixture.awayTeam %>">
+							<input type="radio" name="winner" id="<%= fixture.awayTeam %>" value="<%= fixture.awayTeam %>"
+								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.awayTeam==pick.winner.toString()) { %> checked <% } %>  <% } %>
+								 <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %> />									
+							<%=teams[fixture.awayTeam].name %>
+						</label>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Exact result</legend>
+					<div class = "form-group">
+						<label for="homeScore">Home</label>
+						<input name="homeScore" type="number" class = "form-control" id="homeScore" value="<% if (pick === null || pick.homeScore === undefined){ %>0<% } else { %><%= pick.homeScore %><% } %>" 
+							 <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %> />
+					</div>
+					<div class = "form-group">
+						<label for="awayScore">Away</label>
+						<input name="awayScore" type="number" class = "form-control" id="awayScore" value="<% if (pick === null || pick.awayScore === undefined){ %>0<% } else { %><%= pick.awayScore %><% } %>" 
+						 <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %> />
+					</div>
+				</fieldset>
+				<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
+				<input type="hidden" name="roundId" value="<%= fixture.round %>" >
+				<input type="hidden" name="competitionId" value="<%= competition %>" >
+				<button type="submit" class="btn btn-warning btn-lg" <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %>>Submit</button>
+			</form>		
+		</div>
+	</div>
+
+</div>
+</body>
+</html>
+

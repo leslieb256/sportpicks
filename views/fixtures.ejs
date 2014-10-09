@@ -1,0 +1,61 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Sport Picks - Fixtures</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		function localTime(utcTime){
+			var m_lng = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+			var m_sht = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+			var d_lng = new Array("Sunday","Monday","Tuesday","Wednesday","Thusday","Friday","Saturday")
+			var minutes = new String;
+			var origTime = new Date(utcTime);
+			if (origTime.getMinutes()<10){minutes = "0"+origTime.getMinutes();}else{minutes = origTime.getMinutes()}
+    		document.write(d_lng[origTime.getDay()]+" "+origTime.getHours()+":"+minutes+", "+m_sht[origTime.getMonth()]+" "+origTime.getDate()+" "+origTime.getFullYear());
+		}
+	</script>
+</head>
+<body>
+<div class="container">
+	<!-- show any messages that come back with authentication -->
+	<% if (successMsg.length > 0) { %><div class="alert alert-success"><%= successMsg %></div><% } %>
+	<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><%= dangerMsg %></div><% } %>
+
+	<div class="page-header text-center">
+		<h1><span class="fa fa-check-square-o"></span>Fixtures</h1>
+		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+	</div>
+
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="/competitions">Competitions</a></li>
+			<li><a href="/rounds?competition=<%= competition %>">Rounds</a></li>
+			<li class="active">Fixtures</li>
+		</ol>
+
+		<!-- LOCAL INFORMATION -->
+		
+		<div class="col-sm-6">
+			<div class = "list-group">
+				<% fixtures.forEach(function(fixture){ %>
+					<a href="/fixturePick?competition=<%= competition %>&fixture=<%= fixture.id %>" class="list-group-item"> 
+						
+						<b><%= fixture.homeTeam.name %>
+					    <%if (fixture.homeScore === undefined) {%> v <% } else { %><b><%= fixture.homeScore %></b> - <b><%= fixture.awayScore %></b> <% } %>
+						<%= fixture.awayTeam.name %></b> <% if (!(fixture.id in picks)){ %><span class="badge alert-danger"><span class="fa fa-warning"></span></span><% } else {%><span class="badge alert-success"><span class="fa fa-check"></span> </span> <% } %></br>
+						<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>
+					</a> 
+				<% }); %>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+

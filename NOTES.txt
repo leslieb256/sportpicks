@@ -1,0 +1,68 @@
+NEXT:
+
+Change fixtures and fixture to get the compeition data so as to include comp Name like the rounds page.
+Change fixture to show round name instead of "Fixtures"
+Change fixtures screen to show the round rankings
+Change fixtures screen to show the points for each fixture as the batdge once the round has been scored.
+Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
+
+Enter round 3+
+Create scoring script ready for testing once done (for winner)
+Create scoring script ready for testing once done (for exect score)
+create ranking script for testing once scoring done.
+
+Winner gets 1 pint, eaxt get 1 point. Make it completex is: winner can be any nominated points. exact score is with or without winner AND is x points - y points for each point off until zero).
+Good ting about exect score over score difference is that it gives draw people someonthing to play for.
+
+Closing date for fixtures should be beased on the round closing date ie: needs to populate (or get the rounds for a lookup) and use the closing date for the round.
+
+
+for consistency sake we have messages based  bootstrap:
+successMsg
+infoMsg
+warningMsg
+dangerMsg
+
+http://www.theroar.com.au/football/a-league/fixtures/
+
+currently set so that fixture closes 1 hour before the first game of aroudn. later change to be set to either 12 hor before each fixture or 1hr before each round. Will also need to change how/when it updates the
+"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
+
+
+SUPER15
+========
+http://www.superxv.com/fixtures/
+
+Set up super 15 for 2015 games. They srtat in Feb. Should be able to show Mat what the game tracker looks like during the A league.
+
+=======================
+TODO:
+Competition model needs a closing date, probably the date of the last fixture in the event.
+
+Need to add a awy to only bring through relevent teams, might happen if I start tracking teams and players linked to certain events. probably the best way is to add an event[] to the team or a team [] to the event.Need
+Need to change pick loaded message to be a green background rathe than red, manybe make pass a 'picks ok' if the message is x. Also should feedback the pick in the ok message.
+Need to make the system validate pick update based on date before doing the update.
+
+Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
+
+
+
+
+
+=============================
+Admin licks on "start comp"
+Admin selects sport/league/event
+Admin selects what scoring optiosn they want: goal differnce, exactscore, golden goal etc. Option to choose score stop at start of earliest game in round (but should have option for per fixture).
+Admin invites users to join
+
+User log in
+User accpets invote to competition
+On user screen is a list of compeitions they are playing.
+User clicks on comp.
+List comes up of rounds with open fixtures (fixtures close after the 'date')
+User clicks on rounds and makes selctions (driven by options for scoring selected).
+
+How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the-bootstrap-3-grid-system
+
+
+

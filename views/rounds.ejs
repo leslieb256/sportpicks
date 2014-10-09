@@ -1,0 +1,65 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Sport Picks - Competitions</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style>
+	<script type="text/javascript">
+		function localTime(utcTime, adjustment){
+			var m_lng = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+			var m_sht = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+			var d_lng = new Array("Sunday","Monday","Tuesday","Wednesday","Thusday","Friday","Saturday")
+			var minutes = new String;
+			var origTime = new Date();
+			origTime.setTime((new Date(utcTime)).getTime()+(Number(adjustment)*60*60*1000));
+			if (origTime.getMinutes()<10){minutes = "0"+origTime.getMinutes();}else{minutes = origTime.getMinutes()}
+    		document.write(d_lng[origTime.getDay()]+" "+origTime.getHours()+":"+minutes+", "+m_sht[origTime.getMonth()]+" "+origTime.getDate()+" "+origTime.getFullYear());
+		}
+	</script>
+
+</head>
+<body>
+<div class="container">
+
+	<div class="page-header text-center">
+		<h1><span class="fa fa-check-square-o"></span> <%= competition.name %></h1>
+		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+	</div>
+
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="/competitions">Competitions</a></li>
+			<li class="active"><%=competition.name %></li>
+		</ol>
+
+		<!-- LOCAL INFORMATION -->
+
+		<div class="col-sm-6">
+			<div class="list-group">
+				<% rounds.forEach(function(round){ %>
+					<a href="/fixtures?competition=<%= competition.id %>&round=<%= round.id %>" class="list-group-item"><p><b><%= round.name %></b></p>
+						<p></p><% if (round.closeDate <= Date.now()){ %><span class="label label-default">closed</span><% } %>
+						<% if (round.closeDate > Date.now() && round.closeDate <= (Date.now()+(1000*60*60*24*7))) { %><span class="label label-danger"><span class="fa fa-warning"></span>&nbsp closes:<script type="text/javascript">localTime("<%= round.closeDate %>","-1");</script></span> <% } %>
+						<% if (round.closeDate > Date.now()+(1000*60*60*24*7)) { %><span class="label label-default">closes:<script type="text/javascript">localTime("<%= round.closeDate %>","-1");</script></span> <% } %></p>
+					</a> 
+				<% }); %>
+			</div>
+		</div>
+
+		<div class="col-sm-6">
+			<table class="table">
+				<tr><th>Rank</th><th>email</th><th>Points</th></tr>
+				<% rankings.forEach(function (rankings){ %>
+				<tr <% if (rankings.user.id == user.id) { %> class="active" <% } %> ><td><%= rankings.ranking %></td><td><%= rankings.user.local.email %></td></td><td><%= rankings.points %></td></tr>				
+				<% }) %>
+			</table>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>
