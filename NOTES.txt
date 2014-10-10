@@ -1,10 +1,17 @@
+NOW USING GIT:
+
+git push origin master : To send files to bit bucket.
+git push heroku master : to send files to heroku
+
+https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app
+
 NEXT:
 
-Change fixtures and fixture to get the compeition data so as to include comp Name like the rounds page.
-Change fixture to show round name instead of "Fixtures"
 Change fixtures screen to show the round rankings
 Change fixtures screen to show the points for each fixture as the batdge once the round has been scored.
 Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
+
+Make the list of rounds a table of links, later can make it sortable or something.
 
 Enter round 3+
 Create scoring script ready for testing once done (for winner)

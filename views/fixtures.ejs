@@ -35,8 +35,8 @@
 	<div class="row">
 		<ol class="breadcrumb">
 			<li><a href="/competitions">Competitions</a></li>
-			<li><a href="/rounds?competition=<%= competition %>">Rounds</a></li>
-			<li class="active">Fixtures</li>
+			<li><a href="/rounds?competition=<%= competition.id %>"><%= competition.name %></a></li>
+			<li class="active"><%= round.name %></li>
 		</ol>
 
 		<!-- LOCAL INFORMATION -->
@@ -44,8 +44,7 @@
 		<div class="col-sm-6">
 			<div class = "list-group">
 				<% fixtures.forEach(function(fixture){ %>
-					<a href="/fixturePick?competition=<%= competition %>&fixture=<%= fixture.id %>" class="list-group-item"> 
-						
+					<a href="/fixturePick?competition=<%= competition.id %>&fixture=<%= fixture.id %>" class="list-group-item"> 
 						<b><%= fixture.homeTeam.name %>
 					    <%if (fixture.homeScore === undefined) {%> v <% } else { %><b><%= fixture.homeScore %></b> - <b><%= fixture.awayScore %></b> <% } %>
 						<%= fixture.awayTeam.name %></b> <% if (!(fixture.id in picks)){ %><span class="badge alert-danger"><span class="fa fa-warning"></span></span><% } else {%><span class="badge alert-success"><span class="fa fa-check"></span> </span> <% } %></br>

@@ -34,8 +34,8 @@
 	<div class="row">
 		<ol class="breadcrumb">
 			<li><a href="/competitions">Competitions</a></li>
-			<li><a href="/rounds?competition=<%= competition %>">Rounds</a></li>
-			<li><a href="/fixtures?competition=<%= competition %>&round=<%= fixture.round %>">Fixtures</a></li>
+			<li><a href="/rounds?competition=<%= competition.id %>"><%= competition.name %></a></li>
+			<li><a href="/fixtures?competition=<%= competition.id %>&round=<%= fixture.round %>"><%= round.name %></a></li>
 			<li class="active"><%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %></li>
 		</ol>
 		<!-- LOCAL INFORMATION -->

@@ -1,40 +1,43 @@
-var mongoose = require('mongoose');
-var User = require('../models/user');
+/**
+ * SCORING MODULE
+ * holds all of the scoring functions so they can be edited/reviewed in one place.
+ * These functions all return a number which is the points the user has earned from that pick
+ **/
+ 
+function fixtureScoring(userPick, fixtureResult, scoringOptions){
+    //set fixture points to zero
+    var totalPoints = 0;
+    console.log("inSCORING");
+    
+    // later need to make it look for fixture type first, then it can go through and apply each scoring option, eg: if fixcture type is:eventwinner it can juo to anther section as
+    // these are all match, just give it a bit of a tree to work through.
+    // later need to make it so that you can choose whtehr the winner needs to be picked corectly before the scoring option kicks in.
 
-// update users
-function updateUsers(){
-    User.update({local:{email:'ryan'}},
-        {$set: {
-            local:{email:'ryan',password:'test'}
-        }},{upsert: true},
-        function (err){
-            if (err) console.log("user update Error:"+err.toString());
+    scoringOptions.forEach(function(scoringOption){
+        if (scoringOption.type == "winner"){
+            //console.log("PICK:%s | ACTUAL: %s | TRUE?:%s", userPick.winner, fixtureResult.winner,( String(userPick.winner)==String(fixtureResult.winner) ) );
+            if (String(userPick.winner)==String(fixtureResult.winner)){
+                totalPoints += scoringOption.points;
+            }
         }
-    );
-}
+        
+        if ((scoringOption.type == "scoreDifference")&&(userPick.scoreDifference == fixtureResult.scoreDifference)&&(String(userPick.winner)==String(fixtureResult.winner)) ){
+            {
+                totalPoints += scoringOption.points;
+                //console.log("USER: %s, FIXTURE: %s, GD so +3 points:%s", userPick.scoreDifference, fixtureResult.scoreDifference,totalPoints);
+            }
+        }
+        if ((scoringOption.type == "exactResult")&&(String(userPick.winner)==String(fixtureResult.winner)) ){
+            {
+        //exact result should let you specit a movmtn option, eg for every x points left or gith then it changes the points by y.
+                totalPoints += scoringOption.points;
+                //console.log("USER: %s, FIXTURE: %s, GD so +3 points:%s", userPick.scoreDifference, fixtureResult.scoreDifference,totalPoints);
+            }
+        }
 
-function updateUserPassword(userId, newPassword){
-    User.findById(userId).exec(function (err, user){
-        //var newUser = new User();
-        console.log('%s', user.local.email);
-        console.log('%s',user.generateHash(newPassword));
-        user.local.password = user.generateHash(newPassword);
-        user.save();
     });
+    
+    return totalPoints;
 }
 
-function checkUser(userId){
-    User.findById(userId).exec(function(competitionList){
-        console.log(competitionList);
-    });
-}
-
-mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', function callback(){
-    //updateUsers();
-    updateUserPassword('543497522367c9209a739163','test');
-    //checkUser('5401512fb918a6b661d42b78');
-    console.log("done");
-});
+exports.FixtureScoring = fixtureScoring;

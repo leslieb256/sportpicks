@@ -138,6 +138,8 @@ module.exports = function(app, passport) {
 	// Gets the round details for the competition
 	app.get('/fixtures', isLoggedIn, function(req, res) {
 		var Fixture = require('../app/models/fixture');
+		var Round = require('../app/models/round');
+		var Competition = require('../app/models/competition');
 		var soccerPickFixture =require('../app/models/soccerPickFixture');
 		var Team = require('../app/models/team'); //needed for the populate for fixtures.
 
@@ -145,15 +147,21 @@ module.exports = function(app, passport) {
 		if (err) {console.log('ERR: fixtures page on fixtures')}
 			else{
 				soccerPickFixture.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){
-
-					res.render('fixtures.ejs', {
-						user : req.user, // get the user out of session and pass to template
-						fixtures: fixtures,
-						picks: createFixtureLookup(picks),
-						competition: req.param('competition'),
-						successMsg: req.flash('successMsg'),
-						dangerMsg: req.flash('dangerMsg'),
+					Competition.findById(req.param('competition')).exec(function(err,comp){
+						Round.findById(req.param('round')).exec(function(err, round){
+									res.render('fixtures.ejs', {
+										user : req.user, // get the user out of session and pass to template
+										fixtures: fixtures,
+										picks: createFixtureLookup(picks),
+										competition: comp,
+										round: round,
+										successMsg: req.flash('successMsg'),
+										dangerMsg: req.flash('dangerMsg'),
+									});
+						});
 					});
+							
+							
 				});
 			}
 		});
@@ -164,6 +172,7 @@ module.exports = function(app, passport) {
 		var soccerPickFixture =require('../app/models/soccerPickFixture');
 		var Team = require('../app/models/team'); //needed for the populate for fixtures.
 		var Round =require('../app/models/round');
+		var Competition =require('../app/models/competition');
 		Fixture.findById(req.param('fixture')).exec(function (err,fixture){
 		if (err) {console.log('ERR: fixturePick page on fixtures')}
 			else{
@@ -180,14 +189,16 @@ module.exports = function(app, passport) {
 										Round.findById(fixture.round, function (err,round){
 											if (err) {console.log('ERR: fixtures page on picks')}
 											else {
-												res.render('fixturePick.ejs', {
-													user : req.user, // get the user out of session and pass to template
-													fixture: fixture,
-													pick: pick,
-													teams: createIdLookup(teams),
-													draw: draw,
-													round: round,
-													competition: req.param('competition'),
+												Competition.findById(req.param('competition')).exec(function(err, comp){
+													res.render('fixturePick.ejs', {
+														user : req.user, // get the user out of session and pass to template
+														fixture: fixture,
+														pick: pick,
+														teams: createIdLookup(teams),
+														draw: draw,
+														round: round,
+														competition: comp,
+													});
 												});
 											}
 										});
