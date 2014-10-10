@@ -50,7 +50,7 @@
 						<label for="<%= fixture.homeTeam %>">
 							<input type="radio" name="winner" id="<%= fixture.homeTeam %>" value="<%= fixture.homeTeam %>"
 								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.homeTeam==pick.winner.toString()) { %> checked <% } %> <% } %>
-								<% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %> />									
+								<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />									
 							<%=teams[fixture.homeTeam].name %>
 						</label>
 					</div>
@@ -58,7 +58,7 @@
 						<label for="<%= draw.id %>">
 							<input type="radio" name="winner" id="<%= draw.id %>" value="<%= draw.id %>"
 								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (draw.id==pick.winner.toString()) { %> checked <% } %> <% } %>
-								   <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %>/>									
+								   <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/>									
 							<%=draw.name %>
 						</label>
 					</div>					
@@ -66,7 +66,7 @@
 						<label for="<%= fixture.awayTeam %>">
 							<input type="radio" name="winner" id="<%= fixture.awayTeam %>" value="<%= fixture.awayTeam %>"
 								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.awayTeam==pick.winner.toString()) { %> checked <% } %>  <% } %>
-								 <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %> />									
+								 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />									
 							<%=teams[fixture.awayTeam].name %>
 						</label>
 					</div>
@@ -76,18 +76,18 @@
 					<div class = "form-group">
 						<label for="homeScore">Home</label>
 						<input name="homeScore" type="number" class = "form-control" id="homeScore" value="<% if (pick === null || pick.homeScore === undefined){ %>0<% } else { %><%= pick.homeScore %><% } %>" 
-							 <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %> />
+							 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
 					</div>
 					<div class = "form-group">
 						<label for="awayScore">Away</label>
 						<input name="awayScore" type="number" class = "form-control" id="awayScore" value="<% if (pick === null || pick.awayScore === undefined){ %>0<% } else { %><%= pick.awayScore %><% } %>" 
-						 <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %> />
+						 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
 					</div>
 				</fieldset>
 				<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
 				<input type="hidden" name="roundId" value="<%= fixture.round %>" >
 				<input type="hidden" name="competitionId" value="<%= competition %>" >
-				<button type="submit" class="btn btn-warning btn-lg" <% if (round.closeDate<= (Date.now()-(1000*60*60))) { %> disabled <% } %>>Submit</button>
+				<button type="submit" class="btn btn-warning btn-lg" <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>>Submit</button>
 			</form>		
 		</div>
 	</div>
