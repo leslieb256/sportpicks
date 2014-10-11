@@ -23,6 +23,7 @@ Good ting about exect score over score difference is that it gives draw people s
 
 Closing date for fixtures should be beased on the round closing date ie: needs to populate (or get the rounds for a lookup) and use the closing date for the round.
 
+Should have ALL fixtures listed in a table with competition and date. OR somthing like that. The people can sort the list by date and it can show cloed rounds/fixtures ealiy as all data will be there.
 
 for consistency sake we have messages based  bootstrap:
 successMsg
@@ -34,6 +35,8 @@ http://www.theroar.com.au/football/a-league/fixtures/
 
 currently set so that fixture closes 1 hour before the first game of aroudn. later change to be set to either 12 hor before each fixture or 1hr before each round. Will also need to change how/when it updates the
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
+
+for some reason fixtures are not in order on the pfixutres page. Need to have a look at this proaby to do with teh fact the JSOPN is not orderd so it us up to the browser how it pulls/cucles the data. Might need to make thgese lists.
 
 
 SUPER15
