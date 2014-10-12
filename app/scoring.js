@@ -352,7 +352,7 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('542c9ae12367c9209a739151');
+   updateScoreByFixtureId('542cd39c2367c9209a739154');
 
     console.log("done");
     

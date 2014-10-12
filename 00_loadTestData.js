@@ -506,18 +506,31 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 1,
          roundName: 'Round 1',
          date: convertTime("2014-10-11 19:30", "Australia/Brisbane","UTC")},
-/**        
+      
         {type: 'match',
          homeSht:'WPX',
          awaySht:'PTH',
+         homeScore: 1,
+         awayScore: 2,
+         scoreDifference: 1,
+         winner: 'PTH',
+         homeTeamLeaguePoints: 0,
+         awayTeamLeaguePoints: 3,
          roundName: 'Round 1',
          date: convertTime("2014-12-10 15:00", "Australia/Brisbane","UTC")},
+
         {type: 'match',
          homeSht:'BBR',
          awaySht:'ADU',
+         homeScore: 1,
+         awayScore: 2,
+         scoreDifference: 1,
+         winner: 'ADU',
+         homeTeamLeaguePoints: 0,
+         awayTeamLeaguePoints: 3,
          roundName: 'Round 1',
          date: convertTime("2014-10-12 17:00", "Australia/Brisbane","UTC")},
-**/
+
          
 /**
     // *** ROUND 2 ***

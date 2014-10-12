@@ -27,7 +27,7 @@
 	<!-- show any messages that come back with authentication -->
 
 	<div class="page-header text-center">
-		<h1><span class="fa fa-check-square-o"></span>Fixture</h1>
+		<h1><span class="fa fa-check-square-o"></span> Fixture</h1>
 		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
 	</div>
 
@@ -90,8 +90,18 @@
 				<button type="submit" class="btn btn-warning btn-lg" <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>>Submit</button>
 			</form>		
 		</div>
-	</div>
+		
+		<div class="col-sm-6">
 
+			<h3>Fixture Results <span class="label label-default pull-right"><% if (points === null || points.points === undefined) { %><% } else { %><%= points.points %> points<% } %></span></h3>
+			<table class="table table-striped table-responsive">
+				<% if (!(fixture.winner == undefined)) { %> <tr><td>Winner</td><td><%= teams[fixture.winner].name %></td></tr><% } %>
+				<% if (!(fixture.homeScore == undefined)) { %> <tr><td>Home Score</td><td><%= fixture.homeScore %></td></tr><% } %>
+				<% if (!(fixture.awayScore == undefined)) { %> <tr><td>Away Score</td><td><%= fixture.awayScore %></td></tr><% } %>
+			</table>
+		</div>
+
+	</div>
 </div>
 </body>
 </html>
