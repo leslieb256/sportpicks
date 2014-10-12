@@ -7,9 +7,13 @@ https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app
 
 NEXT:
 
+For some reason you have to run the scoring multiple times for the ranking to update? Not sure why. Something to do with the scoring rolling up I suspect.
+
 Change fixtures screen to show the round rankings
 Change fixtures screen to show the points for each fixture as the batdge once the round has been scored.
 Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
+
+Test scoring on 
 
 Make the list of rounds a table of links, later can make it sortable or something.
 

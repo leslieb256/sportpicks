@@ -490,7 +490,7 @@ function updateFixtureResults(leagueName, eventName){
          homeScore: 1,
          awayScore: 0,
          scoreDifference: 1,
-         winner: 'MBV',
+         winner: 'CCM',
          homeTeamLeaguePoints: 3,
          awayTeamLeaguePoints: 0,
          roundName: 'Round 1',

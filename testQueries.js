@@ -569,8 +569,13 @@ db.once('open', function callback(){
     
     //testDrill('540151b0b918a6b661d42b7a','53fc63e6b918a6b661d423bf');
     //getFixtures()
-    console.log('TEST: %s',picksAvailByComp('5401512fb918a6b661d42b77'));
+   // console.log('TEST: %s',picksAvailByComp('5401512fb918a6b661d42b77'));
     //picksMade();
+    Point.find({competition:'542a5ffa736e3e35532f2d24'}).exec(function (err,result){
+       result.forEach(function (res){
+          console.log(res) ;
+       });
+    });
     console.log("done");
     
 });

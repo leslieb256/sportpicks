@@ -63,9 +63,9 @@ function updateScoreByFixtureId(fixtureId){
         else{
             async.series([
                 scoreFixture(fixture),
-                // updateCompetitionFixtureRanking(fixture),
-                // updateCompetitionRoundRanking(fixture),
-                // updateCompetitionEventRanking(fixture),
+                updateCompetitionFixtureRanking(fixture),
+                updateCompetitionRoundRanking(fixture),
+                updateCompetitionEventRanking(fixture),
             ], function(err){
                 if (err){console.log('ERROR on scoreUpdate for fixture: %s',fixtureId)}
             }); 
@@ -89,9 +89,7 @@ function scoreFixture(fixture){
 
             var pickPoints = fixtureScoring(userPick, fixture, [{type:"winner", points:1},{type:"exactResult", points:1, lossMultiplier:1}]);
             console.log('points = %s', pickPoints);
-            
 
-/**
             Point.update({
                 type: 'fixture',
                 user: userPick.user,
@@ -104,15 +102,239 @@ function scoreFixture(fixture){
                 function(err){
                     if (err) console.log("ERROR:"+err.toString());
                     else {
-                        console.log("FIXTURE SCORED");
+                        //console.log("FIXTURE SCORED");
                     }
                 }
             );
-**/
-    
+
        });
     });
 }
+
+function updateCompetitionFixtureRanking(fixture){
+    /**
+     * Takes a fixture object and puts the users in order based on their points for the fixture.
+     **/
+    var Competition = require('../app/models/competition');
+    var Point = require('../app/models/point');
+    var async = require('async');
+    //console.log('IN updateCompetitionFixtureRanking');
+    Competition.find({event:fixture.event}).exec(function(err,competition){
+        if (err) console.log("ERROR:"+err.toString());
+        else{
+            competition.forEach(function(comp){
+                Point.find({competition:comp, fixture:fixture}).sort('-points').exec(function(err, userPoints){
+                    if (err) console.log("ERROR:"+err.toString());
+                    else {
+                        var bestRank = 1;
+                        var lastPoints = 9999999999;
+                        var rankingArray = [];
+                        //console.log('ORIGDATA');                        
+                        async.eachSeries(userPoints, function(userPoint,callback){
+
+                           //console.log('BEFORE FIXTURE RANKING: %s: points:%s',userPoint._id,userPoint.points);
+                           if(userPoint.points<lastPoints){
+                               rankingArray.push({pointID:userPoint._id,ranking:bestRank});
+                               bestRank += 1;
+                               lastPoints = userPoint.points;
+                               //console.log('\tFIXTURE RANKING: %s: points: %s, ranking:%s, last points:%s',userPoint._id,userPoint.points,bestRank,lastPoints)
+                           }
+                           else{
+                              rankingArray.push({pointID:userPoint._id,ranking:bestRank});
+                              //console.log('\tFIXTURE RANKING: %s: ranking:%s, last points:%s',userPoint._id,bestRank,lastPoints)
+                           }
+                           
+                           callback();
+                        }, function (err){
+                            if (err) {
+                                console.log('error in ranking users');
+                            }
+                            else {
+                                //console.log('users for competition: %s RANKED', comp._id);
+                                rankingArray.forEach(function(item){
+                                   console.log('%s\t%s',item.pointID,item.ranking);
+                                    Point.update({_id:item.pointID},{ $set: {ranking:item.ranking}}, function(err){if (err){console.log('updateof ranking failed')}});
+
+                                });
+                            }
+                        });
+                    }
+                });
+
+            });
+        }
+    });
+}
+
+function updateCompetitionRoundRanking(fixture){
+    /**
+     * takes a fixture and finds all competitions the fixture appears in
+     * calculates the points for the round the fixutre is in for each comp
+     * and updates the ranking for each user in the comp for that round
+     **/
+     //see http://docs.mongodb.org/manual/reference/operator/aggregation/group/
+    var Competition = require('../app/models/competition');
+    var Point = require('../app/models/point');
+    var async = require('async');
+
+    //console.log('IN updateCompetitionRoundRanking');
+
+    Competition.find({event:fixture.event}).exec(function(err,competition){
+        if (err) console.log("ERROR:"+err.toString());
+        else{
+            competition.forEach(function(comp){
+                Point.aggregate([
+                    {$match:{
+                        type: "fixture",
+                        competition:comp._id,
+                        round:fixture.round
+                    }},
+                    {$group:{
+                        _id: "$user",
+                        total: {$sum : "$points"}
+                    }},
+                    {$sort: {
+                        total: -1
+                    }}
+                ], function(err, result){
+                        if (err) {console.log('ERROR IN Round Ranking %s',err)}
+                        else{
+                            //console.log(result);
+
+                            var bestRank = 1;
+                            var lastPoints = 999999999;
+                            var rankingArray = [];
+                            //console.log('ORIGDATA');                        
+                            async.eachSeries(result, function(userPoint,callback){
+    
+                               //console.log('%s: points:%s',userPoint._id,userPoint.points);
+                               if(userPoint.total<lastPoints){
+                                   rankingArray.push({user:userPoint._id,points:userPoint.total,ranking:bestRank});
+                                   bestRank += 1;
+                                   lastPoints = userPoint.total;
+                               }
+                               else{
+                                  rankingArray.push({user:userPoint._id,points:userPoint.total,ranking:bestRank});
+                               }
+                               callback();
+                            }, function (err){
+                                if (err) {
+                                    console.log('error in ranking round');
+                                }
+                                else {
+                                    //console.log('users for competition ROUND: %s RANKED', comp._id);
+                                    rankingArray.forEach(function(item){
+                                       //console.log('%s\t%s',item.pointID,item.ranking);
+                                      
+                                        Point.update({
+                                            type: 'round',
+                                            user: item.user,
+                                            competition: comp._id,
+                                            event: fixture.event,
+                                            round: fixture.round},
+                                            {$set: {points: item.points,ranking:item.ranking}},
+                                            {upsert: true},
+                                            function(err){
+                                                if (err) console.log("ERROR:"+err.toString());
+                                        //console.log("FIXTURE SCORED");
+                                            }
+                                        );
+                                    });
+                                }
+                            });
+
+                        }
+                });
+            });
+        }
+    });
+}
+
+function updateCompetitionEventRanking(fixture){
+    /**
+     * takes a fixture and finds all competitions the fixture appears in
+     * calculates the points for the competition the fixutre is in for each comp
+     * and updates the ranking for each user in the comp for that round
+     **/
+    //console.log('IN updateCompetitionEventRanking')
+    var Competition = require('../app/models/competition');
+    var Point = require('../app/models/point');
+    var async = require('async');
+
+    Competition.find({event:fixture.event}).exec(function(err,competition){
+        if (err) console.log("ERROR:"+err.toString());
+        else{
+            //console.log('IN UPDATE COMP');
+            //console.log(competition);
+            competition.forEach(function(comp){
+                Point.aggregate([
+                    {$match:{
+                        type: "round",
+                        competition:comp._id,
+                    }},
+                    {$group:{
+                        _id: "$user",
+                        total: {$sum : "$points"}
+                    }},
+                    {$sort: {
+                        total: -1
+                    }}
+                ], function(err, result){
+                        if (err) {console.log('ERROR IN Round Ranking %s',err)}
+                        else{
+                            //console.log('FOR COMP: %s',comp.name);
+                            result.forEach(function (testing){
+                                //console.log('COMPEVENT: RANK:\n%s',testing);
+                            });
+
+                            var bestRank = 1;
+                            var lastPoints = 9999999;
+                            var rankingArray = [];
+                            //console.log('ORIGDATA');                        
+                            async.eachSeries(result, function(userPoint,callback){
+    
+                               //console.log('%s: points:%s',userPoint._id,userPoint.points);
+                               if(userPoint.total<lastPoints){
+                                   rankingArray.push({user:userPoint._id,points:userPoint.total,ranking:bestRank});
+                                   bestRank += 1;
+                                   lastPoints = userPoint.total;
+                               }
+                               else{
+                                  rankingArray.push({user:userPoint._id,points:userPoint.total,ranking:bestRank});
+                               }
+                               callback();
+                            }, function (err){
+                                if (err) {
+                                    console.log('error in ranking round');
+                                }
+                                else {
+                                    //console.log('users for competition ROUND: %s RANKED', comp._id);
+                                    rankingArray.forEach(function(item){
+                                       //console.log('%s\t%s',item.pointID,item.ranking);
+                                      
+                                        Point.update({
+                                            type: 'event',
+                                            user: item.user,
+                                            competition: comp._id,
+                                            event: fixture.event},
+                                            {$set: {points: item.points,ranking:item.ranking}},
+                                            {upsert: true},
+                                            function(err){
+                                                if (err) console.log("ERROR:"+err.toString());
+                                        //console.log("FIXTURE SCORED");
+                                            }
+                                        );
+                                    });
+                                }
+                            }); 
+
+                        }
+                });
+            });
+        }
+    });
+}
+
 
 
 	// =====================================
@@ -130,7 +352,7 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('542c9ae12367c9209a739150');
+   updateScoreByFixtureId('542c9ae12367c9209a739151');
 
     console.log("done");
     
