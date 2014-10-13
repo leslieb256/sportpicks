@@ -7,26 +7,15 @@ https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app
 
 NEXT:
 
-For some reason you have to run the scoring multiple times for the ranking to update? Not sure why. Something to do with the scoring rolling up I suspect.
-CHECK The above issue is still valid, it might have fixed itself.
-
-Change fixtures screen to show the round rankings
-Change fixtures screen to show the points for each fixture as the batdge once the round has been scored.
 Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
+Round 1 should sayd Fixtures:Round 1
+Competition should say something like this as well.
 
-Test scoring on 
+Enter round 4+
 
-Make the list of rounds a table of links, later can make it sortable or something.
+Put the scoring options in teh competition
 
-Enter round 3+
-Create scoring script ready for testing once done (for winner)
-Create scoring script ready for testing once done (for exect score)
-create ranking script for testing once scoring done.
-
-Winner gets 1 pint, eaxt get 1 point. Make it completex is: winner can be any nominated points. exact score is with or without winner AND is x points - y points for each point off until zero).
-Good ting about exect score over score difference is that it gives draw people someonthing to play for.
-
-Closing date for fixtures should be beased on the round closing date ie: needs to populate (or get the rounds for a lookup) and use the closing date for the round.
+Get the routes file to load all the models, we need them all anyway!
 
 Should have ALL fixtures listed in a table with competition and date. OR somthing like that. The people can sort the list by date and it can show cloed rounds/fixtures ealiy as all data will be there.
 
@@ -40,6 +29,8 @@ http://www.theroar.com.au/football/a-league/fixtures/
 
 currently set so that fixture closes 1 hour before the first game of aroudn. later change to be set to either 12 hor before each fixture or 1hr before each round. Will also need to change how/when it updates the
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
+
+Make the list of rounds a table of links, later can make it sortable or something.
 
 for some reason fixtures are not in order on the pfixutres page. Need to have a look at this proaby to do with teh fact the JSOPN is not orderd so it us up to the browser how it pulls/cucles the data. Might need to make thgese lists.
 

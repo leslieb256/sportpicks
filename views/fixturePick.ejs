@@ -86,7 +86,7 @@
 				</fieldset>
 				<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
 				<input type="hidden" name="roundId" value="<%= fixture.round %>" >
-				<input type="hidden" name="competitionId" value="<%= competition %>" >
+				<input type="hidden" name="competitionId" value="<%= competition.id %>" >
 				<button type="submit" class="btn btn-warning btn-lg" <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>>Submit</button>
 			</form>		
 		</div>

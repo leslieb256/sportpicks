@@ -144,12 +144,14 @@ module.exports = function(app, passport) {
 		var soccerPickFixture =require('../app/models/soccerPickFixture');
 		var Team = require('../app/models/team'); //needed for the populate for fixtures.
 		var User = require('../app/models/user');		//needed for the populate for users
+		//console.log('FIXTURES: PARAM REQ:',req.param);
 		
 		Fixture.find({round:req.param('round')}).populate('homeTeam awayTeam').sort('date').exec(function (err,fixtures){
 		if (err) {console.log('ERR: fixtures page on fixtures')}
 			else{
 				soccerPickFixture.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){
 					Competition.findById(req.param('competition')).exec(function(err,comp){
+						//console.log('FIXTURES: comp:%s',comp)
 						Round.findById(req.param('round')).exec(function(err, round){
 							Point.find({competition:comp.id, type:'round'}).sort('ranking').populate('user').exec(function(err,rank){
 			
@@ -232,11 +234,11 @@ module.exports = function(app, passport) {
 
 	app.post('/submitPick', isLoggedIn, function(req, res) {
 		var soccerPickFixture =require('../app/models/soccerPickFixture');
-		console.log(req.body)
+		//console.log(req.body)
 		
 		// CANR USE PICK ID HERE MUST USE COMP< USER AND FIXTURE TO CREATE IT AS 
 		//THERE MAY NOT BE A PICK MADE YET!
-
+		//console.log('FIXTURES: PARAM REQ:',req.body);
         soccerPickFixture.update({
             user: req.user.id,
         	fixture: req.body.fixtureId,
@@ -247,20 +249,10 @@ module.exports = function(app, passport) {
             function(err){
                 if (err) {console.log("ERROR:"+err.toString());req.flash('dangerMsg','Pick not saved');}
                 else {req.flash('successMsg', 'Pick recorded');}
+                //console.log('SUBMITPICK: compID; %s',req.body.competitionId);
 				res.redirect('fixtures?competition='+req.body.competitionId+'&round='+req.body.roundId);
             }
         );
-
-
-
-		soccerPickFixture.findByIdAndUpdate(req.body.pickId, {round: req.body.roundId, 
-			competition:req.body.competitionId, fixture:req.body.fixtureId, 
-			winner:req.body.winner, homeScore: req.body.homeScore, awayScore:req.body.awayScore},
-			{upsert: true}).exec(function(err,updated){
-				if (err) {console.log(err)}
-				else{
-				}
-			});
 	});
 	
 
