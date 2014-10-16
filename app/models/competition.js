@@ -8,7 +8,8 @@ var competitionSchema = new mongoose.Schema({
     name: String,
     usersAccepted: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     league: {type: mongoose.Schema.Types.ObjectId, ref: 'League'},
-    event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'}
+    event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
+    scoring: [{type: mongoose.Schema.Types.Mixed}]
 });
 //create the model for Competitions
 

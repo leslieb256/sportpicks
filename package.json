@@ -1,6 +1,6 @@
 {
-  "name": "officepicks",
-  "version": "0.0.0",
+  "name": "sportpicks",
+  "version": "0.1.0",
   "description": "Runs an office picks competition.",
   "main": "server.js",
   "repository": "",

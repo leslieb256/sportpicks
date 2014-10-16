@@ -1,23 +1,48 @@
-NOW USING GIT:
-
+NOW USING GIT
+=============
+git commit -a : commit file changes.
 git push origin master : To send files to bit bucket.
 git push heroku master : to send files to heroku
 
+HEROKU
+=======
 https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app
 
-NEXT:
+BOOTSTRAP
+=========
+How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the-bootstrap-3-grid-system
 
-Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
-Round 1 should sayd Fixtures:Round 1
-Competition should say something like this as well.
+WORKING ON
+==========
 
-Enter round 4+
+*   Put the scoring options in teh competition
+*   Scoring - "needs winner" t/f to tell if you need the winner to be right before allowing potins on this.
 
-Put the scoring options in teh competition
+    have updated competition model. Need to update database to include the scoring options (incliding needWinner)
+    Then edit scoring.js to use the comp data
+    Then edit scoring.js to use the needWinner variable
+    Then edit scoring.js to use the scoreDiffernce scoring option.
 
-Get the routes file to load all the models, we need them all anyway!
 
-Should have ALL fixtures listed in a table with competition and date. OR somthing like that. The people can sort the list by date and it can show cloed rounds/fixtures ealiy as all data will be there.
+
+TODO - SHORT TERM
+=================
+
+*   Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
+    Round 1 should sayd Fixtures:Round 1
+    Competition should say something like this as well.
+
+*   Enter round 4+
+
+*   Get the routes file to load all the models, we need them all anyway!
+
+*   Should have ALL fixtures listed in a table with competition and date. OR somthing like that. The people can sort the list by date and it can show cloed rounds/fixtures ealiy as all data will be there.
+
+
+
+see scoring.js for valid scoring options
+
+
 
 for consistency sake we have messages based  bootstrap:
 successMsg
@@ -41,8 +66,15 @@ http://www.superxv.com/fixtures/
 
 Set up super 15 for 2015 games. They srtat in Feb. Should be able to show Mat what the game tracker looks like during the A league.
 
+
+TODO LONG TERM
 =======================
-TODO:
+
+Should create statistics by compeition on % of people that selected the various results.
+
+Should create graphs of how you are doing. Also, when scoring ficture/round and comp should calc mean, media and mode scores to compaare the player with. At minimum should show each player against median and current leader
+Chart.js dimple.js?
+
 Competition model needs a closing date, probably the date of the last fixture in the event.
 
 Need to add a awy to only bring through relevent teams, might happen if I start tracking teams and players linked to certain events. probably the best way is to add an event[] to the team or a team [] to the event.Need
@@ -54,21 +86,6 @@ Closing date should be set in the compeition as being by round or by fixture. cl
 
 
 
-
-=============================
-Admin licks on "start comp"
-Admin selects sport/league/event
-Admin selects what scoring optiosn they want: goal differnce, exactscore, golden goal etc. Option to choose score stop at start of earliest game in round (but should have option for per fixture).
-Admin invites users to join
-
-User log in
-User accpets invote to competition
-On user screen is a list of compeitions they are playing.
-User clicks on comp.
-List comes up of rounds with open fixtures (fixtures close after the 'date')
-User clicks on rounds and makes selctions (driven by options for scoring selected).
-
-How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the-bootstrap-3-grid-system
 
 
 

@@ -2,9 +2,27 @@
  * SCORING MODULE
  * holds all of the scoring functions so they can be edited/reviewed in one place.
  * These functions all return a number which is the points the user has earned from that pick
+ * 
+ * VALID SCORING OPTIONS
+ * =====================
+ * 
+ * winner
+ *  points - the points you get if the winner is correct
+ * 
+ * exactResult
+ *  points - the points you get if you select the exact result
+ *  lossMultiplier - for each point you are differnet to the home or away score you lose the absolute differece*loss multiplier
+ *  needsWinner - boolean - do you need to have picked the winner before you can get these points NOT IMPLEMENTED YET
+ * 
+ * scoreDifference
+ *  points - points if you get the score difference (margin) right
+ *  margins [x,y,z...] - an array of the possible brackets for score difference the first number is 
+ *               0 - x, then from gt x to y, then from gt than y to z, then z+
+ *  needsWinner - boolean - do you need to have picked the winner before you can get these points NOT IMPLEMENTED YET
+ * 
  **/
  
-function fixtureScoring(userPick, fixtureResult, scoringOptions){
+function fixtureScoring(userPick, fixtureResult){
     //set fixture points to zero
     var totalPoints = 0;
     console.log("inSCORING");
@@ -12,7 +30,7 @@ function fixtureScoring(userPick, fixtureResult, scoringOptions){
     // leter need to make it look for fixture type first.
     //if match then do the below else needs to apply correct scoring for
     // goldenboot or evetnwinner
-    scoringOptions.forEach(function(scoringOption){
+    userPick.competition.scoring.forEach(function(scoringOption){
         if (scoringOption.type == "winner"){
             //console.log("PICK:%s | ACTUAL: %s | TRUE?:%s", userPick.winner, fixtureResult.winner,( String(userPick.winner)==String(fixtureResult.winner) ) );
             if (String(userPick.winner)==String(fixtureResult.winner)){
@@ -45,10 +63,6 @@ function fixtureScoring(userPick, fixtureResult, scoringOptions){
 }
 exports.FixtureScoring = fixtureScoring;
 
-
-
-
-
 	// =====================================
 	// SCORING AND RANKING =================
 	// =====================================
@@ -77,9 +91,10 @@ function scoreFixture(fixture){
     /**
      * Takes a fixture object and calcuates the score for each user who has a pick for that fixture.
      **/
-    var PickFixture = require('../app/models/soccerPickFixture');
+    var Competition = require('../app/models/competition');
+    var FixturePick = require('../app/models/soccerPickFixture');
     var Point = require('../app/models/point');
-    PickFixture.find({fixture:fixture._id}).exec(function(err,picks){
+    FixturePick.find({fixture:fixture._id}).populate('competition').exec(function(err,picks){
        //console.log('PICKS\n%s',picks);
        picks.forEach(function(userPick){
             console.log("PICKS\n%s",userPick);
@@ -87,13 +102,13 @@ function scoreFixture(fixture){
             console.log('\n=====================\n');
             // calc winning score and update db if score is not zero
 
-            var pickPoints = fixtureScoring(userPick, fixture, [{type:"winner", points:1},{type:"exactResult", points:1, lossMultiplier:1}]);
+            var pickPoints = fixtureScoring(userPick, fixture);
             console.log('points = %s', pickPoints);
 
             Point.update({
                 type: 'fixture',
                 user: userPick.user,
-                competition: userPick.competition,
+                competition: userPick.competition.id,
                 event: fixture.event,
                 round: fixture.round,
                 fixture: fixture._id},
@@ -352,7 +367,8 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('542cd39c2367c9209a739154');
+   updateScoreByFixtureId('542c9ae12367c9209a739151');
+   // fixtureScoring2('NOTHING','542cd39c2367c9209a739154',"NOTHING2");
 
     console.log("done");
     
