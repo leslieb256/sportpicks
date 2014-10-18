@@ -18,7 +18,7 @@
  *  points - points if you get the score difference (margin) right
  *  margins [x,y,z...] - an array of the possible brackets for score difference the first number is 
  *               0 - x, then from gt x to y, then from gt than y to z, then z+
- *  needsWinner - boolean - do you need to have picked the winner before you can get these points NOT IMPLEMENTED YET
+ *  needsWinner - boolean - do you need to have picked the winner before you can get these points
  * 
  **/
  
@@ -47,7 +47,8 @@ function fixtureScoring(userPick, fixtureResult){
         }
         
         if ( scoringOption.type == "exactResult" ){
-            if (String(userPick.winner)==String(fixtureResult.winner)) { 
+            if ( ( !(scoringOption.needsWinner)) || 
+                 (  (scoringOption.needsWinner) && (String(userPick.winner)==String(fixtureResult.winner))) ) { 
                 if ( (scoringOption.points - (Math.abs(userPick.homeScore - fixtureResult.homeScore)*scoringOption.lossMultiplier) 
                                           - (Math.abs(userPick.awayScore - fixtureResult.awayScore)*scoringOption.lossMultiplier) ) >0 ) {
                     totalPoints += scoringOption.points - (Math.abs(userPick.homeScore - fixtureResult.homeScore)*scoringOption.lossMultiplier) 
@@ -92,7 +93,7 @@ function scoreFixture(fixture){
      * Takes a fixture object and calcuates the score for each user who has a pick for that fixture.
      **/
     var Competition = require('../app/models/competition');
-    var FixturePick = require('../app/models/soccerPickFixture');
+    var FixturePick = require('../app/models/fixturePick');
     var Point = require('../app/models/point');
     FixturePick.find({fixture:fixture._id}).populate('competition').exec(function(err,picks){
        //console.log('PICKS\n%s',picks);
@@ -367,9 +368,9 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('542c9ae12367c9209a739151');
+   updateScoreByFixtureId('542cd39c2367c9209a739155');
    // fixtureScoring2('NOTHING','542cd39c2367c9209a739154',"NOTHING2");
-
     console.log("done");
+
     
 });

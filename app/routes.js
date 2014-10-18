@@ -141,7 +141,7 @@ module.exports = function(app, passport) {
 		var Fixture = require('../app/models/fixture');
 		var Round = require('../app/models/round');
 		var Competition = require('../app/models/competition');
-		var soccerPickFixture =require('../app/models/soccerPickFixture');
+		var FixturePick =require('../app/models/fixturePick');
 		var Team = require('../app/models/team'); //needed for the populate for fixtures.
 		var User = require('../app/models/user');		//needed for the populate for users
 		//console.log('FIXTURES: PARAM REQ:',req.param);
@@ -149,7 +149,7 @@ module.exports = function(app, passport) {
 		Fixture.find({round:req.param('round')}).populate('homeTeam awayTeam').sort('date').exec(function (err,fixtures){
 		if (err) {console.log('ERR: fixtures page on fixtures')}
 			else{
-				soccerPickFixture.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){
+				FixturePick.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){
 					Competition.findById(req.param('competition')).exec(function(err,comp){
 						//console.log('FIXTURES: comp:%s',comp)
 						Round.findById(req.param('round')).exec(function(err, round){
@@ -178,7 +178,7 @@ module.exports = function(app, passport) {
 	
 	app.get('/fixturePick', isLoggedIn, function(req, res) {
 		var Fixture = require('../app/models/fixture');
-		var soccerPickFixture =require('../app/models/soccerPickFixture');
+		var FixturePick =require('../app/models/fixturePick');
 		var Team = require('../app/models/team'); //needed for the populate for fixtures.
 		var Round =require('../app/models/round');
 		var Competition =require('../app/models/competition');
@@ -193,7 +193,7 @@ module.exports = function(app, passport) {
 						Team.findOne({name:'Draw'}).exec(function (err,draw){
 							if (err) {console.log('ERR: fixtures page on fixtures')}
 							else{				
-								soccerPickFixture.findOne({competition:req.param('competition'), fixture:req.param('fixture'), user:req.user.id}).exec(function(err,pick){
+								FixturePick.findOne({competition:req.param('competition'), fixture:req.param('fixture'), user:req.user.id}).exec(function(err,pick){
 									if (err) {console.log('ERR: fixtures page on picks')}
 									else {
 										Round.findById(fixture.round, function (err,round){
@@ -233,13 +233,13 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/submitPick', isLoggedIn, function(req, res) {
-		var soccerPickFixture =require('../app/models/soccerPickFixture');
+		var FixturePick =require('../app/models/fixturePick');
 		//console.log(req.body)
 		
 		// CANR USE PICK ID HERE MUST USE COMP< USER AND FIXTURE TO CREATE IT AS 
 		//THERE MAY NOT BE A PICK MADE YET!
 		//console.log('FIXTURES: PARAM REQ:',req.body);
-        soccerPickFixture.update({
+        FixturePick.update({
             user: req.user.id,
         	fixture: req.body.fixtureId,
             round: req.body.roundId,
