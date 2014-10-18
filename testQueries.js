@@ -8,38 +8,8 @@
 // minght need to generate  results page and link to it via emails. Should
 // should do %age selections for fixture for comp AND all people using system
 
-// load fixtures also needs to load event in to the fixture, it will save a few queries later on.
-
-/** get some test data
- *
- * Realised I ned to create new collection that track score per round. Which means it also should track score per fixture, actually I juts need to put a tag on the 'score' colelction to say type: event, round, fixture.
- * That way all the summary scores are simply held in the asme collection as the fixture scores, to be honest they probaly need the same information to CRUD anyway.
- * 
- *  9. get scores for fixture, round, event for user, imagine being a user drilling in, pick event, see event, pick rounds, see score form each round etc.
- * 10. chec out how to make a site work, no protection using expressjs. (first page is a lit of users. fin d out how session keys are set and selecting user sets the session key, then you go form there.
- * 11. stick passport infront of site and do this per user.
- * 
- * 
- * Should have choices in comp for missed fixture (comp dependatn, either 0 or lowest for fixture or average for fixture)
-  * The round and fixture can be marked uwing round type and ficutre type of "game" or "event" (both becasue later it would be cool to take the game rounds and have them as a node tree)
- * For the round position is based on the roundPositin number. 
- * 
- * Should also have comp closing options, so that you can close on round close (1 hr before first game, fixture close)
- * 
- * NEED TO TEST SCORING NOW
- * also I now habe the format to store the scoring types and points. Will need a ficxture type also all fixture will need stuff like goal difference etc.
- * Usually these will be part of rouind0 whihc you can call bonus points.
- * fixture will need scoring types: "event" based on something other than fixutre results or "fixture" which are based on the result of teh fixture.
- * There will need to be a seperate type of scoring for event types (eg: golden goal or overall winner)
- * For goal difference you also need to have a "settings" eg: 0,1,2, 2 being 2+ or if up to three then 3+
- * 
- * WHERE AM I UP TO:
- * updateCompetitionRoundRanking, I can get back the data i need to insert some points with a type of "Round" for each user for each comp etc.
- * Then do the same per event/comp.
- * Then scoring/ranking is completed and I just need to do the fonrt end selection stuff.
- * 
- */
-
+// * Should also have comp closing options, so that you can close on round close (1 hr before first game, fixture close)
+ 
 var mongoose = require('mongoose');
 var async = require('async');
 //var models = require('./models');
@@ -50,7 +20,7 @@ var Round = require('./app/models/round');
 var Fixture = require('./app/models/fixture');
 var User = require('./app/models/user');
 var Point = require('./app/models/point');
-var SoccerPickFixture = require('./app/models/soccerPickFixture');
+var FixturePick = require('./app/models/fixturePick');
 //var scoring = require('./scoring');
 
 
@@ -545,6 +515,22 @@ function picksAvailByRound(userId){
     });
 }
 
+function testScoringOptions(scoringOptions, pick) {
+    var actualDiff = 16;
+    var totalPoints = 0;
+    var correctMargin = -1;
+    //first determine which margin value was the correct one to choose
+    //if the margin is the end catch all (x+) it returns -1
+    for (var i = 0; i < scoringOptions.margins.length; i++) {
+        console.log('actualDiff:%s | optionMaring: %s',actualDiff, scoringOptions.margins[i]);
+        if ( actualDiff <= scoringOptions.margins[i]){
+            correctMargin = scoringOptions.margins[i];
+            break;
+        }
+    }
+    if (pick.scoreDifference == correctMargin) { totalPoints += scoringOptions.points; }
+}
+
 
 
 // connect to the database
@@ -571,13 +557,7 @@ db.once('open', function callback(){
     //getFixtures()
    // console.log('TEST: %s',picksAvailByComp('5401512fb918a6b661d42b77'));
     //picksMade();
-    Point.find({competition:'542a5ffa736e3e35532f2d24'}).exec(function (err,result){
-       result.forEach(function (res){
-          console.log(res) ;
-       });
-    });
-    console.log("done");
-    
+    console.log(testScoringOptions({type:'scoreDifference',margins:[7,14], points:5},{scoreDifference:7}));
 });
 
 

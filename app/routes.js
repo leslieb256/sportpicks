@@ -153,7 +153,7 @@ module.exports = function(app, passport) {
 					Competition.findById(req.param('competition')).exec(function(err,comp){
 						//console.log('FIXTURES: comp:%s',comp)
 						Round.findById(req.param('round')).exec(function(err, round){
-							Point.find({competition:comp.id, type:'round'}).sort('ranking').populate('user').exec(function(err,rank){
+							Point.find({competition:comp.id, type:'round',round:round.id}).sort('ranking').populate('user').exec(function(err,rank){
 			
 								res.render('fixtures.ejs', {
 									user : req.user, // get the user out of session and pass to template

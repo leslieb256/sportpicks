@@ -19,6 +19,8 @@
  *  margins [x,y,z...] - an array of the possible brackets for score difference the first number is 
  *               0 - x, then from gt x to y, then from gt than y to z, then z+
  *  needsWinner - boolean - do you need to have picked the winner before you can get these points
+ *  
+ *  The user Pick if the want x+ should be recorded as "-1" eg: if the options are: 0,1,2+
  * 
  **/
  
@@ -39,12 +41,20 @@ function fixtureScoring(userPick, fixtureResult){
             }
         }
         
-        if ((scoringOption.type == "scoreDifference")&&(userPick.scoreDifference == fixtureResult.scoreDifference)&&(String(userPick.winner)==String(fixtureResult.winner)) ){
-            {
-                totalPoints += scoringOption.points;
-                //console.log("USER: %s, FIXTURE: %s, GD so +3 points:%s", userPick.scoreDifference, fixtureResult.scoreDifference,totalPoints);
-            }
-        }
+        if ( (scoringOption.type == "scoreDifference") && (!(scoringOption.needsWinner)) || 
+             ( (scoringOption.type == "scoreDifference") && (scoringOption.needsWinner) && (String(userPick.winner)==String(fixtureResult.winner)) ) ){
+                var correctMargin = -1; // if the user has select the greater than "x" catch all then the correct response is -1.
+                //first determine which margin value was the correct one to choose
+                //if the margin is the end catch all (x+) it returns -1
+                for (var i = 0; i < scoringOption.margins.length; i++) {
+                    //console.log('actualDiff:%s | optionMaring: %s',actualDiff, scoringOptions.margins[i]);
+                    if ( fixtureResult.scoreDifference <= scoringOption.margins[i]){
+                        correctMargin = scoringOption.margins[i];
+                        break;
+                    }
+                }
+                if (userPick.scoreDifference == correctMargin) { totalPoints += scoringOption.points; }            
+        } 
         
         if ( scoringOption.type == "exactResult" ){
             if ( ( !(scoringOption.needsWinner)) || 
@@ -368,7 +378,7 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('542cd39c2367c9209a739155');
+   updateScoreByFixtureId('5434a4cc2367c9209a739170');
    // fixtureScoring2('NOTHING','542cd39c2367c9209a739154',"NOTHING2");
     console.log("done");
 

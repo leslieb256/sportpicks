@@ -15,27 +15,25 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-*   Scoring - "needs winner" t/f to tell if you need the winner to be right before allowing potins on this.
+*   Fix ROund ranking, seems to be doubling up for some reason
 
-    DONE - have updated competition model. Need to update database to include the scoring options (incliding needWinner)
-    DONE - Then edit scoring.js to use the comp data
-    DONE Then edit scoring.js to use the needWinner variable
-    DONE test what happens if needsWinner is not set at all (can I just test for needsWinner?)
-    Then edit scoring.js to use the scoreDiffernce scoring option.
-
-
+*   Fix Ranking algo, it gives 1st then second second for first equal.
 
 TODO - SHORT TERM
 =================
+
+*   look at using .lean() when getting teh fixtreus by time to try to get them in the right order on the webpage.
+
+*   Enter round 5+
 
 *   Create displaynames for users which are shown instead of things
 
 *   Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
     Round 1 should sayd Fixtures:Round 1
     Competition should say something like this as well.
-
-*   Enter round 4+
-
+    
+*   add and test having scoring option of scoreDifference (use one of the test comps)
+    
 
 see scoring.js for valid scoring options
 

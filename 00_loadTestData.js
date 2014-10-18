@@ -471,7 +471,8 @@ function updateFixtureResults(leagueName, eventName){
     var Fixture = require('./app/models/fixture');
 
     var fixtureList = [
-        
+
+/**        
         // *** ROUND 1 ***
         {type: 'match',
          homeSht:'MBV',
@@ -530,28 +531,45 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 3,
          roundName: 'Round 1',
          date: convertTime("2014-10-12 17:00", "Australia/Brisbane","UTC")},
+**/
 
-         
-/**
     // *** ROUND 2 ***
         {type: 'match',
          homeSht:'ADU',
          awaySht:'MBV',
          roundName: 'Round 2',
+         homeScore: 1,
+         awayScore: 1,
+         scoreDifference: 0,
+         winner: 'DRW',
+         homeTeamLeaguePoints: 1,
+         awayTeamLeaguePoints: 1,
          date: convertTime("2014-10-17 19:30", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'CCM',
          awaySht:'WPX',
          roundName: 'Round 2',
+         homeScore: 1,
+         awayScore: 2,
+         scoreDifference: 1,
+         winner: 'WPX',
+         homeTeamLeaguePoints: 0,
+         awayTeamLeaguePoints: 3,
          date: convertTime("2014-10-18 17:00", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'SFC',
          awaySht:'WSW',
+         homeScore: 3,
+         awayScore: 2,
+         scoreDifference: 1,
+         winner: 'SFC',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 2',
-         date: convertTime("2014-10-18 19:30", "Australia/Brisbane","UTC")},
-
+         date: convertTime("2014-10-18 19:30", "Australia/Brisbane","UTC")}
+/**
         {type: 'match',
          homeSht:'MCY',
          awaySht:'NUJ',
@@ -564,6 +582,7 @@ function updateFixtureResults(leagueName, eventName){
          roundName: 'Round 2',
          date: convertTime("2014-10-19 17:00", "Australia/Brisbane","UTC")},
 
+/**
     // *** ROUND 3 ***
 
         {type: 'match',
@@ -596,6 +615,41 @@ function updateFixtureResults(leagueName, eventName){
          roundName: 'Round 3',
          date: convertTime("2014-10-26 17:00", "Australia/Brisbane","UTC")}
 **/
+
+/**
+    // *** ROUND 4 ***
+
+        {type: 'match',
+         homeSht:'MCY',
+         awaySht:'ADU',
+         roundName: 'Round 4',
+         date: convertTime("2014-10-31 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'PTH',
+         awaySht:'NUJ',
+         roundName: 'Round 4',
+         date: convertTime("2014-11-01 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'SFC',
+         awaySht:'CCM',
+         roundName: 'Round 4',
+         date: convertTime("2014-11-02 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MBV',
+         awaySht:'WPX',
+         roundName: 'Round 4',
+         date: convertTime("2014-11-03 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WSW',
+         awaySht:'BBR',
+         roundName: 'Round 4',
+         date: convertTime("2014-12-03 19:30", "Australia/Brisbane","UTC")},
+**/
+
         ];
      
     League.findOne({name:leagueName}, function (err, league) {
@@ -620,14 +674,27 @@ function updateFixtureResults(leagueName, eventName){
                                                 Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
                                                     if (err) console.log("awayTeamERROR:"+err.toString());
                                                     else {
-
+/**
+                                                            //load a new set of rounds
                                                             Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
-                                                                Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, date: fixtureData.date, event: event._id, league: league._id},
+                                                                Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date, event: event._id, league: league._id},
+                                                                {$set:{round: round._id}},
+                                                                    {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString())}
+                                                                    );
+                                                            });
+**/
+            
+
+                                                            // load the results for the round
+                                                            Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
+                                                                Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date, event: event._id, league: league._id},
                                                                 {$set:{homeScore: fixtureData.homeScore, awayScore:fixtureData.awayScore, scoreDifference: fixtureData.scoreDifference,winner: winner,
                                                                     homeTeamLeaguePoints: fixtureData.homeTeamLeaguePoints, awayTeamLeaguePoints: fixtureData.awayTeamLeaguePoints, round: round._id}},
                                                                     {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString())}
                                                                     );
                                                             });
+
+
                                                     }
                                                 });
 
@@ -717,116 +784,6 @@ function updateCompetition(){
 
 }
 
-// updatePicks
-function updatePicks(user_email, comp_name){
-    var picks = [
-        // ROUND 1 Picks
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423df', // SFC NUJ (SFC 2)
-        winner: 'NUJ',
-        scoreDifference: 2
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423e0', // CCM WSW (DRW)
-        winner: 'WSW',
-        scoreDifference: 1
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423e1', // MBV MCY (DRW)
-        winner: 'MBV',
-        scoreDifference: 2
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423de', // WPX BBR (BBR 1)
-        winner: 'DRW',
-        scoreDifference: 0
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423e6', // ADE PTH (ADE 2)
-        winner: 'ADU',
-        scoreDifference: 2
-        },
-
-
-        // ROUND 2 Picks
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423e4', // ADE MBV (DRW)
-        winner: 'MBV',
-        scoreDifference: 1
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423e2', //MCY CCM (DRW)
-        winner: 'DRW',
-        scoreDifference: 0
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423e3', //BBR SFC (BBR 4)
-        winner: 'BBR',
-        scoreDifference: 2
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '53fc6408b918a6b661d423e5', // NUJ PTH (DRW)
-        winner: 'DRW',
-        scoreDifference: 0
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '5401748eb918a6b661d42b7c', // WSW WPX (DRW)
-        winner: 'DRW',
-        scoreDifference: 0
-        }
-    ];
-    
-    picks.forEach(function(pick){
-        models.User.findOne({'local.email': user_email}, function (err, user) {
-            if (err) console.log("ERROR:"+err.toString());
-            else{
-                models.Competition.findOne({'name': comp_name}, function (err, competition) {
-                if (err) console.log("ERROR:"+err.toString());
-                else{
-    
-                        models.Team.findOne({'shtcode': pick.winner}, function (err, winner) {
-                            if (err) console.log("ERROR:"+err.toString());
-                            else{
-                                console.log('WINNER %s', winner.name);
-                                models.SoccerPickFixture.update({
-                                    user: user._id, 
-                                    competition: competition._id, 
-                                    fixture: pick.fixture}, 
-                                    {$set: {winner: winner._id, scoreDifference: pick.scoreDifference}},
-                                    {upsert: true},
-                                    function(err){
-                                        if (err) console.log("ERROR2:"+err.toString());
-                                    }
-                                );
-
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    });
-
-    
-}
 
 function addItemsToDB(){
     var Fixture = require('./app/models/fixture');
