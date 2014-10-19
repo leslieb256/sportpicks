@@ -14,7 +14,9 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 
 WORKING ON
 ==========
-*   look at using .lean() when getting teh fixtreus by time to try to get them in the right order (by date) on the webpage.
+
+*   Create displaynames for users which are shown instead of things
+
 
 TODO - SHORT TERM
 =================
@@ -24,8 +26,6 @@ TODO - SHORT TERM
 *   add the login to the first page.
 
 *   Enter round 5+
-
-*   Create displaynames for users which are shown instead of things
 
 *   Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
     Round 1 should sayd Fixtures:Round 1

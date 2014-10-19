@@ -146,7 +146,7 @@ module.exports = function(app, passport) {
 		var User = require('../app/models/user');		//needed for the populate for users
 		//console.log('FIXTURES: PARAM REQ:',req.param);
 		
-		Fixture.find({round:req.param('round')}).populate('homeTeam awayTeam').sort('closingDate').exec(function (err,fixtures){
+		Fixture.find({round:req.param('round')}).populate('homeTeam awayTeam').sort('closingDate').lean().exec(function (err,fixtures){
 		if (err) {console.log('ERR: fixtures page on fixtures')}
 			else{
 				FixturePick.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){

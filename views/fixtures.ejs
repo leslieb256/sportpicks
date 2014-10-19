@@ -44,10 +44,10 @@
 		<div class="col-sm-6">
 			<div class = "list-group">
 				<% fixtures.forEach(function(fixture){ %>
-					<a href="/fixturePick?competition=<%= competition.id %>&fixture=<%= fixture.id %>" class="list-group-item"> 
+					<a href="/fixturePick?competition=<%= competition._id %>&fixture=<%= fixture._id %>" class="list-group-item"> 
 						<b><%= fixture.homeTeam.name %>
 					    <%if (fixture.homeScore === undefined) {%> v <% } else { %><b><%= fixture.homeScore %></b> - <b><%= fixture.awayScore %></b> <% } %>
-						<%= fixture.awayTeam.name %></b> <% if (!(fixture.id in picks)){ %><span class="badge alert-danger"><span class="fa fa-warning"></span></span><% } else {%><span class="badge alert-success"><span class="fa fa-check"></span> </span> <% } %></br>
+						<%= fixture.awayTeam.name %></b> <% if (!(fixture._id in picks)){ %><span class="badge alert-danger"><span class="fa fa-warning"></span></span><% } else {%><span class="badge alert-success"><span class="fa fa-check"></span> </span> <% } %></br>
 						<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>
 					</a> 
 				<% }); %>
