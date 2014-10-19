@@ -105,7 +105,7 @@ module.exports = function(app, passport) {
 				Round.userRanking(req.user.id, function(err, rank){
 					if (err) {console.log('ERR: round page on rank')}
 					else {
-						Round.find({event:comp.event}).sort('roundPosition').exec(function(err,rounds){
+						Round.find({event:comp.event}).sort('roundPosition').lean().exec(function(err,rounds){
 							if (err){console.log('ERR: round page on rounds')}
 							else {
 								Point.find({competition:comp.id, type:'event'}).sort('ranking').populate('user').lean().exec(function(err,rank){
@@ -146,7 +146,7 @@ module.exports = function(app, passport) {
 		var User = require('../app/models/user');		//needed for the populate for users
 		//console.log('FIXTURES: PARAM REQ:',req.param);
 		
-		Fixture.find({round:req.param('round')}).populate('homeTeam awayTeam').sort('date').exec(function (err,fixtures){
+		Fixture.find({round:req.param('round')}).populate('homeTeam awayTeam').sort('closingDate').exec(function (err,fixtures){
 		if (err) {console.log('ERR: fixtures page on fixtures')}
 			else{
 				FixturePick.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){

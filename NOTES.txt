@@ -19,6 +19,9 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
+*   remove sign up
+
+*   add the login to the first page.
 
 *   Enter round 5+
 
