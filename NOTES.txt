@@ -14,13 +14,11 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 
 WORKING ON
 ==========
-
-*   Fix Ranking algo, it gives 1st then second second for first equal.
+*   look at using .lean() when getting teh fixtreus by time to try to get them in the right order (by date) on the webpage.
 
 TODO - SHORT TERM
 =================
 
-*   look at using .lean() when getting teh fixtreus by time to try to get them in the right order (by date) on the webpage.
 
 *   Enter round 5+
 
