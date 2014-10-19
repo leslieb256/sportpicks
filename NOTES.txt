@@ -15,14 +15,12 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-*   Fix ROund ranking, seems to be doubling up for some reason
-
 *   Fix Ranking algo, it gives 1st then second second for first equal.
 
 TODO - SHORT TERM
 =================
 
-*   look at using .lean() when getting teh fixtreus by time to try to get them in the right order on the webpage.
+*   look at using .lean() when getting teh fixtreus by time to try to get them in the right order (by date) on the webpage.
 
 *   Enter round 5+
 
@@ -87,6 +85,6 @@ TODO LONG TERM
     logo    team    score   v/-   score   team    logo
             name                          name
             
-*   Work out how to remove the two test compeitions
+*   Work out how to remove the two test compeitions (ie: delete all fixture picks by comp, then edelete all the rounds by comp etc)
 
 *   Should have ALL fixtures listed in a table with competition and date. OR somthing like that. The people can sort the list by date and it can show cloed rounds/fixtures ealiy as all data will be there.

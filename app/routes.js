@@ -108,7 +108,7 @@ module.exports = function(app, passport) {
 						Round.find({event:comp.event}).sort('roundPosition').exec(function(err,rounds){
 							if (err){console.log('ERR: round page on rounds')}
 							else {
-								Point.find({competition:comp.id, type:'event'}).sort('ranking').populate('user').exec(function(err,rank){
+								Point.find({competition:comp.id, type:'event'}).sort('ranking').populate('user').lean().exec(function(err,rank){
 									if (err){console.log('ERR: round page on rank')}
 									else{
 										//console.log(rank);

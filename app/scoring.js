@@ -153,20 +153,21 @@ function updateCompetitionFixtureRanking(fixture){
                     if (err) console.log("ERROR:"+err.toString());
                     else {
                         var bestRank = 1;
-                        var lastPoints = 9999999999;
+                        var lastPoints = 0;
                         var rankingArray = [];
                         //console.log('ORIGDATA');                        
                         async.eachSeries(userPoints, function(userPoint,callback){
 
                            //console.log('BEFORE FIXTURE RANKING: %s: points:%s',userPoint._id,userPoint.points);
-                           if(userPoint.points<lastPoints){
+                           if(userPoint.points>=lastPoints){
                                rankingArray.push({pointID:userPoint._id,ranking:bestRank});
-                               bestRank += 1;
                                lastPoints = userPoint.points;
                                //console.log('\tFIXTURE RANKING: %s: points: %s, ranking:%s, last points:%s',userPoint._id,userPoint.points,bestRank,lastPoints)
                            }
                            else{
+                              bestRank += 1;
                               rankingArray.push({pointID:userPoint._id,ranking:bestRank});
+                               lastPoints = userPoint.points;                              
                               //console.log('\tFIXTURE RANKING: %s: ranking:%s, last points:%s',userPoint._id,bestRank,lastPoints)
                            }
                            
@@ -178,7 +179,7 @@ function updateCompetitionFixtureRanking(fixture){
                             else {
                                 //console.log('users for competition: %s RANKED', comp._id);
                                 rankingArray.forEach(function(item){
-                                   console.log('%s\t%s',item.pointID,item.ranking);
+                                   //console.log('%s\t%s',item.pointID,item.ranking);
                                     Point.update({_id:item.pointID},{ $set: {ranking:item.ranking}}, function(err){if (err){console.log('updateof ranking failed')}});
 
                                 });
@@ -228,19 +229,20 @@ function updateCompetitionRoundRanking(fixture){
                             //console.log(result);
 
                             var bestRank = 1;
-                            var lastPoints = 999999999;
+                            var lastPoints = 0;
                             var rankingArray = [];
                             //console.log('ORIGDATA');                        
                             async.eachSeries(result, function(userPoint,callback){
     
                                //console.log('%s: points:%s',userPoint._id,userPoint.points);
-                               if(userPoint.total<lastPoints){
+                               if(userPoint.total>=lastPoints){
                                    rankingArray.push({user:userPoint._id,points:userPoint.total,ranking:bestRank});
-                                   bestRank += 1;
                                    lastPoints = userPoint.total;
                                }
                                else{
+                                  bestRank += 1;                               
                                   rankingArray.push({user:userPoint._id,points:userPoint.total,ranking:bestRank});
+                                  lastPoints = userPoint.total;
                                }
                                callback();
                             }, function (err){
@@ -314,19 +316,20 @@ function updateCompetitionEventRanking(fixture){
                             });
 
                             var bestRank = 1;
-                            var lastPoints = 9999999;
+                            var lastPoints = 0;
                             var rankingArray = [];
                             //console.log('ORIGDATA');                        
                             async.eachSeries(result, function(userPoint,callback){
     
                                //console.log('%s: points:%s',userPoint._id,userPoint.points);
-                               if(userPoint.total<lastPoints){
+                               if(userPoint.total>=lastPoints){
                                    rankingArray.push({user:userPoint._id,points:userPoint.total,ranking:bestRank});
-                                   bestRank += 1;
                                    lastPoints = userPoint.total;
                                }
                                else{
+                                  bestRank += 1;                               
                                   rankingArray.push({user:userPoint._id,points:userPoint.total,ranking:bestRank});
+                                  lastPoints = userPoint.total;
                                }
                                callback();
                             }, function (err){
@@ -378,8 +381,9 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('5434a4cc2367c9209a739170');
-   // fixtureScoring2('NOTHING','542cd39c2367c9209a739154',"NOTHING2");
+   updateScoreByFixtureId('542c9ae12367c9209a739150');
+   //RND1FIX:542c9ae12367c9209a739150
+   //RND2FIX: 5434a4cc2367c9209a73916f
     console.log("done");
 
     
