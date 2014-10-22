@@ -5,7 +5,8 @@ module.exports = function(app, passport) {
 	// HOME PAGE (with login links) ========
 	// =====================================
 	app.get('/', function(req, res) {
-		res.render('index.ejs'); // load the index.ejs file
+		res.render('index.ejs', {successMsg: req.flash('successMsg'),
+								 dangerMsg: req.flash('dangerMsg')}); // load the index.ejs file
 	});
 
 	// =====================================
@@ -22,7 +23,7 @@ module.exports = function(app, passport) {
     // process the login form
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect : '/competitions', // redirect to the compeitions list
-		failureRedirect : '/login', // redirect back to the signup page if there is an error
+		failureRedirect : '/', // redirect back to the index/login page if there is an error
 		failureFlash : true // allow flash messages
 	}));
 
@@ -37,6 +38,8 @@ module.exports = function(app, passport) {
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
 
+/**
+ * REMOVE SIGN UP
 	// process the signup form
     // process the signup form
 	app.post('/signup', passport.authenticate('local-signup', {
@@ -44,6 +47,7 @@ module.exports = function(app, passport) {
 		failureRedirect : '/signup', // redirect back to the signup page if there is an error
 		failureFlash : true // allow flash messages
 	}));
+**/
 
 	// =====================================
 	// PROFILE SECTION =====================

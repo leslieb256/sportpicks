@@ -15,9 +15,11 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-*   Compeitions ranking should highlight the current user.
-
 *   Create displaynames for users which are shown instead of emails
+
+*   remove sign up
+
+*   add the login to the first page.
 
 
 TODO - SHORT TERM
@@ -25,9 +27,6 @@ TODO - SHORT TERM
 
 *   Enter round 5+
 
-*   remove sign up
-
-*   add the login to the first page.
 
 *   fix date in rnd 1 of WPX game, just make it 12/10/2014 rather than 10/12/2014
 

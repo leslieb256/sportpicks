@@ -10,16 +10,43 @@
 	</style>
 </head>
 <body>
+
 <div class="container">
+	<!-- show any messages that come back with authentication -->
 
-	<div class="jumbotron text-center">
+	<div class="jumbotron">
 		<h1>Sport Picks</h1>
-
-		<p>Login or Register with:</p>
+		<p>Welcome to Sport Picks. Sport Picks is a simple online application for running picks competitions.</p>
 
 		<a href="/login" class="btn btn-default"><span class="fa fa-user"></span>Login</a>
 		<a href="/signup" class="btn btn-default"><span class="fa fa-user"></span>Signup</a>
 	</div>
+
+	<div class="col-sm-3">	
+		<h1><span class="fa fa-sign-in"></span> Login</h1>
+		<% if (successMsg.length > 0) { %><div class="alert alert-success"><%= successMsg %></div><% } %>
+		<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><%= dangerMsg %></div><% } %>
+		<!-- LOGIN FORM -->
+		<form action="/login" method="post">
+			<div class="form-group">
+				<label>Email</label>
+				<input type="text" class="form-control" name="email">
+			</div>
+			<div class="form-group">
+				<label>Password</label>
+				<input type="password" class="form-control" name="password">
+			</div>
+	
+			<button type="submit" class="btn btn-warning btn-lg">Login</button>
+		</form>
+	</div>
+
+	<div class="col-sm-3">
+	</div>
+
+	<div class="col-sm-3">	
+	</div>
+
 
 </div>
 </body>
