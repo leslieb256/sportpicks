@@ -381,7 +381,7 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('542c9ae12367c9209a739150');
+   updateScoreByFixtureId('5434a4cc2367c9209a739171');
    //RND1FIX:542c9ae12367c9209a739150
    //RND2FIX: 5434a4cc2367c9209a73916f
     console.log("done");

@@ -15,23 +15,31 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-*   Create displaynames for users which are shown instead of things
+*   Compeitions ranking should highlight the current user.
+
+*   Create displaynames for users which are shown instead of emails
 
 
 TODO - SHORT TERM
 =================
 
+*   Enter round 5+
+
 *   remove sign up
 
 *   add the login to the first page.
 
-*   Enter round 5+
+*   fix date in rnd 1 of WPX game, just make it 12/10/2014 rather than 10/12/2014
 
 *   Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
     Round 1 should sayd Fixtures:Round 1
     Competition should say something like this as well.
     
-*   add and test having scoring option of scoreDifference (use one of the test comps)
+*   add and test having scoring option of scoreDifference (use one of the test comps), getting reaady for super15
+
+*   work out wehy the fixtures do not seem to display in date order, I have already tried .lean()
+
+*   make the sportpicks landing page a little more interesting, backgroun banner picture or something?
     
 
 see scoring.js for valid scoring options

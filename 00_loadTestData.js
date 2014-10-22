@@ -507,6 +507,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 1,
          roundName: 'Round 1',
          date: convertTime("2014-10-11 19:30", "Australia/Brisbane","UTC")},
+
       
         {type: 'match',
          homeSht:'WPX',
@@ -518,8 +519,10 @@ function updateFixtureResults(leagueName, eventName){
          homeTeamLeaguePoints: 0,
          awayTeamLeaguePoints: 3,
          roundName: 'Round 1',
-         date: convertTime("2014-12-10 15:00", "Australia/Brisbane","UTC")},
+         date: convertTime("2014-10-12 15:00", "Australia/Brisbane","UTC")},
+**/
 
+/**
         {type: 'match',
          homeSht:'BBR',
          awaySht:'ADU',
@@ -568,19 +571,31 @@ function updateFixtureResults(leagueName, eventName){
          homeTeamLeaguePoints: 3,
          awayTeamLeaguePoints: 0,
          roundName: 'Round 2',
-         date: convertTime("2014-10-18 19:30", "Australia/Brisbane","UTC")}
-/**
+         date: convertTime("2014-10-18 19:30", "Australia/Brisbane","UTC")},
+
         {type: 'match',
          homeSht:'MCY',
          awaySht:'NUJ',
+         homeScore: 1,
+         awayScore: 1,
+         scoreDifference: 0,
+         winner: 'DRW',
+         homeTeamLeaguePoints: 1,
+         awayTeamLeaguePoints: 1,
          roundName: 'Round 2',
          date: convertTime("2014-10-19 15:00", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'PTH',
          awaySht:'BBR',
+         homeScore: 3,
+         awayScore: 2,
+         scoreDifference: 1,
+         winner: 'DRW',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 2',
-         date: convertTime("2014-10-19 17:00", "Australia/Brisbane","UTC")},
+         date: convertTime("2014-10-19 17:00", "Australia/Brisbane","UTC")}
 
 /**
     // *** ROUND 3 ***
