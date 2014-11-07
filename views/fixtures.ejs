@@ -28,7 +28,7 @@
 	<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><%= dangerMsg %></div><% } %>
 
 	<div class="page-header text-center">
-		<h1><span class="fa fa-check-square-o"></span> Fixtures</h1>
+		<h1><span class="fa fa-check-square-o"></span> <%= round.name %></h1>
 		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
 	</div>
 
@@ -58,7 +58,7 @@
 			<table class="table">
 				<tr><th>Rank</th><th>email</th><th>Round Points</th></tr>
 				<% rankings.forEach(function (rankings){ %>
-				<tr <% if (rankings.user.id == user.id) { %> class="active" <% } %> ><td><%= rankings.ranking %></td><td><%= rankings.user.local.email %></td></td><td><%= rankings.points %></td></tr>				
+				<tr <% if (rankings.user.id == user.id) { %> class="active" <% } %> ><td><%= rankings.ranking %></td><td><%= rankings.user.displayName %></td></td><td><%= rankings.points %></td></tr>				
 				<% }) %>
 			</table>
 		</div>

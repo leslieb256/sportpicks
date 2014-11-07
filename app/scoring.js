@@ -91,9 +91,8 @@ function updateScoreByFixtureId(fixtureId){
                 updateCompetitionFixtureRanking(fixture),
                 updateCompetitionRoundRanking(fixture),
                 updateCompetitionEventRanking(fixture),
-            ], function(err){
-                if (err){console.log('ERROR on scoreUpdate for fixture: %s',fixtureId)}
-            }); 
+                console.log('ALL DONE SCORING')
+            ]); 
         }
     });
 }
@@ -105,6 +104,7 @@ function scoreFixture(fixture){
     var Competition = require('../app/models/competition');
     var FixturePick = require('../app/models/fixturePick');
     var Point = require('../app/models/point');
+    console.log('1. IN SCORE FIXTURE')
     FixturePick.find({fixture:fixture._id}).populate('competition').exec(function(err,picks){
        //console.log('PICKS\n%s',picks);
        picks.forEach(function(userPick){
@@ -144,7 +144,7 @@ function updateCompetitionFixtureRanking(fixture){
     var Competition = require('../app/models/competition');
     var Point = require('../app/models/point');
     var async = require('async');
-    //console.log('IN updateCompetitionFixtureRanking');
+    console.log('2. IN updateCompetitionFixtureRanking');
     Competition.find({event:fixture.event}).exec(function(err,competition){
         if (err) console.log("ERROR:"+err.toString());
         else{
@@ -204,7 +204,7 @@ function updateCompetitionRoundRanking(fixture){
     var Point = require('../app/models/point');
     var async = require('async');
 
-    //console.log('IN updateCompetitionRoundRanking');
+    console.log('3. IN updateCompetitionRoundRanking');
 
     Competition.find({event:fixture.event}).exec(function(err,competition){
         if (err) console.log("ERROR:"+err.toString());
@@ -284,7 +284,7 @@ function updateCompetitionEventRanking(fixture){
      * calculates the points for the competition the fixutre is in for each comp
      * and updates the ranking for each user in the comp for that round
      **/
-    //console.log('IN updateCompetitionEventRanking')
+    console.log('4. IN updateCompetitionEventRanking')
     var Competition = require('../app/models/competition');
     var Point = require('../app/models/point');
     var async = require('async');
@@ -381,7 +381,7 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('5434a4cc2367c9209a739171');
+   updateScoreByFixtureId('54398bac2367c9209a73917f');
    //RND1FIX:542c9ae12367c9209a739150
    //RND2FIX: 5434a4cc2367c9209a73916f
     console.log("done");

@@ -534,7 +534,6 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 3,
          roundName: 'Round 1',
          date: convertTime("2014-10-12 17:00", "Australia/Brisbane","UTC")},
-**/
 
     // *** ROUND 2 ***
         {type: 'match',
@@ -596,6 +595,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 0,
          roundName: 'Round 2',
          date: convertTime("2014-10-19 17:00", "Australia/Brisbane","UTC")}
+**/
 
 /**
     // *** ROUND 3 ***
@@ -603,34 +603,63 @@ function updateFixtureResults(leagueName, eventName){
         {type: 'match',
          homeSht:'BBR',
          awaySht:'SFC',
+         homeScore: 0,
+         awayScore: 2,
+         scoreDifference: 2,
+         winner: 'SFC',
+         homeTeamLeaguePoints: 0,
+         awayTeamLeaguePoints: 3,
          roundName: 'Round 3',
          date: convertTime("2014-10-24 19:00", "Australia/Brisbane","UTC")},
 
-        {type: 'match',
-         homeSht:'WSW',
-         awaySht:'CCM',
-         roundName: 'Round 3',
-         date: convertTime("2014-11-19", "Australia/Brisbane","UTC")},
+//        {type: 'match',
+//         homeSht:'WSW',
+//         awaySht:'CCM',
+//         homeScore: ,
+//         awayScore: ,
+//         scoreDifference: ,
+//         winner: '',
+//         homeTeamLeaguePoints: ,
+//         awayTeamLeaguePoints: ,
+//         roundName: 'Round 3',
+//         date: convertTime("2014-11-19", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'MBV',
          awaySht:'MCY',
+         homeScore: 5,
+         awayScore: 2,
+         scoreDifference: 3,
+         winner: 'MBV',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 3',
          date: convertTime("2014-10-25 19:30", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'WPX',
          awaySht:'NUJ',
+         homeScore: 4,
+         awayScore: 1,
+         scoreDifference: 3,
+         winner: 'WPX',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 3',
          date: convertTime("2014-10-26 15:00", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'ADU',
          awaySht:'PTH',
+         homeScore: 2,
+         awayScore: 0,
+         scoreDifference: 2,
+         winner: 'ADU',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 3',
          date: convertTime("2014-10-26 17:00", "Australia/Brisbane","UTC")}
 **/
-
 /**
     // *** ROUND 4 ***
 
@@ -665,6 +694,68 @@ function updateFixtureResults(leagueName, eventName){
          date: convertTime("2014-12-03 19:30", "Australia/Brisbane","UTC")},
 **/
 
+    //ROUND 5
+        {type: 'match',
+         homeSht:'WPX',
+         awaySht:'WSW',
+         roundName: 'Round 5',
+         date: convertTime("2014-11-07 17:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'ADU',
+         awaySht:'SFC',
+         roundName: 'Round 5',
+         date: convertTime("2014-11-07 19:45", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'MBV',
+         roundName: 'Round 5',
+         date: convertTime("2014-11-08 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'BBR',
+         awaySht:'MCY',
+         roundName: 'Round 5',
+         date: convertTime("2014-11-08 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'CCM',
+         awaySht:'PTH',
+         roundName: 'Round 5',
+         date: convertTime("2014-11-09 17:00", "Australia/Brisbane","UTC")},
+
+    //ROUND 6
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'BBR',
+         roundName: 'Round 6',
+         date: convertTime("2014-11-14 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'ADU',
+         awaySht:'WPX',
+         roundName: 'Round 6',
+         date: convertTime("2014-11-15 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'SFC',
+         awaySht:'MBV',
+         roundName: 'Round 6',
+         date: convertTime("2014-11-15 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'PTH',
+         awaySht:'WSW',
+         roundName: 'Round 6',
+         date: convertTime("2014-11-15 21:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MCY',
+         awaySht:'CCM',
+         roundName: 'Round 6',
+         date: convertTime("2014-11-16 17:00", "Australia/Brisbane","UTC")}
+
         ];
      
     League.findOne({name:leagueName}, function (err, league) {
@@ -689,7 +780,7 @@ function updateFixtureResults(leagueName, eventName){
                                                 Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
                                                     if (err) console.log("awayTeamERROR:"+err.toString());
                                                     else {
-/**
+
                                                             //load a new set of rounds
                                                             Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
                                                                 Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date, event: event._id, league: league._id},
@@ -697,9 +788,9 @@ function updateFixtureResults(leagueName, eventName){
                                                                     {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString())}
                                                                     );
                                                             });
-**/
-            
 
+            
+/**
                                                             // load the results for the round
                                                             Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
                                                                 Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date, event: event._id, league: league._id},
@@ -708,7 +799,7 @@ function updateFixtureResults(leagueName, eventName){
                                                                     {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString())}
                                                                     );
                                                             });
-
+**/
 
                                                     }
                                                 });

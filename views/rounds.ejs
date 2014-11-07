@@ -54,7 +54,7 @@
 			<table class="table">
 				<tr><th>Rank</th><th>email</th><th>Competition Points</th></tr>
 				<% rankings.forEach(function (rankings){ %>
-				<tr <% if (rankings.user._id == user.id) { %> class="active" <% } %> ><td><%= rankings.ranking %></td><td><%= rankings.user.local.email %></td></td><td><%= rankings.points %></td></tr>				
+				<tr <% if (rankings.user._id == user.id) { %> class="active" <% } %> ><td><%= rankings.ranking %></td><td><%= rankings.user.displayName %></td></td><td><%= rankings.points %></td></tr>				
 				<% }) %>
 			</table>
 		</div>
