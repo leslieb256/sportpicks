@@ -15,17 +15,16 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-*   Change fixture heading to show x v y and also to show names rather than "home" and "away" in the score selection for exact score.
-    Round 1 should sayd Fixtures:Round 1
-    Competition should say something like this as well.
-
-
 
 
 TODO - SHORT TERM
 =================
 
-*   Enter round 7+
+* do scoring for rounds 7 - 10
+
+*   Enter round 16+
+
+*   Even if the person got 0 points it should record zero points. At the moment if the person doe snot make a pick it is not reported/recorded anywhere.
 
 *   if the round has been scored then the points for the round earned by the user should show up where the tick used to be.
 
@@ -49,6 +48,7 @@ warningMsg
 dangerMsg
 
 http://www.theroar.com.au/football/a-league/fixtures/
+Results: http://www.a-league.com.au/results/214/2014/0/4
 
 currently set so that fixture closes 1 hour before the first game of aroudn. later change to be set to either 12 hor before each fixture or 1hr before each round. Will also need to change how/when it updates the
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.

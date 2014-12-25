@@ -52,7 +52,7 @@
 
 		<div class="col-sm-6">
 			<table class="table">
-				<tr><th>Rank</th><th>email</th><th>Competition Points</th></tr>
+				<tr><th>Rank</th><th>name</th><th>Competition Points</th></tr>
 				<% rankings.forEach(function (rankings){ %>
 				<tr <% if (rankings.user._id == user.id) { %> class="active" <% } %> ><td><%= rankings.ranking %></td><td><%= rankings.user.displayName %></td></td><td><%= rankings.points %></td></tr>				
 				<% }) %>

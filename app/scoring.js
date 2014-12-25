@@ -24,7 +24,7 @@
  * 
  **/
  
-function fixtureScoring(userPick, fixtureResult){
+function fixtureScoring(userPick, fixtureResult, competition){
     //set fixture points to zero
     var totalPoints = 0;
     console.log("inSCORING");
@@ -32,7 +32,7 @@ function fixtureScoring(userPick, fixtureResult){
     // leter need to make it look for fixture type first.
     //if match then do the below else needs to apply correct scoring for
     // goldenboot or evetnwinner
-    userPick.competition.scoring.forEach(function(scoringOption){
+    competition.scoring.forEach(function(scoringOption){
         if (scoringOption.type == "winner"){
             //console.log("PICK:%s | ACTUAL: %s | TRUE?:%s", userPick.winner, fixtureResult.winner,( String(userPick.winner)==String(fixtureResult.winner) ) );
             if (String(userPick.winner)==String(fixtureResult.winner)){
@@ -97,45 +97,62 @@ function updateScoreByFixtureId(fixtureId){
     });
 }
 
-function scoreFixture(fixture){
-    /**
-     * Takes a fixture object and calcuates the score for each user who has a pick for that fixture.
-     **/
+function createFixturePickLookup(queryData){
+    // create lookup by user Id for fixture picks
+	var lookup = {};
+	for (var i = 0; i<queryData.length; i++){
+		lookup[queryData[i].user] = queryData[i];
+	}
+	return lookup;
+}
+
+function scoreFixture(fixtureId){
     var Competition = require('../app/models/competition');
+    var Fixture = require('../app/models/fixture');
     var FixturePick = require('../app/models/fixturePick');
+    var Event = require('../app/models/event');
+    var User = require('../app/models/user');
     var Point = require('../app/models/point');
-    console.log('1. IN SCORE FIXTURE')
-    FixturePick.find({fixture:fixture._id}).populate('competition').exec(function(err,picks){
-       //console.log('PICKS\n%s',picks);
-       picks.forEach(function(userPick){
-            console.log("PICKS\n%s",userPick);
-            console.log('FIXTURE\nfixture:%s', fixture);
-            console.log('\n=====================\n');
-            // calc winning score and update db if score is not zero
-
-            var pickPoints = fixtureScoring(userPick, fixture);
-            console.log('points = %s', pickPoints);
-
-            Point.update({
-                type: 'fixture',
-                user: userPick.user,
-                competition: userPick.competition.id,
-                event: fixture.event,
-                round: fixture.round,
-                fixture: fixture._id},
-                {$set: {points: pickPoints}},
-                {upsert: true},
-                function(err){
-                    if (err) console.log("ERROR:"+err.toString());
-                    else {
-                        //console.log("FIXTURE SCORED");
-                    }
-                }
-            );
-
-       });
+    
+    Fixture.findById(fixtureId).exec(function(err,fixture){
+        Competition.find({event:fixture.event}).exec(function(err, competitions){
+            //console.log("\nSCOREING: COMPS WITH THE FIXTURE\n");console.log(competitions);
+            competitions.forEach(function(competition){
+               FixturePick.find({fixture:fixture._id, competition:competition._id}).exec(function(err, fixturePicks){
+                   //create a look up by userid for fixture picks
+                  var fixturePickLookup = createFixturePickLookup(fixturePicks);
+                  //console.log('\nFIXTURE PICKS\n');console.log(fixture)
+                  competition.usersAccepted.forEach(function(user){
+                      var pickPoints = 0;
+                      if(user in fixturePickLookup){
+                          console.log('USER %s HAS A PICK', user);
+                          //console.log(fixturePickLookup[user]);
+                          pickPoints = fixtureScoring(fixturePickLookup[user], fixture,competition);
+                      }
+                      console.log('USER:%s POINTS:%s',user,pickPoints);
+                      Point.update({
+                          type: 'fixture',
+                          user: user,
+                          competition: competition.id,
+                          event: fixture.event,
+                          round: fixture.round,
+                          fixture: fixture.id},
+                          {$set: {points: pickPoints}},
+                          {upsert: true},
+                          function(err){
+                              if (err) console.log("ERROR:"+err.toString());
+                              else {
+                                  //console.log("FIXTURE SCORED");
+                              }
+                          }
+                      );
+                  });
+               });
+            });
+        });
     });
 }
+
 
 function updateCompetitionFixtureRanking(fixture){
     /**
@@ -381,7 +398,8 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('54398bac2367c9209a73917f');
+   updateScoreByFixtureId('5450a7e5e1b59aa496b5b273');
+   // scoreFixture('5450a7e5e1b59aa496b5b273');
    //RND1FIX:542c9ae12367c9209a739150
    //RND2FIX: 5434a4cc2367c9209a73916f
     console.log("done");
