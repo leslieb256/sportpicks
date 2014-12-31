@@ -115,13 +115,19 @@ module.exports = function(app, passport) {
 								Point.find({competition:comp.id, type:'event'}).sort('ranking').populate('user').lean().exec(function(err,rank){
 									if (err){console.log('ERR: round page on rank')}
 									else{
-										//console.log(rank);
-										//console.log(createCompetitionLookup(rank));
-										res.render('rounds.ejs', {
-											user : req.user, // get the user out of session and pass to template
-											rounds: rounds,
-											competition: comp,
-											rankings:rank
+										Point.find({competition:comp.id, type:'round', user:req.user.id}).exec(function(err,points){
+											if (err){console.log('ERR: round page on rank')}
+											else{
+												//console.log(rank);
+												//console.log(createCompetitionLookup(rank));
+												res.render('rounds.ejs', {
+													user : req.user, // get the user out of session and pass to template
+													rounds: rounds,
+													competition: comp,
+													points: createRoundLookup(points),
+													rankings:rank
+												});
+											}
 										});
 									}
 								});

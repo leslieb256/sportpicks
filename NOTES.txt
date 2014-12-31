@@ -20,9 +20,10 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
-*   if the fixture has been scored then the points for the round earned by the user should show up where the tick used to be.
-        EDITING FIIXTURES.EJS NEED TO ADD TEST THAT IF ROUND/FIXTURE CLOSED THEN SHOW POINTS ELSE SHOW TICK OR X, IF ROUND/FIX CLOSED BUT NOT SCORED SHOW (-)
-* do the same for showing points for the round.
+*   if the round has been scored then the points for the round earned by the user should show up where the tick used to be.
+        COPY THE STUFF IN FIXTURES, INSTEAD OF CLOSED IT SHOULD SHOW ( - ) OR THE POINTS. I THINK THE OTHERS SHOULD INFORMATION COLOURED (BLUE?)
+
+* review all fixtures up to 14, something is weird with some of the early ones.
 
 *   add and test having scoring option of scoreDifference (use one of the test comps), getting reaady for super15
 

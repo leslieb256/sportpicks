@@ -42,9 +42,12 @@
 			<div class="list-group">
 				<% rounds.forEach(function(round){ %>
 					<a href="/fixtures?competition=<%= competition.id %>&round=<%= round._id %>" class="list-group-item"><b><%= round.name %></b>
-						<% if (round.closeDate <= Date.now()){ %><span class="label label-default pull-right">closed</span><% } %>
-						<% if (round.closeDate > Date.now() && round.closeDate <= (Date.now()+(1000*60*60*24*7))) { %><span class="label label-danger pull-right"><span class="fa fa-warning"></span>&nbsp closes:<script type="text/javascript">localTime("<%= round.closeDate %>","-1");</script></span> <% } %>
-						<% if (round.closeDate > Date.now()+(1000*60*60*24*7)) { %><span class="label label-default pull-right">closes:<script type="text/javascript">localTime("<%= round.closeDate %>","-1");</script></span> <% } %></p>
+						<% if (round.closeDate <= Date.now() ) { %> 
+							<%if (round._id in points) { %> <span class="badge"><%= points[round._id].points %></span><% } else { %> <span class="badge">&nbsp-&nbsp</span><% } %>	
+						<% } else { %>
+							<% if (round.closeDate > Date.now() && round.closeDate <= (Date.now()+(1000*60*60*24*7))) { %><span class="label label-danger pull-right"><span class="fa fa-warning"></span>&nbsp closes:<script type="text/javascript">localTime("<%= round.closeDate %>","-1");</script></span> <% } %>
+							<% if (round.closeDate > Date.now()+(1000*60*60*24*7)) { %><span class="label label-default pull-right">closes:<script type="text/javascript">localTime("<%= round.closeDate %>","-1");</script></span> <% } %></p>
+						<% } %>
 					</a> 
 				<% }); %>
 			</div>
