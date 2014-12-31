@@ -27,12 +27,7 @@
 		<div class="col-sm-6">
 			<div class="list-group">
 				<% competitions.forEach(function(competition){ %>
-					<a href="/rounds?competition=<%= competition.id %>" class="list-group-item"> <%= competition.name %> 
-						<% if (typeof rankings[competition.id] == 'undefined'){ %> 
-						<% } else { %> 
-						 	<span class="badge"> <%= rankings[competition.id].ranking %> </span>
-						<% } %>
-					</a>
+					<a href="/rounds?competition=<%= competition.id %>" class="list-group-item"> <%= competition.name %></a>
 				<% }); %>
 			</div>
 		<div class="col-sm-6">
