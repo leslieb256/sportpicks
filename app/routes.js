@@ -139,7 +139,7 @@ module.exports = function(app, passport) {
 	// =====================================
 	// FIXTURES ========================
 	// =====================================
-	// Gets the round details for the competition
+	// Gets the fixture details for the competition
 	app.get('/fixtures', isLoggedIn, function(req, res) {
 		var Point = require('../app/models/point');
 		var Fixture = require('../app/models/fixture');
@@ -158,18 +158,19 @@ module.exports = function(app, passport) {
 						//console.log('FIXTURES: comp:%s',comp)
 						Round.findById(req.param('round')).exec(function(err, round){
 							Point.find({competition:comp.id, type:'round',round:round.id}).sort('ranking').populate('user').exec(function(err,rank){
-			
-								res.render('fixtures.ejs', {
-									user : req.user, // get the user out of session and pass to template
-									fixtures: fixtures,
-									picks: createFixtureLookup(picks),
-									competition: comp,
-									round: round,
-									rankings: rank,
-									successMsg: req.flash('successMsg'),
-									dangerMsg: req.flash('dangerMsg'),
+								Point.find({competition:comp.id, type:'fixture', user:req.user.id, round:round.id}).exec(function(err,points){
+									res.render('fixtures.ejs', {
+										user : req.user, // get the user out of session and pass to template
+										fixtures: fixtures,
+										picks: createFixtureLookup(picks),
+										competition: comp,
+										round: round,
+										rankings: rank,
+										points: createFixtureLookup(points),
+										successMsg: req.flash('successMsg'),
+										dangerMsg: req.flash('dangerMsg'),
+									});
 								});
-								
 							})
 						});
 					});
@@ -299,7 +300,7 @@ function createRoundLookup(queryData){
 }
 
 function createFixtureLookup(queryData){
-	//console.log('ALL RANK DATA:\n%s',queryData);
+	console.log('ALL RANK DATA:\n%s',queryData);
 	var lookup = {};
 	for (var i = 0; i<queryData.length; i++){
 		lookup[queryData[i].fixture] = queryData[i];

@@ -20,13 +20,9 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
-* do scoring for rounds 7 - 10
-
-*   Enter round 16+
-
-*   Even if the person got 0 points it should record zero points. At the moment if the person doe snot make a pick it is not reported/recorded anywhere.
-
-*   if the round has been scored then the points for the round earned by the user should show up where the tick used to be.
+*   if the fixture has been scored then the points for the round earned by the user should show up where the tick used to be.
+        EDITING FIIXTURES.EJS NEED TO ADD TEST THAT IF ROUND/FIXTURE CLOSED THEN SHOW POINTS ELSE SHOW TICK OR X, IF ROUND/FIX CLOSED BUT NOT SCORED SHOW (-)
+* do the same for showing points for the round.
 
 *   add and test having scoring option of scoreDifference (use one of the test comps), getting reaady for super15
 
@@ -35,6 +31,8 @@ TODO - SHORT TERM
 *   make the sportpicks landing page a little more interesting, backgroun banner picture or something? Or a list of running events.
 
 *   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
+
+* change the ranking on the compeitiond page just to remove the ranking from thesre.
     
 
 see scoring.js for valid scoring options

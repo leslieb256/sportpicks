@@ -520,9 +520,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 3,
          roundName: 'Round 1',
          date: convertTime("2014-10-12 15:00", "Australia/Brisbane","UTC")},
-**/
 
-/**
         {type: 'match',
          homeSht:'BBR',
          awaySht:'ADU',
@@ -595,9 +593,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 0,
          roundName: 'Round 2',
          date: convertTime("2014-10-19 17:00", "Australia/Brisbane","UTC")}
-**/
 
-/**
     // *** ROUND 3 ***
 
         {type: 'match',
@@ -659,10 +655,10 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 0,
          roundName: 'Round 3',
          date: convertTime("2014-10-26 17:00", "Australia/Brisbane","UTC")}
-**/
+
 
     // *** ROUND 4 ***
-/**
+
 
         {type: 'match',
          homeSht:'MCY',
@@ -711,8 +707,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 0,
          roundName: 'Round 4',
          date: convertTime("2014-11-03 19:30", "Australia/Brisbane","UTC")},
-**/
-/**
+
         {type: 'match',
          homeSht:'WSW',
          awaySht:'BBR',
@@ -724,8 +719,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: ,
          roundName: 'Round 4',
          date: convertTime("2014-12-03 19:30", "Australia/Brisbane","UTC")},
-**/
-/**
+
     //ROUND 5
         {type: 'match',
          homeSht:'WPX',
@@ -847,7 +841,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints:1 ,
          roundName: 'Round 6',
          date: convertTime("2014-11-16 17:00", "Australia/Brisbane","UTC")}
-**/
+
 
         {type: 'match',
          homeSht:'MBV',
@@ -969,7 +963,7 @@ function updateFixtureResults(leagueName, eventName){
          roundName: 'Round 8',
          date: convertTime("2014-11-30 17:00", "Australia/Brisbane","UTC")},
 
-/**        {type: 'match',
+        {type: 'match',
          homeSht:'WSW',
          awaySht:'BBR',
          homeScore: ,
@@ -980,7 +974,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: ,
          roundName: 'Round 9',
          date: convertTime("2014-12-03 19:30", "Australia/Brisbane","UTC")},
-**/
+
 
         {type: 'match',
          homeSht:'SFC',
@@ -1077,7 +1071,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints:1 ,
          roundName: 'Round 10',
          date: convertTime("2014-12-13 15:00", "Australia/Brisbane","UTC")},
-/**
+
         {type: 'match',
          homeSht:'WSW',
          awaySht:'MCY',
@@ -1089,7 +1083,7 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: ,
          roundName: 'Round 10',
          date: convertTime("2015-03-11 17:00", "Australia/Brisbane","UTC")},
-**/
+
         {type: 'match',
          homeSht:'MBV',
          awaySht:'SFC',
@@ -1101,53 +1095,54 @@ function updateFixtureResults(leagueName, eventName){
          awayTeamLeaguePoints: 1,
          roundName: 'Round 10',
          date: convertTime("2014-12-13 19:30", "Australia/Brisbane","UTC")}
-
+**/
 /**
+
         {type: 'match',
          homeSht:'NUJ',
          awaySht:'ADU',
-         homeScore: ,
-         awayScore: ,
-         scoreDifference: ,
-         winner: '',
-         homeTeamLeaguePoints: ,
-         awayTeamLeaguePoints: ,
+         homeScore: 2,
+         awayScore: 1,
+         scoreDifference: 1,
+         winner: 'NUJ',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 11',
          date: convertTime("2014-12-19 19:40", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'MBV',
          awaySht:'MCY',
-         homeScore: ,
-         awayScore: ,
-         scoreDifference: ,
-         winner: '',
-         homeTeamLeaguePoints: ,
-         awayTeamLeaguePoints: ,
+         homeScore: 1,
+         awayScore: 0,
+         scoreDifference: 1,
+         winner: 'MBV',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 11',
          date: convertTime("2014-12-20 19:30", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'PTH',
          awaySht:'CCM',
-         homeScore: ,
-         awayScore: ,
-         scoreDifference: ,
-         winner: '',
-         homeTeamLeaguePoints: ,
-         awayTeamLeaguePoints: ,
+         homeScore: 4,
+         awayScore: 1,
+         scoreDifference: 3,
+         winner: 'PTH',
+         homeTeamLeaguePoints:3 ,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 11',
          date: convertTime("2014-12-20 21:30", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'SFC',
          awaySht:'WPX',
-         homeScore: ,
-         awayScore: ,
-         scoreDifference: ,
-         winner: '',
-         homeTeamLeaguePoints: ,
-         awayTeamLeaguePoints: ,
+         homeScore: 0,
+         awayScore: 2,
+         scoreDifference:2 ,
+         winner: 'WPX',
+         homeTeamLeaguePoints:0 ,
+         awayTeamLeaguePoints: 3,
          roundName: 'Round 11',
          date: convertTime("2014-12-21 17:00", "Australia/Brisbane","UTC")},
 
@@ -1163,37 +1158,68 @@ function updateFixtureResults(leagueName, eventName){
          roundName: 'Round 11',
          date: convertTime("2014-03-25 20:00", "Australia/Brisbane","UTC")},
 
-/**
+**/
+
         {type: 'match',
          homeSht:'MCY',
          awaySht:'PTH',
+         homeScore: 1,
+         awayScore: 1,
+         scoreDifference: 0,
+         winner: 'DRW',
+         homeTeamLeaguePoints: 1,
+         awayTeamLeaguePoints: 1,
          roundName: 'Round 12',
          date: convertTime("2014-12-26 17:30", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'SFC',
          awaySht:'ADU',
+         homeScore: 0,
+         awayScore: 3,
+         scoreDifference:3 ,
+         winner: 'ADU',
+         homeTeamLeaguePoints: 0,
+         awayTeamLeaguePoints: 3,
          roundName: 'Round 12',
          date: convertTime("2014-12-26 19:45", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'CCM',
          awaySht:'BBR',
+         homeScore: 3,
+         awayScore: 3,
+         scoreDifference: 0,
+         winner: 'DRW',
+         homeTeamLeaguePoints: 1,
+         awayTeamLeaguePoints: 1,
          roundName: 'Round 12',
          date: convertTime("2014-12-27 17:00", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'MBV',
          awaySht:'NUJ',
+         homeScore: 1,
+         awayScore: 0,
+         scoreDifference:1 ,
+         winner: 'MBV',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 12',
          date: convertTime("2014-12-27 19:30", "Australia/Brisbane","UTC")},
 
         {type: 'match',
          homeSht:'WPX',
          awaySht:'WSW',
+         homeScore: 1,
+         awayScore: 0,
+         scoreDifference: 1,
+         winner: 'WPX',
+         homeTeamLeaguePoints: 3,
+         awayTeamLeaguePoints: 0,
          roundName: 'Round 12',
          date: convertTime("2014-12-28 17:00", "Australia/Brisbane","UTC")},
-
+/**
         {type: 'match',
          homeSht:'NUJ',
          awaySht:'MCY',
@@ -1286,6 +1312,366 @@ function updateFixtureResults(leagueName, eventName){
          awaySht:'WPX',
          roundName: 'Round 15',
          date: convertTime("2015-02-02 20:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'BBR',
+         roundName: 'Round 16',
+         date: convertTime("2015-02-06 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'CCM',
+         awaySht:'ADU',
+         roundName: 'Round 16',
+         date: convertTime("2015-02-07 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MBV',
+         awaySht:'MCY',
+         roundName: 'Round 16',
+         date: convertTime("2015-02-07 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'PTH',
+         awaySht:'SFC',
+         roundName: 'Round 16',
+         date: convertTime("2015-02-07 21:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WSW',
+         awaySht:'WPX',
+         roundName: 'Round 16',
+         date: convertTime("2015-02-08 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'CCM',
+         awaySht:'BBR',
+         roundName: 'Round 17',
+         date: convertTime("2015-02-13 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WPX',
+         awaySht:'MCY',
+         roundName: 'Round 17',
+         date: convertTime("2015-02-14 15:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'WSW',
+         roundName: 'Round 17',
+         date: convertTime("2015-02-14 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'SFC',
+         awaySht:'MBV',
+         roundName: 'Round 17',
+         date: convertTime("2015-02-14 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'ADU',
+         awaySht:'PTH',
+         roundName: 'Round 17',
+         date: convertTime("2015-02-15 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'BBR',
+         awaySht:'MBV',
+         roundName: 'Round 18',
+         date: convertTime("2015-02-20 20:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'SFC',
+         awaySht:'CCM',
+         roundName: 'Round 18',
+         date: convertTime("2015-02-21 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'ADU',
+         awaySht:'WSW',
+         roundName: 'Round 18',
+         date: convertTime("2015-02-21 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WPX',
+         awaySht:'NUJ',
+         roundName: 'Round 18',
+         date: convertTime("2015-02-22 15:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MCY',
+         awaySht:'PTH',
+         roundName: 'Round 18',
+         date: convertTime("2015-02-22 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MCY',
+         awaySht:'ADU',
+         roundName: 'Round 19',
+         date: convertTime("2015-02-27 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'CCM',
+         roundName: 'Round 19',
+         date: convertTime("2015-02-28 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WSW',
+         awaySht:'SFC',
+         roundName: 'Round 19',
+         date: convertTime("2015-02-28 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'PTH',
+         awaySht:'BBR',
+         roundName: 'Round 19',
+         date: convertTime("2015-02-28 21:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MBV',
+         awaySht:'WPX',
+         roundName: 'Round 19',
+         date: convertTime("2015-03-01 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'SFC',
+         roundName: 'Round 20',
+         date: convertTime("2015-03-06 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WPX',
+         awaySht:'ADU',
+         roundName: 'Round 20',
+         date: convertTime("2015-03-07 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MBV',
+         awaySht:'PTH',
+         roundName: 'Round 20',
+         date: convertTime("2015-03-07 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'CCM',
+         awaySht:'MCY',
+         roundName: 'Round 20',
+         date: convertTime("2015-03-08 15:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'BBR',
+         awaySht:'WSW',
+         roundName: 'Round 20',
+         date: convertTime("2015-03-08 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'ADU',
+         awaySht:'CCM',
+         roundName: 'Round 21',
+         date: convertTime("2015-03-12 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WSW',
+         awaySht:'MBV',
+         roundName: 'Round 21',
+         date: convertTime("2015-03-13 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'SFC',
+         awaySht:'BBR',
+         roundName: 'Round 21',
+         date: convertTime("2015-03-14 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'PTH',
+         awaySht:'WPX',
+         roundName: 'Round 21',
+         date: convertTime("2015-03-14 21:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MCY',
+         awaySht:'NUJ',
+         roundName: 'Round 21',
+         date: convertTime("2015-03-15 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'SFC',
+         awaySht:'MCY',
+         roundName: 'Round 22',
+         date: convertTime("2015-03-20 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WSW',
+         awaySht:'NUJ',
+         roundName: 'Round 22',
+         date: convertTime("2015-03-21 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'ADU',
+         awaySht:'MBV',
+         roundName: 'Round 22',
+         date: convertTime("2015-03-21 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'CCM',
+         awaySht:'PTH',
+         roundName: 'Round 22',
+         date: convertTime("2015-03-22 15:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'BBR',
+         awaySht:'WPX',
+         roundName: 'Round 22',
+         date: convertTime("2015-03-22 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MBV',
+         awaySht:'CCM',
+         roundName: 'Round 23',
+         date: convertTime("2015-03-27 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MCY',
+         awaySht:'BBR',
+         roundName: 'Round 23',
+         date: convertTime("2015-03-28 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'PTH',
+         awaySht:'WSW',
+         roundName: 'Round 23',
+         date: convertTime("2015-03-28 21:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WPX',
+         awaySht:'SFC',
+         roundName: 'Round 23',
+         date: convertTime("2015-03-29 15:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'ADU',
+         roundName: 'Round 23',
+         date: convertTime("2015-03-29 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'BBR',
+         awaySht:'CCM',
+         roundName: 'Round 24',
+         date: convertTime("2015-04-02 20:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WSW',
+         awaySht:'MCY',
+         roundName: 'Round 24',
+         date: convertTime("2015-04-03 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'SFC',
+         awaySht:'ADU',
+         roundName: 'Round 24',
+         date: convertTime("2015-04-04 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WPX',
+         awaySht:'MBV',
+         roundName: 'Round 24',
+         date: convertTime("2015-04-05 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'PTH',
+         roundName: 'Round 24',
+         date: convertTime("2015-04-06 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MBV',
+         awaySht:'NUJ',
+         roundName: 'Round 25',
+         date: convertTime("2015-04-10 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'PTH',
+         awaySht:'SFC',
+         roundName: 'Round 25',
+         date: convertTime("2015-04-10 21:45", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'ADU',
+         awaySht:'BBR',
+         roundName: 'Round 25',
+         date: convertTime("2015-04-11 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'CCM',
+         awaySht:'WSW',
+         roundName: 'Round 25',
+         date: convertTime("2015-04-11 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MCY',
+         awaySht:'WPX',
+         roundName: 'Round 25',
+         date: convertTime("2015-04-12 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WPX',
+         awaySht:'CCM',
+         roundName: 'Round 26',
+         date: convertTime("2015-04-17 17:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'NUJ',
+         awaySht:'SFC',
+         roundName: 'Round 26',
+         date: convertTime("2015-04-17 19:45", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WSW',
+         awaySht:'ADU',
+         roundName: 'Round 26',
+         date: convertTime("2015-04-18 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'BBR',
+         awaySht:'MBV',
+         roundName: 'Round 26',
+         date: convertTime("2015-04-18 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'PTH',
+         awaySht:'MCY',
+         roundName: 'Round 26',
+         date: convertTime("2015-04-19 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'BBR',
+         awaySht:'NUJ',
+         roundName: 'Round 27',
+         date: convertTime("2015-04-24 19:40", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WSW',
+         awaySht:'PTH',
+         roundName: 'Round 27',
+         date: convertTime("2015-04-25 17:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'ADU',
+         awaySht:'MCY',
+         roundName: 'Round 27',
+         date: convertTime("2015-04-25 19:30", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'WPX',
+         awaySht:'SFC',
+         roundName: 'Round 27',
+         date: convertTime("2015-04-26 15:00", "Australia/Brisbane","UTC")},
+
+        {type: 'match',
+         homeSht:'MBV',
+         awaySht:'CCM',
+         roundName: 'Round 27',
+         date: convertTime("2015-04-26 17:00", "Australia/Brisbane","UTC")},
 **/
         ];
         
@@ -1499,13 +1885,14 @@ db.once('open', function callback(){
     //updateLeagues();
     //updateEvent();
     //updateTeams();
-    updateRounds("A-League","2014/15 Season");
+    // updateRounds("A-League","2014/15 Season");
     //updateFixtures("A-League","2014/15 Season");
-    //updateFixtureResults("A-League","2014/15 Season");
+    updateFixtureResults("A-League","2014/15 Season");
     //updateUsers();
     //loadCompetitions();
     //updatePicks('leslie@araitanga.com', 'test Comp-leslieonly')
     //addItemsToDB();
     //removeItemsFromDB();
+
     console.log("done");
 });

@@ -47,9 +47,14 @@
 					<a href="/fixturePick?competition=<%= competition._id %>&fixture=<%= fixture._id %>" class="list-group-item"> 
 						<b><%= fixture.homeTeam.name %>
 					    <%if (fixture.homeScore === undefined) {%> v <% } else { %><b><%= fixture.homeScore %></b> - <b><%= fixture.awayScore %></b> <% } %>
-						<%= fixture.awayTeam.name %></b> <% if (!(fixture._id in picks)){ %><span class="badge alert-danger"><span class="fa fa-warning"></span></span><% } else {%><span class="badge alert-success"><span class="fa fa-check"></span> </span> <% } %></br>
+						<%= fixture.awayTeam.name %></b>
+						<%if ( fixture.closeDate > Date.now() ) { %> 
+							<% if (!(fixture._id in picks)){ %><span class="badge alert-danger"><span class="fa fa-warning"></span></span><% } else {%><span class="badge alert-success"><span class="fa fa-check"></span> </span> <% } %> 
+						<% } else { %> 
+							<%if (fixture._id in points) { %> <span class="badge"><%= points[fixture._id].points %></span><% } else { %> <span class="badge">&nbsp-&nbsp</span><% } %>	
+						<% } %></br>
 						<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>
-					</a> 
+					</a>
 				<% }); %>
 			</div>
 		</div>

@@ -91,9 +91,17 @@ function updateScoreByFixtureId(fixtureId){
                 updateCompetitionFixtureRanking(fixture),
                 updateCompetitionRoundRanking(fixture),
                 updateCompetitionEventRanking(fixture),
-                console.log('ALL DONE SCORING')
-            ]); 
+            ], function(err, results){
+                    console.log('ALL DONE SCORING')
+            }); 
         }
+    });
+}
+
+function updateScoreForFixtureList(fixtureList){
+    var async = require('async');
+    async.each(fixtureList, function (fixture, callback){
+       updateScoreByFixtureId(fixture);
     });
 }
 
@@ -398,7 +406,8 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   updateScoreByFixtureId('5450a7e5e1b59aa496b5b273');
+   //updateScoreByFixtureId('5450a7e5e1b59aa496b5b273');
+   updateScoreForFixtureList(['548e9ade0c51310bc0e00b1d','548e9ade0c51310bc0e00b1a','548e9ade0c51310bc0e00b18','548e9ade0c51310bc0e00b1e','548e9ade0c51310bc0e00b22']);
    // scoreFixture('5450a7e5e1b59aa496b5b273');
    //RND1FIX:542c9ae12367c9209a739150
    //RND2FIX: 5434a4cc2367c9209a73916f
