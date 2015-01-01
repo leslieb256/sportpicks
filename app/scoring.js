@@ -407,7 +407,7 @@ db.once('open', function callback(){
 
    // TEST UPDATE SCORE
    //updateScoreByFixtureId('5450a7e5e1b59aa496b5b273');
-   updateScoreForFixtureList(['548e9ade0c51310bc0e00b1d','548e9ade0c51310bc0e00b1a','548e9ade0c51310bc0e00b18','548e9ade0c51310bc0e00b1e','548e9ade0c51310bc0e00b22']);
+   updateScoreForFixtureList(['5442c7dfe1b59aa496b5b238','5442c7dfe1b59aa496b5b236','5442c7dfe1b59aa496b5b235','5442c7dfe1b59aa496b5b239','54a49e84f1ace29007e4c051']);
    // scoreFixture('5450a7e5e1b59aa496b5b273');
    //RND1FIX:542c9ae12367c9209a739150
    //RND2FIX: 5434a4cc2367c9209a73916f

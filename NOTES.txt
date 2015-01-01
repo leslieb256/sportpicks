@@ -20,11 +20,6 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
-*   if the round has been scored then the points for the round earned by the user should show up where the tick used to be.
-        COPY THE STUFF IN FIXTURES, INSTEAD OF CLOSED IT SHOULD SHOW ( - ) OR THE POINTS. I THINK THE OTHERS SHOULD INFORMATION COLOURED (BLUE?)
-
-* review all fixtures up to 14, something is weird with some of the early ones.
-
 *   add and test having scoring option of scoreDifference (use one of the test comps), getting reaady for super15
 
 *   work out wehy the fixtures do not seem to display in date order, I have already tried .lean()
@@ -33,8 +28,10 @@ TODO - SHORT TERM
 
 *   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
 
-* change the ranking on the compeitiond page just to remove the ranking from thesre.
-    
+*   add team logos
+
+* add a "lastFixtureDate" to rounds schema to use for deciding when rounds should show the points.
+
 
 see scoring.js for valid scoring options
 

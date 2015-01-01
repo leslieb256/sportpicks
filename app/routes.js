@@ -95,7 +95,7 @@ module.exports = function(app, passport) {
 	});
 	
 	// =====================================
-	// ROUNDS ========================
+	// ROUNDS ==============================
 	// =====================================
 	// Gets the round details for the competition
 	app.get('/rounds', isLoggedIn, function(req, res) {
@@ -116,7 +116,7 @@ module.exports = function(app, passport) {
 									if (err){console.log('ERR: round page on rank')}
 									else{
 										Point.find({competition:comp.id, type:'round', user:req.user.id}).exec(function(err,points){
-											if (err){console.log('ERR: round page on rank')}
+											if (err){console.log('ERR: round page on points')}
 											else{
 												//console.log(rank);
 												//console.log(createCompetitionLookup(rank));
@@ -143,7 +143,7 @@ module.exports = function(app, passport) {
 	});
 
 	// =====================================
-	// FIXTURES ========================
+	// FIXTURES ============================
 	// =====================================
 	// Gets the fixture details for the competition
 	app.get('/fixtures', isLoggedIn, function(req, res) {
@@ -156,10 +156,12 @@ module.exports = function(app, passport) {
 		var User = require('../app/models/user');		//needed for the populate for users
 		//console.log('FIXTURES: PARAM REQ:',req.param);
 		
-		Fixture.find({round:req.param('round')}).populate('homeTeam awayTeam').sort('closingDate').lean().exec(function (err,fixtures){
+		Fixture.find({round:req.param('round')}).populate('homeTeam awayTeam').sort('closeDate').lean().exec(function (err,fixtures){
 		if (err) {console.log('ERR: fixtures page on fixtures')}
 			else{
 				FixturePick.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){
+					console.log('FIXTURES LIST\n');
+					console.log(fixtures);
 					Competition.findById(req.param('competition')).exec(function(err,comp){
 						//console.log('FIXTURES: comp:%s',comp)
 						Round.findById(req.param('round')).exec(function(err, round){
@@ -306,7 +308,7 @@ function createRoundLookup(queryData){
 }
 
 function createFixtureLookup(queryData){
-	console.log('ALL RANK DATA:\n%s',queryData);
+	//console.log('ALL RANK DATA:\n%s',queryData);
 	var lookup = {};
 	for (var i = 0; i<queryData.length; i++){
 		lookup[queryData[i].fixture] = queryData[i];
