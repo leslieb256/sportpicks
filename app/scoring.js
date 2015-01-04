@@ -389,6 +389,142 @@ function updateCompetitionEventRanking(fixture){
     });
 }
 
+    // =====================================
+    // FAKE DATA FOR SCORING TESTING =======
+    // =====================================
+    
+    // WARNING: The ID data used may be 'live data' DO NOT test DB writes with this data!
+    
+var testCompetition = {
+  id: "TESTCOMPID",
+  event: "TESTEVENT",
+  league:"TESTLEAGUE",
+  name: "TESTNAME",
+  scoring: [
+    {
+      points: 1,
+      type: "winner"
+    },
+    {
+      margins: [0,10,20,30],
+      points: 1,
+      type: "scoreDifference",
+      needsWinner: false
+    }
+  ],
+}  
+
+var testFixture = {
+  _id: "FIXTUREID",
+  awayScore: 0,
+  awayTeam: "AWAYTEAM",
+  awayTeamLeaguePoints: 0,
+  closeDate: "2013-11-19T09:30:00Z",
+  date: "2013-11-19T09:30:00Z",
+  event: "EVENTID",
+  homeScore: 4,
+  homeTeam: "HOMETEAM",
+  homeTeamLeaguePoints: 3,
+  league: "TESTLEAGUE",
+  round: "TESTROUND",
+  scoreDifference: 16,
+  winner: "HOMETEAM"
+}
+
+var testPick1 = {
+  _id: "PICKID",
+  awayScore: 1,
+  competition: "TESTCOMPID",
+  fixture: "TESTFIXID",
+  homeScore: 2,
+  round: "TESTROUNDID",
+  user: "TESTUSERID",
+  winner: "HOMETEAM",
+  scoreDifference: 10,
+  pickcomment: "correctTeam under picked (1)"
+}
+
+var testPick2 = {
+  _id: "PICKID",
+  awayScore: 1,
+  competition: "TESTCOMPID",
+  fixture: "TESTFIXID",
+  homeScore: 2,
+  round: "TESTROUNDID",
+  user: "TESTUSERID",
+  winner: "HOMETEAM",
+  scoreDifference: -1,
+  pickcomment: "correctTeam over picked (1)"
+}
+
+var testPick2a = {
+  _id: "PICKID",
+  awayScore: 1,
+  competition: "TESTCOMPID",
+  fixture: "TESTFIXID",
+  homeScore: 2,
+  round: "TESTROUNDID",
+  user: "TESTUSERID",
+  winner: "HOMETEAM",
+  scoreDifference: -1,
+  pickcomment: "correctTeam over picked wrong but chose 30+ (1)"
+}
+
+
+var testPick3 = {
+  _id: "PICKID",
+  awayScore: 1,
+  competition: "TESTCOMPID",
+  fixture: "TESTFIXID",
+  homeScore: 2,
+  round: "TESTROUNDID",
+  user: "TESTUSERID",
+  winner: "AWAYTEAM",
+  scoreDifference: 30,
+  pickcomment: "wrongTeam over picked (0)"
+}
+
+var testPick4 = {
+  _id: "PICKID",
+  awayScore: 1,
+  competition: "TESTCOMPID",
+  fixture: "TESTFIXID",
+  homeScore: 2,
+  round: "TESTROUNDID",
+  user: "TESTUSERID",
+  winner: "AWAYTEAM",
+  scoreDifference: 10,
+  pickcomment: "wrongTeam under picked (0)"
+}
+
+var testPick5 = {
+  _id: "PICKID",
+  awayScore: 1,
+  competition: "TESTCOMPID",
+  fixture: "TESTFIXID",
+  homeScore: 2,
+  round: "TESTROUNDID",
+  user: "TESTUSERID",
+  winner: "HOMETEAM",
+  scoreDifference: -1,
+  pickcomment: "correcTeam correctPick (2)"
+}
+
+var testPick6 = {
+  _id: "PICKID",
+  awayScore: 1,
+  competition: "TESTCOMPID",
+  fixture: "TESTFIXID",
+  homeScore: 2,
+  round: "TESTROUNDID",
+  user: "TESTUSERID",
+  winner: "DRAW",
+  scoreDifference: 20,
+  pickcomment: "wrongTeam correct Pick (1)"
+}
+
+
+
 
 
 	// =====================================
@@ -407,11 +543,32 @@ db.once('open', function callback(){
 
    // TEST UPDATE SCORE
    //updateScoreByFixtureId('5450a7e5e1b59aa496b5b273');
-   updateScoreForFixtureList(['5442c7dfe1b59aa496b5b238','5442c7dfe1b59aa496b5b236','5442c7dfe1b59aa496b5b235','5442c7dfe1b59aa496b5b239','54a49e84f1ace29007e4c051']);
+   updateScoreForFixtureList(['548e9ade0c51310bc0e00b14','548e9ade0c51310bc0e00b17','548e9ade0c51310bc0e00b1b','548e9ade0c51310bc0e00b10','548e9ade0c51310bc0e00b24']);
    // scoreFixture('5450a7e5e1b59aa496b5b273');
    //RND1FIX:542c9ae12367c9209a739150
    //RND2FIX: 5434a4cc2367c9209a73916f
+   
+   // TEST SCORING OPTION
+/**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));
+   console.log(testPick2.pickcomment + " : "+fixtureScoring(testPick2,testFixture,testCompetition));
+    console.log(testPick2a.pickcomment + " : "+fixtureScoring(testPick2a,testFixture,testCompetition));
+    console.log(testPick3.pickcomment + " : "+fixtureScoring(testPick3,testFixture,testCompetition));
+    console.log(testPick4.pickcomment + " : "+fixtureScoring(testPick4,testFixture,testCompetition));
+    console.log(testPick5.pickcomment + " : "+fixtureScoring(testPick5,testFixture,testCompetition)); 
+**/
     console.log("done");
 
     
 });
+
+/**
+ * 
+ * 
+ * NOTES:
+ * Ready to feed test scoring data in to the scoring module
+ * First basic test ok.
+ * Need to test if the result is a draw (0) and 30+ (-1) what happens.
+ * 
+ * 
+ * 
+ **/

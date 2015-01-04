@@ -20,17 +20,16 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
-*   add and test having scoring option of scoreDifference (use one of the test comps), getting reaady for super15
-
-*   work out wehy the fixtures do not seem to display in date order, I have already tried .lean()
-
-*   make the sportpicks landing page a little more interesting, backgroun banner picture or something? Or a list of running events.
-
-*   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
+*   add league logos
+https://stackoverflow.com/questions/15379004/how-to-serve-the-image-files-using-express-framework-in-node-js (edit made in server.js)
 
 *   add team logos
 
-* add a "lastFixtureDate" to rounds schema to use for deciding when rounds should show the points.
+*   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
+
+*   add a "lastFixtureDate" to rounds schema to use for deciding when rounds should show the points.
+
+*   make the sportpicks landing page a little more interesting, backgroun banner picture or something? Or a list of running events.
 
 
 see scoring.js for valid scoring options

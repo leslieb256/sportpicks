@@ -9,8 +9,9 @@ var competitionSchema = new mongoose.Schema({
     usersAccepted: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     league: {type: mongoose.Schema.Types.ObjectId, ref: 'League'},
     event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
-    scoring: [{type: mongoose.Schema.Types.Mixed}]
+    scoring: [{type: mongoose.Schema.Types.Mixed}] // See notes at bottom of page for notes on scoring options.
 });
+
 //create the model for Competitions
 
 
@@ -38,3 +39,25 @@ competitionSchema.methods.rounds = function(cb){
 
 // create the model and expose the Competition model to our app
 module.exports = mongoose.model('Competition', competitionSchema);
+
+/**
+ * =====================
+ * SCORING OPTIONS =====
+ * =====================
+ * 
+ * How the difference scoing options are implemented
+ * 
+ * scoreDifference
+ * ---------------
+ * margins: the schema is loaded with the top end of each margin, for
+ * example if the margins are draw (0), 1-15, 16-24, 24-30, 30+ the schema for
+ * margins would be: [0,15,24,30]
+ * If the user selects 30+ the userPick will be recorded as -1.
+ * winner: needs to be set to true or false. This determines whether the winner
+ * (or draw) needs to be correctly selected before points are awarded for the 
+ * margin pick.
+ * 
+ * 
+ * 
+ * 
+ **/
