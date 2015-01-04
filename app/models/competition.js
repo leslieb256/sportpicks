@@ -18,6 +18,7 @@ var competitionSchema = new mongoose.Schema({
 // methods ======================
 // list the competitions the user is in
 competitionSchema.statics.userCompetitions = function(userId,cb){
+    console.log("DPRECIATED FUNCTTION FROM COMPETITION.JS PLEASE REWRITE TO REMOVE")
     var Event = require('./event');
     var League = require('./league');
     return this.find({usersAccepted:userId}, cb).populate('event league');

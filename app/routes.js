@@ -75,6 +75,8 @@ module.exports = function(app, passport) {
 	// shows the competitions the user is registered with
 	app.get('/competitions', isLoggedIn, function(req, res) {
 		var Competition = require('../app/models/competition');
+		var League = require('../app/models/league');
+		var Event = require('../app/models/event');
 		
 		Competition.find({usersAccepted:req.user.id}).populate('event league').exec( function(err,comps) {
 			if (err) {console.log('ERR: compeitions page on comps')}

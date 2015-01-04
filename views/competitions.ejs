@@ -27,14 +27,12 @@
 		<div class="col-sm-6">
 			<div class="list-group">
 				<% competitions.forEach(function(competition){ %>
-					<a href="/rounds?competition=<%= competition.id %>" class="list-group-item"> <%= competition.name %></a>
+					<a href="/rounds?competition=<%= competition.id %>" class="list-group-item"> <%if (competition.league.logo != undefined){ %><img src="/images/league/logo/sm/<%=competition.league.logo %>" height="30" width="30"><% } %> <%= competition.name %></a>
 				<% }); %>
 			</div>
 		<div class="col-sm-6">
-			<!-- other columns of data here -->
 		</div>
 		</div>
-
 	</div>
 
 </div>
