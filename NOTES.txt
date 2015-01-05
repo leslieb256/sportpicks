@@ -102,3 +102,5 @@ TODO LONG TERM
 
 * add logo for comps whch shows on the compeititons page or somewhere.
 
+* on th epicks screen need to be able to speciy in competiton or event whether a draw can be selected as some comeption types may not be able to draw (eg: world cup)
+
