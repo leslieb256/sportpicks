@@ -20,6 +20,8 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
+* put a grassy background on the spotpicks thing
+
 * colours for badges showi pnts etc, maybe should be blue for information and grey if currnely unscored or somrthing?
 
 *   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.

@@ -11,14 +11,17 @@
 </head>
 <body>
 
-<div class="container">
+
 	<!-- show any messages that come back with authentication -->
 
-	<div class="jumbotron">
-		<h1>Sport Picks</h1>
-		<p>Welcome to Sport Picks. Sport Picks is a simple online application for running picks competitions.</p>
+	<div class="jumbotron" style="background-image: url(images/grassBackground.jpg); background-repeat;" >
+<div class="container">
+		<h1 style="color:#ffffff;">Sport Picks</h1>
+		<p style="color:#ffffff;">Welcome to Sport Picks. Sport Picks is a simple online application for running picks competitions.</p>
+	</div>
 	</div>
 
+<div class="container">
 	<div class="col-sm-3">	
 		<h1><span class="fa fa-sign-in"></span> Login</h1>
 		<% if (successMsg.length > 0) { %><div class="alert alert-success"><%= successMsg %></div><% } %>
