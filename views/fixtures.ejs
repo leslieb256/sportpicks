@@ -45,9 +45,11 @@
 			<div class = "list-group">
 				<% fixtures.forEach(function(fixture){ %>
 					<a href="/fixturePick?competition=<%= competition._id %>&fixture=<%= fixture._id %>" class="list-group-item"> 
+						<%if (fixture.homeTeam.logo != undefined){ %><img src="/images/team/logo/sm/<%=fixture.homeTeam.logo %>" height="30" width="30"><% } else { %><img src="/images/none.png" height="30" width="30"> <% } %>
 						<b><%= fixture.homeTeam.name %>
 					    <%if (fixture.homeScore === undefined) {%> v <% } else { %><b><%= fixture.homeScore %></b> - <b><%= fixture.awayScore %></b> <% } %>
-						<%= fixture.awayTeam.name %></b>
+					    <%= fixture.awayTeam.name %></b>
+					    <%if (fixture.awayTeam.logo != undefined){ %><img src="/images/team/logo/sm/<%=fixture.awayTeam.logo %>" height="30" width="30"><% } else { %><img src="/images/none.png" height="30" width="30"> <% } %>
 						<%if ( fixture.closeDate > Date.now() ) { %> 
 							<% if (!(fixture._id in picks)){ %><span class="badge alert-danger"><span class="fa fa-warning"></span></span><% } else {%><span class="badge alert-success"><span class="fa fa-check"></span> </span> <% } %> 
 						<% } else { %> 

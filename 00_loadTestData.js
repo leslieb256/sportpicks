@@ -1156,7 +1156,7 @@ function updateFixtureResults(leagueName, eventName){
          homeTeamLeaguePoints: ,
          awayTeamLeaguePoints: ,
          roundName: 'Round 11',
-         date: convertTime("2014-03-25 20:00", "Australia/Brisbane","UTC")},
+         date: convertTime("2015-03-25 20:00", "Australia/Brisbane","UTC")},
 
 
 
