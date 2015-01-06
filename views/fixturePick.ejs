@@ -47,49 +47,60 @@
 			<h3><%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %></h3>
 			<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>
 			<form action="/submitPick" method="post" role="form">
-				<fieldset>
-					<legend>Winner</legend>
-					<div class="radio">
-						<label for="<%= fixture.homeTeam %>">
-							<input type="radio" name="winner" id="<%= fixture.homeTeam %>" value="<%= fixture.homeTeam %>"
-								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.homeTeam==pick.winner.toString()) { %> checked <% } %> <% } %>
-								<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
-								<%if (teams[fixture.homeTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.homeTeam].logo %>" height="16" width="16"><% } else { %><img src="/images/none.png" height="16" width="16"> <% } %>
-							<%=teams[fixture.homeTeam].name %>
-						</label>
-					</div>
-					<div class="radio">					
-						<label for="<%= draw.id %>">
-							<input type="radio" name="winner" id="<%= draw.id %>" value="<%= draw.id %>"
-								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (draw.id==pick.winner.toString()) { %> checked <% } %> <% } %>
-								   <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/>
-								   <img src="/images/none.png" width="16" height ="16">
-							<%=draw.name %>
-						</label>
-					</div>					
-					<div class="radio">					
-						<label for="<%= fixture.awayTeam %>">
-							<input type="radio" name="winner" id="<%= fixture.awayTeam %>" value="<%= fixture.awayTeam %>"
-								<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.awayTeam==pick.winner.toString()) { %> checked <% } %>  <% } %>
+				<% competition.scoring.forEach(function (scoringOption){ %>
+					<!-- WINNER SCORING OPTION -->
+					<% if (scoringOption.type == 'winner') { %>
+						<fieldset>
+							<legend>Winner</legend>
+							<div class="radio">
+								<label for="<%= fixture.homeTeam %>">
+									<input type="radio" name="winner" id="<%= fixture.homeTeam %>" value="<%= fixture.homeTeam %>"
+										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.homeTeam==pick.winner.toString()) { %> checked <% } %> <% } %>
+										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
+										<%if (teams[fixture.homeTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.homeTeam].logo %>" height="16" width="16"><% } else { %><img src="/images/none.png" height="16" width="16"> <% } %>
+									<%=teams[fixture.homeTeam].name %>
+								</label>
+							</div>
+							<div class="radio">					
+								<label for="<%= draw.id %>">
+									<input type="radio" name="winner" id="<%= draw.id %>" value="<%= draw.id %>"
+										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (draw.id==pick.winner.toString()) { %> checked <% } %> <% } %>
+										   <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/>
+										   <img src="/images/none.png" width="16" height ="16">
+									<%=draw.name %>
+								</label>
+							</div>					
+							<div class="radio">					
+								<label for="<%= fixture.awayTeam %>">
+									<input type="radio" name="winner" id="<%= fixture.awayTeam %>" value="<%= fixture.awayTeam %>"
+										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.awayTeam==pick.winner.toString()) { %> checked <% } %>  <% } %>
+										 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
+										 <%if (teams[fixture.awayTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.awayTeam].logo %>" height="16" width="16"><% } else { %><img src="/images/none.png" height="16" width="16"> <% } %>
+									<%=teams[fixture.awayTeam].name %>
+								</label>
+							</div>
+						</fieldset>
+					<% } %>				
+
+					<!-- EXACT RESULT SCORING OPTION-->
+					<% if (scoringOption.type == 'exactResult') { %>						
+						<fieldset>
+							<legend>Exact result</legend>
+							<div class = "form-group">
+								<label for="homeScore"><%= teams[fixture.homeTeam].name %></label>
+								<input name="homeScore" type="number" class = "form-control" id="homeScore" value="<% if (pick === null || pick.homeScore === undefined){ %>0<% } else { %><%= pick.homeScore %><% } %>" 
+									 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
+							</div>
+							<div class = "form-group">
+								<label for="awayScore"><%= teams[fixture.awayTeam].name %></label>
+								<input name="awayScore" type="number" class = "form-control" id="awayScore" value="<% if (pick === null || pick.awayScore === undefined){ %>0<% } else { %><%= pick.awayScore %><% } %>" 
 								 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
-								 <%if (teams[fixture.awayTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.awayTeam].logo %>" height="16" width="16"><% } else { %><img src="/images/none.png" height="16" width="16"> <% } %>
-							<%=teams[fixture.awayTeam].name %>
-						</label>
-					</div>
-				</fieldset>
-				<fieldset>
-					<legend>Exact result</legend>
-					<div class = "form-group">
-						<label for="homeScore"><%= teams[fixture.homeTeam].name %></label>
-						<input name="homeScore" type="number" class = "form-control" id="homeScore" value="<% if (pick === null || pick.homeScore === undefined){ %>0<% } else { %><%= pick.homeScore %><% } %>" 
-							 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
-					</div>
-					<div class = "form-group">
-						<label for="awayScore"><%= teams[fixture.awayTeam].name %></label>
-						<input name="awayScore" type="number" class = "form-control" id="awayScore" value="<% if (pick === null || pick.awayScore === undefined){ %>0<% } else { %><%= pick.awayScore %><% } %>" 
-						 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
-					</div>
-				</fieldset>
+							</div>
+						</fieldset>
+					<% } %>
+						
+				 <% })%>
+				 <!-- FORM METADATA AND BUTTON -->
 				<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
 				<input type="hidden" name="roundId" value="<%= fixture.round %>" >
 				<input type="hidden" name="competitionId" value="<%= competition.id %>" >
@@ -105,6 +116,11 @@
 				<% if (!(fixture.homeScore == undefined)) { %> <tr><td><%= teams[fixture.homeTeam].name %></td><td><%= fixture.homeScore %></td></tr><% } %>
 				<% if (!(fixture.awayScore == undefined)) { %> <tr><td><%= teams[fixture.awayTeam].name %></td><td><%= fixture.awayScore %></td></tr><% } %>
 			</table>
+			<h1>TEST</h1>
+			<% competition.scoring.forEach(function(scoreOption){ %>
+				<p><%=scoreOption.type %></p>
+			<% }); %>
+			
 		</div>
 
 	</div>
