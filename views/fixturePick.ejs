@@ -48,8 +48,8 @@
 			<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>
 			<form action="/submitPick" method="post" role="form">
 				<% competition.scoring.forEach(function (scoringOption){ %>
-					<!-- WINNER SCORING OPTION -->
 					<% if (scoringOption.type == 'winner') { %>
+					<!-- WINNER SCORING OPTION -->
 						<fieldset>
 							<legend>Winner</legend>
 							<div class="radio">
@@ -82,8 +82,8 @@
 						</fieldset>
 					<% } %>				
 
-					<!-- EXACT RESULT SCORING OPTION-->
 					<% if (scoringOption.type == 'exactResult') { %>						
+					<!-- EXACT RESULT SCORING OPTION-->
 						<fieldset>
 							<legend>Exact result</legend>
 							<div class = "form-group">
@@ -98,7 +98,40 @@
 							</div>
 						</fieldset>
 					<% } %>
-						
+					
+					<% if (scoringOption.type == 'scoreDifference') { %> 
+					<!-- SCOREDIFFERENCE SCORING OPTION -->
+						<fieldset>
+							<legend>Score Difference (Margin)</legend>
+							<% if (scoringOption.margins[0] == 0) { %>
+								<div class = "radio">
+									<label for="SD-0">
+										<input type="radio" name="scoreDifference" id="SD-0" value = "0" <% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==0) ) { %>checked <% } %> /> 0
+									</label>
+								</div>
+							<% } else { %>
+								<div class = "radio">
+									<label for="SD-<%= scoringOption.margins[0] %>" >
+										<input type="radio" name="scoreDifference" id="SD-<%= scoringOption.margins[0] %>" value = "<%= scoringOption.margins[0] %>" <% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==scoringOption.margins[0]) ) { %>checked <% } %>/> 0 - <%= scoringOption.margins[0] %>
+									</label>
+								</div>
+							<% } %>
+							<% for (var i=1; i < scoringOption.margins.length; i++) { %>
+								<div class = "radio">
+									<label for="SD-<%= scoringOption.margins[i] %>" >
+										<input type="radio" name="scoreDifference" id="SD-<%= scoringOption.margins[i] %>" value = "<%= scoringOption.margins[i] %>" <% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==scoringOption.margins[i]) ) { %>checked <% } %>/> <%= scoringOption.margins[i-1] + 1 %> - <%= scoringOption.margins[i] %>
+									</label>
+								</div>
+							<% } %>
+							<% if (scoringOption.selectOver) { %>
+								<div class = "radio">
+									<label for="SD--1" >
+										<input type="radio" name="scoreDifference" id="SD--1" value = "-1" <% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==-1) ) { %>checked <% } %>/> <%= scoringOption.margins[scoringOption.margins.length - 1 ] %> +
+									</label>
+								</div>
+							<% } %>
+						</fieldset>
+					<% } %>
 				 <% })%>
 				 <!-- FORM METADATA AND BUTTON -->
 				<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
@@ -116,11 +149,6 @@
 				<% if (!(fixture.homeScore == undefined)) { %> <tr><td><%= teams[fixture.homeTeam].name %></td><td><%= fixture.homeScore %></td></tr><% } %>
 				<% if (!(fixture.awayScore == undefined)) { %> <tr><td><%= teams[fixture.awayTeam].name %></td><td><%= fixture.awayScore %></td></tr><% } %>
 			</table>
-			<h1>TEST</h1>
-			<% competition.scoring.forEach(function(scoreOption){ %>
-				<p><%=scoreOption.type %></p>
-			<% }); %>
-			
 		</div>
 
 	</div>

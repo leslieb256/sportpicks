@@ -64,7 +64,6 @@ module.exports = mongoose.model('Competition', competitionSchema);
  *     margins: [0,12,20],
  *     points: 1,
  *     needsWinner: false,
- *     selectDraw : true, // user can select 0 point margin
  *     selectOver : true // user can select maximum margin +1 and upwards as a catchall eg: here it would mean options of 0, 1-12, 13-20, 20+
  *   }
  * 
