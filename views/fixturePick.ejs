@@ -80,12 +80,12 @@
 				<fieldset>
 					<legend>Exact result</legend>
 					<div class = "form-group">
-						<label for="homeScore">Home</label>
+						<label for="homeScore"><%= teams[fixture.homeTeam].name %></label>
 						<input name="homeScore" type="number" class = "form-control" id="homeScore" value="<% if (pick === null || pick.homeScore === undefined){ %>0<% } else { %><%= pick.homeScore %><% } %>" 
 							 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
 					</div>
 					<div class = "form-group">
-						<label for="awayScore">Away</label>
+						<label for="awayScore"><%= teams[fixture.awayTeam].name %></label>
 						<input name="awayScore" type="number" class = "form-control" id="awayScore" value="<% if (pick === null || pick.awayScore === undefined){ %>0<% } else { %><%= pick.awayScore %><% } %>" 
 						 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
 					</div>
@@ -102,8 +102,8 @@
 			<h3>Fixture Results <span class="label label-default pull-right"><% if (points === null || points.points === undefined) { %><% } else { %><%= points.points %> points<% } %></span></h3>
 			<table class="table table-striped table-responsive">
 				<% if (!(fixture.winner == undefined)) { %> <tr><td>Winner</td><td><%= teams[fixture.winner].name %></td></tr><% } %>
-				<% if (!(fixture.homeScore == undefined)) { %> <tr><td>Home Score</td><td><%= fixture.homeScore %></td></tr><% } %>
-				<% if (!(fixture.awayScore == undefined)) { %> <tr><td>Away Score</td><td><%= fixture.awayScore %></td></tr><% } %>
+				<% if (!(fixture.homeScore == undefined)) { %> <tr><td><%= teams[fixture.homeTeam].name %></td><td><%= fixture.homeScore %></td></tr><% } %>
+				<% if (!(fixture.awayScore == undefined)) { %> <tr><td><%= teams[fixture.awayTeam].name %></td><td><%= fixture.awayScore %></td></tr><% } %>
 			</table>
 		</div>
 
