@@ -125,14 +125,15 @@
 									<label for="SD-<%= scoringOption.margins[i] %>" >
 										<input type="radio" name="scoreDifference" id="SD-<%= scoringOption.margins[i] %>" value = "<%= scoringOption.margins[i] %>"
 										<% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==scoringOption.margins[i]) ) { %>checked <% } %>
-										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> <%= scoringOption.margins[i-1] + 1 %> - <%= scoringOption.margins[i] %>
+										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> 
+										<% if ( scoringOption.margins[i-1]+1 == scoringOption.margins[i]) { %><%= scoringOption.margins[i] %><% } else { %><%= scoringOption.margins[i-1] + 1 %> - <%= scoringOption.margins[i] %> <% } %>
 									</label>
 								</div>
 							<% } %>
 							<% if (scoringOption.selectOver) { %>
 								<div class = "radio">
 									<label for="SD--1" >
-										<input type="radio" name="scoreDifference" id="SD--1" value = "-1" <% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==-1) ) { %>checked <% } %>/> <%= scoringOption.margins[scoringOption.margins.length - 1 ] %> +
+										<input type="radio" name="scoreDifference" id="SD--1" value = "-1" <% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==-1) ) { %>checked <% } %>/> <%= scoringOption.margins[scoringOption.margins.length - 1 ] + 1 %> +
 									</label>
 								</div>
 							<% } %>

@@ -15,15 +15,22 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-Trying to get the sumbit picks working in routes.js
-It is now doing the pick saving in three parts but for some reaston the flash messagin is not working.
-GOing to try to use req.session.message to make it work.
-Once doen need to save some pick susing LeslieONnly test and run scoring aacros it ot make sure it works.
-Then check with Mat how we score super15 then create a super15 test run for RWC
 
 
 TODO - SHORT TERM
 =================
+
+* The pcisk fro scord diff should be IF previos +1 = current then just current else (whatever is there now) other wise you'll get 1-1 and 2-2 etc.
+
+* Once doen need to save some pick susing LeslieONnly test and run scoring aacros it ot make sure it works.
+
+* see stpehen about what marings to use 0,12,13+? or something different? How many points for each, 1 for the win 1 for the margin?
+
+* need to link teams to compeitions, either team needs a list of comps or comps needs a list of teams, probably comp having list of teams seems logical this will limit teams returned when getting logos etc.
+
+* need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
+
+* make compeition for super Rugby super 15 + rounds + etc and find out who wants to play.
 
 * chekc the bootstrap docs on image css and see if there is a better way to make resppnisive images.
 
@@ -33,7 +40,7 @@ TODO - SHORT TERM
 
 *   add a "lastFixtureDate" to rounds schema to use for deciding when rounds should show the points.
 
-*   make the sportpicks landing page a little more interesting, backgroun banner picture or something? Or a list of running events.
+*   make the sportpicks landing page a little more interesting, backgroun banner picture or something? Or a list of running events etc.
 
 
 see scoring.js for valid scoring options
@@ -51,17 +58,13 @@ Large logos are 512x512, small are 128x128
 http://www.theroar.com.au/football/a-league/fixtures/
 Results: http://www.a-league.com.au/results/214/2014/0/4
 
-currently set so that fixture closes 1 hour before the first game of aroudn. later change to be set to either 12 hor before each fixture or 1hr before each round. Will also need to change how/when it updates the
-"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
-
-Make the list of rounds a table of links, later can make it sortable or something.
-
-for some reason fixtures are not in order on the pfixutres page. Need to have a look at this proaby to do with teh fact the JSOPN is not orderd so it us up to the browser how it pulls/cucles the data. Might need to make thgese lists.
+currently set so that fixture closes 1 hour before the first game of aroudn. later change to be set to either 12 hor before each fixtur
 
 
 SUPER15
 ========
 http://www.superxv.com/fixtures/
+http://superrugby.com/co.nz for the offical site - use this data.
 
 Set up super 15 for 2015 games. They srtat in Feb. Should be able to show Mat what the game tracker looks like during the A league.
 
@@ -105,9 +108,10 @@ TODO LONG TERM
 
 *   should page scrape results or have a decent results entry screen
 
-* need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking).
-
-* add logo for comps whch shows on the compeititons page or somewhere.
 
 * on th epicks screen need to be able to speciy in competiton or event whether a draw can be selected as some comeption types may not be able to draw (eg: world cup)
 
+* e or 1hr before each round. Will also need to change how/when it updates the
+"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
+
+* Make the list of rounds a table of links, later can make it sortable or something.
