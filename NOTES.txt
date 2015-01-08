@@ -26,8 +26,9 @@ TODO - SHORT TERM
 
 * need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
 
-* shuld have the event name in the lable/badge feidl in the competitoins page.
+* add teams Logos for SuperRugby
 
+* add fixtures for SuperRugby
 
 
 see scoring.js for valid scoring options
