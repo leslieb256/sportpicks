@@ -170,12 +170,18 @@ function updateFixture(leagueName, eventName){
     var League = require('../models/league');
     var Event = require('../models/event');
     var Round = require('../models/round');
-    var Team = require('..p/models/team');
+    var Team = require('../models/team');
     var Fixture = require('../models/fixture');
 
     var fixtureList = [
         // *** ROUND 1 ***
-        {homeSht:'',awaySht:'',date: convertTime("2015-", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+        {homeSht:'CRU',awaySht:'REB',date: convertTime("2015-02-13 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+        {homeSht:'BRM',awaySht:'RED',date: convertTime("2015-02-13 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+        {homeSht:'LNS',awaySht:'HUR',date: convertTime("2015-02-14 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+        {homeSht:'BLU',awaySht:'CHF',date: convertTime("2015-02-14 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+        {homeSht:'SHK',awaySht:'CTH',date: convertTime("2015-02-15 04:05", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+        {homeSht:'BUL',awaySht:'STM',date: convertTime("2015-02-15 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+        {homeSht:'WAR',awaySht:'FOR',date: convertTime("2015-02-15 18:05", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'}
         ];
         
     League.findOne({name:leagueName}, function (err, league) {
@@ -200,7 +206,7 @@ function updateFixture(leagueName, eventName){
                                                 Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
                                                     if (err) console.log("awayTeamERROR:"+err.toString());
                                                     else {
-/**
+
                                                             //load a new set of rounds
                                                             Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
                                                                 Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date, event: event._id, league: league._id},
@@ -209,7 +215,7 @@ function updateFixture(leagueName, eventName){
                                                                     );
                                                             });
 
- **/         
+   /**       
 
                                                             // load the results for the round
                                                             Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
@@ -220,7 +226,7 @@ function updateFixture(leagueName, eventName){
                                                                     );
                                                             });
 
-
+**/
                                                     }
                                                 });
 
@@ -252,6 +258,6 @@ db.once('open', function callback(){
     //loadCompetitions(); DONE 2015
     //updateTeams(); DONE 2015
     //updateRounds('Super Rugby','2015 Season'); DONE 2015
-    //updateFixture('Super Rugby','2015 Season');
+    updateFixture('Super Rugby','2015 Season');
     console.log("done");
 });

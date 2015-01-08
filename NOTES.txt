@@ -20,13 +20,12 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
-* make compeition for super Rugby super 15 + rounds + etc and find out who wants to play. DO NOT LOAD ANY PICKS AT THIS STAGE AS I NEED TO WORK OUT WHAT MARINGS TO USE.
+* make compeition for super Rugby super 15 + rounds + etc and find out who wants to play.
+    NEED TO ADD SCORING RULES TO SR COMP FOR WCC
 
 * see stpehen about what marings to use 0,12,13+? or something different? How many points for each, 1 for the win 1 for the margin?
 
 * need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
-
-* add teams Logos for SuperRugby
 
 * add fixtures for SuperRugby
 
@@ -65,10 +64,6 @@ TODO LONG TERM
 * colours for badges showi pnts etc, maybe should be blue for information and grey if currnely unscored or somrthing?
 
 *   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
-
-*   add a "lastFixtureDate" to rounds schema to use for deciding when rounds should show the points.
-
-*   make the sportpicks landing page a little more interesting, backgroun banner picture or something? Or a list of running events etc.
 
 *   Should create statistics by compeition on % of people that selected the various results, should maybe have the points table?
 
@@ -112,10 +107,6 @@ TODO LONG TERM
 
 * Make the list of rounds a table of links, later can make it sortable or something.
 
-* need to link teams to compeitions, either team needs a list of comps or comps needs a list of teams, probably comp having list of teams seems logical this will limit teams returned when getting logos etc.
-NOT SO IMPORTANT AT THIS STAGE AS IT ONLY APPLIES TO FIXUTRES AND THEY JUST POPULATE THE TEAMS IN THE ROUND SO ARE FILTERED ALRADY, WILL NEED TO TO DO FOR STUFF LIKE OVERALL WINNER ETC.
+* need to link teams to compeitions, each A leagaue team needs a "Leagaue: ..." in their record
 
-* Add round type: and lastFixtureDates(?) to Aleague rounds for 2014/15 - this may be a compatability issue later. Type is to differentiate between rounds and bonus rounds etc, maybe finals as well?
-
-
-If I want to do multiple bonus rounds that is doable (for example winner of a stage or quarter) they can go in as bonus
+* Add round type:'fixture' and lastFixtureDates(?) to Aleague rounds for 2014/15 - this may be a compatability issue later. Type is to differentiate between rounds and bonus rounds etc, maybe finals as well?
