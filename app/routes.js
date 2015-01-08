@@ -163,8 +163,8 @@ module.exports = function(app, passport) {
 		if (err) {console.log('ERR: fixtures page on fixtures')}
 			else{
 				FixturePick.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){
-					console.log('FIXTURES LIST\n');
-					console.log(fixtures);
+					//console.log('FIXTURES LIST\n');
+					//console.log(fixtures);
 					Competition.findById(req.param('competition')).exec(function(err,comp){
 						//console.log('FIXTURES: comp:%s',comp)
 						Round.findById(req.param('round')).exec(function(err, round){
@@ -249,31 +249,170 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/submitPick', isLoggedIn, function(req, res) {
+		/**
+		 * submitPick tries to save parts of the pick one at a time. Depending on timing this may mean that
+		 * part of a pick is saved if another part fails. However this will still trigger a warning to the user that
+		 * the pick is incomplete.
+		 * 
+		 **/
 		var FixturePick =require('../app/models/fixturePick');
-		//console.log(req.body)
-		
-		// CANR USE PICK ID HERE MUST USE COMP< USER AND FIXTURE TO CREATE IT AS 
-		//THERE MAY NOT BE A PICK MADE YET!
-		//console.log('FIXTURES: PARAM REQ:',req.body);
-        FixturePick.update({
-            user: req.user.id,
-        	fixture: req.body.fixtureId,
-            round: req.body.roundId,
-            competition: req.body.competitionId},
-            {$set: {winner:req.body.winner, homeScore: req.body.homeScore, awayScore:req.body.awayScore}},
-            {upsert: true},
-            function(err){
-                if (err) {console.log("ERROR:"+err.toString());req.flash('dangerMsg','Pick not saved');}
-                else {req.flash('successMsg', 'Pick recorded');}
-                //console.log('SUBMITPICK: compID; %s',req.body.competitionId);
-				res.redirect('fixtures?competition='+req.body.competitionId+'&round='+req.body.roundId);
-            }
-        );
-	});
+		var Competition =require('../app/models/competition');
+		var async = require('async');
 	
+		async.waterfall([
+			function (callback_up){
+				var pickData = {};
+				console.log('Getting competition details');
+				Competition.findById(req.body.competitionId).exec(function (findError, competition){
+					if (findError){
+						callback_up('Pick not saved: Competition not found');
+					}
+					else {
+						console.log('creating Pick data');
+						
+						// New async internal series starts here
+						async.eachSeries(competition.scoring, 
+							function (option, callback_so){
+								if (option.type=='winner'){
+									if (req.body.winner === undefined){
+										console.log('NO WINNER');
+										callback_so('Pick not recorded, no winner selected.');
+									}
+									else{
+										console.log('FOUND WINNER');
+										pickData.winner = req.body.winner;
+										callback_so(null); // no need to go further
+									}
+								}
+								
+								if (option.type == 'exactResult'){
+									if (req.body.homeScore === undefined || req.body.awayScore === undefined){
+										callback_so('Pick not recorded, home and/or away scores not selected.');
+									}
+									else{
+										console.log('FOUND EXACT RESULT');
+										pickData.homeScore = req.body.homeScore;
+										pickData.awayScore = req.body.awayScore;
+										callback_so(null); // no need to go further
+									}
+								}
+								if (option.type== 'scoreDifference'){
+									if(req.body.scoreDifference===undefined){
+										callback_so('Pick not recorded, score difference not selected.',null);
+									}
+									else{
+										console.log('FOUND SCORE DIFFERENCE');
+										pickData.scoreDifference = req.body.scoreDifference;
+										callback_so(null); // no need to go further
+									}
+								}
+							},function (err){
+								if (err){console.log('ERROR'); callback_up('ERRORS IN PICK DATA');}
+								else{callback_up(null, pickData)}
+							}
+						);
+					}
+				});
+			},
+			function (pickData, callback_db){
+				console.log('adding pick data to database, PICKDATA: %s',pickData.winner);
+				FixturePick.update({
+				 user: req.user.id,
+				 fixture: req.body.fixtureId,
+				 round: req.body.roundId,
+				 competition: req.body.competitionId},
+				 {$set: pickData},
+				 {upsert: true},
+				 function(err){
+				 	if(err){callback_db('Pick not saved');}
+				 	else {callback_db(null);}
+				 }
+				);
+			}
+		],
+			function (err, results){
+				if (err) {req.flash('dangerMsg','Pick not saved');}
+				else {req.flash('successMsg', 'Pick recorded');}
+				console.log('now doing redirect');
+				res.redirect('fixtures?competition='+req.body.competitionId+'&round='+req.body.roundId);							
+			}
+		);
 
-
+	});
 };
+
+		
+/**	
+		//console.log('FIXTURES: PARAM REQ:',req.body);
+		async.series([
+			function (callback){
+				// prepare the pick data
+				Competition.findById(req.body.competitionId).exec(function (err, competition){
+					competition.scoring.forEach(function (option){
+						if (option.type=='winner'){
+							if (req.body.winner === undefined){
+								console.log('FAILED ON WINNER');
+								callback('Pick not recorded, no winner selected.',null);
+							}
+							else{
+								pickData.winner = req.body.winner;
+							}
+						}
+						
+						if (option.type == 'exactResult'){
+							if (req.body.homeScore === undefined || req.body.awayScore === undefined){
+								callback('Pick not recorded, home and/or away scores not selected.',null);
+							}
+							else{
+								pickData.homeScore = req.body.homeScore;
+								pickData.awayScore = req.body.awayScore;
+							}
+						}
+						if (option.type== 'scoreDifference'){
+							if(req.body.scoreDifference===undefined){
+								callback('Pick not recorded, score difference not selected.',null);
+							}
+							else{
+								pickData.scoreDifference = req.body.scoreDifference;
+							}
+						}
+					});
+				});
+				callback(null,'pickData created');
+			},
+			function (callback) {
+				// if no errors in the setup of pickData then we'll try to update
+				// the database
+				console.log('in dbupdatefn');
+		       FixturePick.update({
+	            user: req.user.id,
+	        	fixture: req.body.fixtureId,
+	            round: req.body.roundId,
+	            competition: req.body.competitionId},
+	            {$set: pickData},
+	            {upsert: true},
+	            function(err){
+	                if (err) {callback ('Pick not saved',null)}
+		            }
+		        );
+				callback (null, 'database update run');
+			},
+		], function(err, results){
+				console.log(err);
+				if (err){
+					req.flash('dangerMsg',err);
+					console.log('doing a dnage message');
+					res.redirect('fixtures?competition='+req.body.competitionId+'&round='+req.body.roundId);			
+				}
+				if(results)
+				{
+					req.flash('successMsg', 'Pick recorded');
+					res.redirect('fixtures?competition='+req.body.competitionId+'&round='+req.body.roundId);			
+					console.log('doing a success message');
+				}
+		});
+**/
+
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
@@ -284,6 +423,51 @@ function isLoggedIn(req, res, next) {
 
 	// if they aren't redirect them to the home page
 	res.redirect('/');
+}
+
+function collatePicks(userPicks){
+	var Competition =require('../app/models/competition');
+	var async = require('async');
+
+	var data={};
+	console.log('WOKRING OUT PICK DATA');
+	console.log('WINNER IN req.body %s',userPicks.winner);
+	Competition.findById(userPicks.competitionId).exec(function (err, competition){
+	// ADD AN ASYNC HERE TO CONTROL RETURNING THE DATA, ATM IT IS RETUNRING DATA BEFORE WOKRING OUT WTF the DATA IS.
+		async.forEachSeries(competition.scoring,function(option, callback_so){
+		//competition.scoring.forEach(function (option){
+			if (option.type=='winner'){
+				if (userPicks.winner === undefined){
+					return {};
+				}
+				else{
+					console.log('WINNER:%s',userPicks.winner);
+					data.winner = userPicks.winner;
+				}
+			}
+			if (option.type == 'exactResult'){
+				if (userPicks.homeScore === undefined || userPicks.awayScore === undefined){
+					return {};
+				}
+				else{
+					data.homeScore = userPicks.homeScore;
+					data.awayScore = userPicks.awayScore;
+					console.log('DID DATA.WINNER, data score1 STORE: %s %s %s',data.winner, data.homeScore, data.awayScore);					
+				}
+			}
+			if (option.type== 'scoreDifference'){
+				if(userPicks.scoreDifference===undefined){
+					return {};
+				}
+				else{
+					data.scoreDifference = userPicks.scoreDifference;
+				}
+			} 
+			callback_so();	
+		});
+	});
+	console.log('DATA at end of creating picks %s',data.winner);
+	return data;
 }
 
 function createCompetitionLookup(queryData){

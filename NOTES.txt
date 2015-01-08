@@ -15,6 +15,11 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
+Trying to get the sumbit picks working in routes.js
+It is now doing the pick saving in three parts but for some reaston the flash messagin is not working.
+GOing to try to use req.session.message to make it work.
+Once doen need to save some pick susing LeslieONnly test and run scoring aacros it ot make sure it works.
+Then check with Mat how we score super15 then create a super15 test run for RWC
 
 
 TODO - SHORT TERM
