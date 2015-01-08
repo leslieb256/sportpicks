@@ -27,7 +27,8 @@
 		<div class="col-sm-6">
 			<div class="list-group">
 				<% competitions.forEach(function(competition){ %>
-					<a href="/rounds?competition=<%= competition.id %>" class="list-group-item"> <%if (competition.league.logo != undefined){ %><img src="/images/league/logo/sm/<%=competition.league.logo %>" height="30" width="30"><% } else { %><img src="/images/none.png" height="30" width="30"> <% } %><%= competition.name %></a>
+					<a href="/rounds?competition=<%= competition.id %>" class="list-group-item"> <%if (competition.league.logo != undefined){ %><img src="/images/league/logo/sm/<%=competition.league.logo %>" height="30" width="30"><% } else { %><img src="/images/none.png" height="30" width="30"> <% } %>
+					<%= competition.name %><span class="label label-default pull-right"><%= competition.event.name %></span></a>
 				<% }); %>
 			</div>
 		<div class="col-sm-6">

@@ -117,9 +117,9 @@ function updateTeams(){
 
 //update ROUNDS
 function updateRounds(leagueName, eventName){
-    var League = require('./app/models/league');
-    var Event = require('./app/models/event');
-    var Round = require('./app/models/round');
+    var League = require('../models/league');
+    var Event = require('../models/event');
+    var Round = require('../models/round');
     console.log('updating rounds');
     var roundList = [
         {name:'Round 1',type: 'fixture', roundPosition: 1, firstFixture: "2015-02-13 19:35", lastFixture: "2015-02-16 18:05", ffTimeZone: "Pacific/Auckland"},
@@ -139,7 +139,7 @@ function updateRounds(leagueName, eventName){
         {name:'Round 15',type: 'fixture', roundPosition: 15, firstFixture: "2015-05-22 19:35", lastFixture: "2015-05-24 05:10", ffTimeZone: "Pacific/Auckland"},
         {name:'Round 16',type: 'fixture', roundPosition: 16, firstFixture: "2015-05-29 19:35", lastFixture: "2015-05-31 05:10", ffTimeZone: "Pacific/Auckland"},
         {name:'Round 17',type: 'fixture', roundPosition: 17, firstFixture: "2015-06-05 19:35", lastFixture: "2015-06-07 03:05", ffTimeZone: "Pacific/Auckland"},
-        {name:'Round 18',type: 'fixture', roundPosition: 18, firstFixture: "2015-06-12 19:35", lastFixture: "2015-06-14 05:10", ffTimeZone: "Pacific/Auckland"},
+        {name:'Round 18',type: 'fixture', roundPosition: 18, firstFixture: "2015-06-12 19:35", lastFixture: "2015-06-14 05:10", ffTimeZone: "Pacific/Auckland"}, 
     ];
     
     League.findOne({name:leagueName}, function (err, league) {
@@ -166,6 +166,81 @@ function updateRounds(leagueName, eventName){
     });
 }
 
+function updateFixture(leagueName, eventName){
+    var League = require('../models/league');
+    var Event = require('../models/event');
+    var Round = require('../models/round');
+    var Team = require('..p/models/team');
+    var Fixture = require('../models/fixture');
+
+    var fixtureList = [
+        // *** ROUND 1 ***
+        {homeSht:'',awaySht:'',date: convertTime("2015-", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+        ];
+        
+    League.findOne({name:leagueName}, function (err, league) {
+        if (err) console.log("ERROR:"+err.toString());
+        else {
+        
+            Event.findOne({name:eventName}, function (err, event) {
+                if (err) console.log("ERROR:"+err.toString());
+                else {
+                    fixtureList.forEach(function(fixtureData){
+                        
+                        Team.findOne({shtcode:fixtureData.homeSht}, function(err, homeTeam){
+                            if (err) console.log("homeTeamERROR:"+err.toString());
+                            else {
+                                Round.findOne({name:fixtureData.roundName, event:event.id}, function(err, round){
+                                    if (err) console.log("roundERROR:"+err.toString());
+                                    else {
+                                        
+                                        Team.findOne({shtcode:fixtureData.awaySht}, function(err, awayTeam){
+                                            if (err) console.log("awayTeamERROR:"+err.toString());
+                                            else {
+                                                Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
+                                                    if (err) console.log("awayTeamERROR:"+err.toString());
+                                                    else {
+/**
+                                                            //load a new set of rounds
+                                                            Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
+                                                                Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date, event: event._id, league: league._id},
+                                                                {$set:{round: round._id}},
+                                                                    {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString())}
+                                                                    );
+                                                            });
+
+ **/         
+
+                                                            // load the results for the round
+                                                            Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
+                                                                Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date, event: event._id, league: league._id},
+                                                                {$set:{homeScore: fixtureData.homeScore, awayScore:fixtureData.awayScore, scoreDifference: fixtureData.scoreDifference,winner: winner,
+                                                                    homeTeamLeaguePoints: fixtureData.homeTeamLeaguePoints, awayTeamLeaguePoints: fixtureData.awayTeamLeaguePoints, round: round._id}},
+                                                                    {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString())}
+                                                                    );
+                                                            });
+
+
+                                                    }
+                                                });
+
+                                            }
+                                        });
+
+                                    }
+                                });
+                                
+                            }
+                        });
+                        
+                    });
+                }
+            });
+        }
+    });
+
+
+}
 
 
 mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
@@ -174,8 +249,9 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
     //updateLeagues(); DONE
     //updateEvent(); DONE 2015
-    loadCompetitions();
-    //updateTeams();
-    //updateRounds('Super Rugby','2015 Season');
+    //loadCompetitions(); DONE 2015
+    //updateTeams(); DONE 2015
+    //updateRounds('Super Rugby','2015 Season'); DONE 2015
+    //updateFixture('Super Rugby','2015 Season');
     console.log("done");
 });
