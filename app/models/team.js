@@ -7,7 +7,8 @@ var teamSchema = new mongoose.Schema({
     name: String,
     logo: String,
     shtname: String,
-    shtcode:String
+    shtcode:String,
+    league: {type: mongoose.Schema.Types.ObjectId, ref: 'League'}
 });
 
 

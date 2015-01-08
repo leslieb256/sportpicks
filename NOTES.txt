@@ -20,27 +20,16 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
-* The pcisk fro scord diff should be IF previos +1 = current then just current else (whatever is there now) other wise you'll get 1-1 and 2-2 etc.
-
-* Once doen need to save some pick susing LeslieONnly test and run scoring aacros it ot make sure it works.
+* make compeition for super Rugby super 15 + rounds + etc and find out who wants to play. DO NOT LOAD ANY PICKS AT THIS STAGE AS I NEED TO WORK OUT WHAT MARINGS TO USE.
 
 * see stpehen about what marings to use 0,12,13+? or something different? How many points for each, 1 for the win 1 for the margin?
 
-* need to link teams to compeitions, either team needs a list of comps or comps needs a list of teams, probably comp having list of teams seems logical this will limit teams returned when getting logos etc.
-
 * need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
-
-* make compeition for super Rugby super 15 + rounds + etc and find out who wants to play.
 
 * chekc the bootstrap docs on image css and see if there is a better way to make resppnisive images.
 
-* colours for badges showi pnts etc, maybe should be blue for information and grey if currnely unscored or somrthing?
+* shuld have the event name in the lable/badge feidl in the competitoins page.
 
-*   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
-
-*   add a "lastFixtureDate" to rounds schema to use for deciding when rounds should show the points.
-
-*   make the sportpicks landing page a little more interesting, backgroun banner picture or something? Or a list of running events etc.
 
 
 see scoring.js for valid scoring options
@@ -73,6 +62,14 @@ Score margins are 0,1-12 and 13+
 
 TODO LONG TERM
 =======================
+
+* colours for badges showi pnts etc, maybe should be blue for information and grey if currnely unscored or somrthing?
+
+*   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
+
+*   add a "lastFixtureDate" to rounds schema to use for deciding when rounds should show the points.
+
+*   make the sportpicks landing page a little more interesting, backgroun banner picture or something? Or a list of running events etc.
 
 *   Should create statistics by compeition on % of people that selected the various results, should maybe have the points table?
 
@@ -115,3 +112,8 @@ TODO LONG TERM
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
 
 * Make the list of rounds a table of links, later can make it sortable or something.
+
+* need to link teams to compeitions, either team needs a list of comps or comps needs a list of teams, probably comp having list of teams seems logical this will limit teams returned when getting logos etc.
+NOT SO IMPORTANT AT THIS STAGE AS IT ONLY APPLIES TO FIXUTRES AND THEY JUST POPULATE THE TEAMS IN THE ROUND SO ARE FILTERED ALRADY, WILL NEED TO TO DO FOR STUFF LIKE OVERALL WINNER ETC.
+
+* Add round type: fixutre and lastFixtureDates(?) to Aleague rounds for 2014/15 - this may be a compatability issue later. Type is to differentiate between rounds and bonus rounds etc, maybe finals as well?

@@ -8,7 +8,9 @@ var roundSchema = new mongoose.Schema({
     roundPosition: Number,
     league: {type: mongoose.Schema.Types.ObjectId, ref: 'League'},
     event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
-    closeDate: Date //latest closing date, based on datetime of first fixture
+    closeDate: Date, //latest closing date, based on datetime of first fixture
+    lastFixtureDate: Date,
+    type: String
 });
 
 // methods ======================

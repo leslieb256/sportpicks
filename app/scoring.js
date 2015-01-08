@@ -543,7 +543,7 @@ db.once('open', function callback(){
 
    // TEST UPDATE SCORE
    //updateScoreByFixtureId('5450a7e5e1b59aa496b5b273');
-   updateScoreForFixtureList(['53fc6408b918a6b661d423e6']);
+   updateScoreForFixtureList(['53fc6408b918a6b661d423e1']);
    // scoreFixture('5450a7e5e1b59aa496b5b273');
    //RND1FIX:542c9ae12367c9209a739150
    //RND2FIX: 5434a4cc2367c9209a73916f
