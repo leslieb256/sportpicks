@@ -26,8 +26,6 @@ TODO - SHORT TERM
 
 * need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
 
-* chekc the bootstrap docs on image css and see if there is a better way to make resppnisive images.
-
 * shuld have the event name in the lable/badge feidl in the competitoins page.
 
 
@@ -116,4 +114,7 @@ TODO LONG TERM
 * need to link teams to compeitions, either team needs a list of comps or comps needs a list of teams, probably comp having list of teams seems logical this will limit teams returned when getting logos etc.
 NOT SO IMPORTANT AT THIS STAGE AS IT ONLY APPLIES TO FIXUTRES AND THEY JUST POPULATE THE TEAMS IN THE ROUND SO ARE FILTERED ALRADY, WILL NEED TO TO DO FOR STUFF LIKE OVERALL WINNER ETC.
 
-* Add round type: fixutre and lastFixtureDates(?) to Aleague rounds for 2014/15 - this may be a compatability issue later. Type is to differentiate between rounds and bonus rounds etc, maybe finals as well?
+* Add round type: and lastFixtureDates(?) to Aleague rounds for 2014/15 - this may be a compatability issue later. Type is to differentiate between rounds and bonus rounds etc, maybe finals as well?
+
+
+If I want to do multiple bonus rounds that is doable (for example winner of a stage or quarter) they can go in as bonus
