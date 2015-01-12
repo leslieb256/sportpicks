@@ -34,7 +34,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
     //updateUsers();
-    updateUserPassword('543497522367c9209a739163','test');
+    updateUserPassword('5413f5114e06b040143dbbac','test');
     //checkUser('5401512fb918a6b661d42b78');
     console.log("done");
 });

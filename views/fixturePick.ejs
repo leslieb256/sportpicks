@@ -28,9 +28,9 @@
 
 	<div class="page-header text-center">
 		<h1>
-		<%if (teams[fixture.homeTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.homeTeam].logo %>" height="50" width="50"><% } else { %><img src="/images/none.png" height="64" width="64"> <% } %>
+		<%if (teams[fixture.homeTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.homeTeam].logo %>" height=50em width=50em><% } else { %><img src="/images/none.png" height="64" width="64"> <% } %>
 		<%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %>
-		<%if (teams[fixture.awayTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.awayTeam].logo %>" height="50" width="50"><% } else { %><img src="/images/none.png" height="64" width="64"> <% } %> </h1>
+		<%if (teams[fixture.awayTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.awayTeam].logo %>" height=50em width=50em><% } else { %><img src="/images/none.png" height="64" width="64"> <% } %> </h1>
 		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
 	</div>
 
@@ -57,7 +57,7 @@
 									<input type="radio" name="winner" id="<%= fixture.homeTeam %>" value="<%= fixture.homeTeam %>"
 										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.homeTeam==pick.winner.toString()) { %> checked <% } %> <% } %>
 										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
-										<%if (teams[fixture.homeTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.homeTeam].logo %>" height="16" width="16"><% } else { %><img src="/images/none.png" height="16" width="16"> <% } %>
+										<%if (teams[fixture.homeTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.homeTeam].logo %>" height=16em width=16em><% } else { %><img src="/images/none.png" height="16" width="16"> <% } %>
 									<%=teams[fixture.homeTeam].name %>
 								</label>
 							</div>
@@ -66,7 +66,7 @@
 									<input type="radio" name="winner" id="<%= draw.id %>" value="<%= draw.id %>"
 										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (draw.id==pick.winner.toString()) { %> checked <% } %> <% } %>
 										   <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/>
-										   <img src="/images/none.png" width="16" height ="16">
+										   <img src="/images/none.png" width=16em height =16em>
 									<%=draw.name %>
 								</label>
 							</div>					
@@ -75,7 +75,7 @@
 									<input type="radio" name="winner" id="<%= fixture.awayTeam %>" value="<%= fixture.awayTeam %>"
 										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.awayTeam==pick.winner.toString()) { %> checked <% } %>  <% } %>
 										 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
-										 <%if (teams[fixture.awayTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.awayTeam].logo %>" height="16" width="16"><% } else { %><img src="/images/none.png" height="16" width="16"> <% } %>
+										 <%if (teams[fixture.awayTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.awayTeam].logo %>" height=16em width=16em><% } else { %><img src="/images/none.png" height=16em width=16em> <% } %>
 									<%=teams[fixture.awayTeam].name %>
 								</label>
 							</div>

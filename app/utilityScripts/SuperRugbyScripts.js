@@ -175,13 +175,166 @@ function updateFixture(leagueName, eventName){
 
     var fixtureList = [
         // *** ROUND 1 ***
+        
         {homeSht:'CRU',awaySht:'REB',date: convertTime("2015-02-13 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
         {homeSht:'BRM',awaySht:'RED',date: convertTime("2015-02-13 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
         {homeSht:'LNS',awaySht:'HUR',date: convertTime("2015-02-14 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
         {homeSht:'BLU',awaySht:'CHF',date: convertTime("2015-02-14 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
         {homeSht:'SHK',awaySht:'CTH',date: convertTime("2015-02-15 04:05", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
         {homeSht:'BUL',awaySht:'STM',date: convertTime("2015-02-15 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
-        {homeSht:'WAR',awaySht:'FOR',date: convertTime("2015-02-15 18:05", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'}
+        {homeSht:'WAR',awaySht:'FCE',date: convertTime("2015-02-15 18:05", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
+
+
+        // *** ROUND 2 ***        
+        {homeSht:'CHF',awaySht:'BRM',date: convertTime("2015-02-20 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 2',type: 'match'},
+        {homeSht:'REB',awaySht:'WAR',date: convertTime("2015-02-20 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 2',type: 'match'},
+        {homeSht:'BUL',awaySht:'HUR',date: convertTime("2015-02-21 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 2',type: 'match'},
+        {homeSht:'HLR',awaySht:'CRU',date: convertTime("2015-02-21 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 2',type: 'match'},
+        {homeSht:'RED',awaySht:'FCE',date: convertTime("2015-02-21 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 2',type: 'match'},
+        {homeSht:'STM',awaySht:'BLU',date: convertTime("2015-02-22 04:05", "Pacific/Auckland","UTC"),roundName: 'Round 2',type: 'match'},
+        {homeSht:'SHK',awaySht:'LNS',date: convertTime("2015-02-22 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 2',type: 'match'},
+
+        // *** ROUND 3 ***        
+        {homeSht:'HLR',awaySht:'RED',date: convertTime("2015-02-27 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 3',type: 'match'},
+        {homeSht:'FCE',awaySht:'HUR',date: convertTime("2015-02-28 12:00", "Pacific/Auckland","UTC"),roundName: 'Round 3',type: 'match'},
+        {homeSht:'CTH',awaySht:'BLU',date: convertTime("2015-02-28 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 3',type: 'match'},
+        {homeSht:'CHF',awaySht:'CRU',date: convertTime("2015-02-28 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 3',type: 'match'},
+        {homeSht:'REB',awaySht:'BRM',date: convertTime("2015-02-28 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 3',type: 'match'},
+        {homeSht:'BUL',awaySht:'SHK',date: convertTime("2015-03-01 04:05", "Pacific/Auckland","UTC"),roundName: 'Round 3',type: 'match'},
+        {homeSht:'LNS',awaySht:'STM',date: convertTime("2015-03-01 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 3',type: 'match'},        
+
+        // *** ROUND 4 ***                
+        {homeSht:'CHF',awaySht:'HUR',date: convertTime("2015-03-06 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 4',type: 'match'},
+        {homeSht:'BRM',awaySht:'FCE',date: convertTime("2015-03-06 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 4',type: 'match'},
+        {homeSht:'BLU',awaySht:'LNS',date: convertTime("2015-03-07 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 4',type: 'match'},
+        {homeSht:'RED',awaySht:'WAR',date: convertTime("2015-03-07 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 4',type: 'match'},
+        {homeSht:'CTH',awaySht:'BUL',date: convertTime("2015-03-08 04:05", "Pacific/Auckland","UTC"),roundName: 'Round 4',type: 'match'},
+        {homeSht:'STM',awaySht:'SHK',date: convertTime("2015-03-08 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 4',type: 'match'},
+
+        // *** ROUND 5 ***                
+        {homeSht:'HUR',awaySht:'BLU',date: convertTime("2015-03-13 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 5',type: 'match'},
+        {homeSht:'FCE',awaySht:'REB',date: convertTime("2015-03-14 12:00", "Pacific/Auckland","UTC"),roundName: 'Round 5',type: 'match'},
+        {homeSht:'CRU',awaySht:'LNS',date: convertTime("2015-03-14 16:30", "Pacific/Auckland","UTC"),roundName: 'Round 5',type: 'match'},
+        {homeSht:'HLR',awaySht:'WAR',date: convertTime("2015-03-14 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 5',type: 'match'},
+        {homeSht:'RED',awaySht:'BRM',date: convertTime("2015-03-14 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 5',type: 'match'},
+        {homeSht:'STM',awaySht:'CHF',date: convertTime("2015-03-15 02:00", "Pacific/Auckland","UTC"),roundName: 'Round 5',type: 'match'},
+        {homeSht:'CTH',awaySht:'SHK',date: convertTime("2015-03-15 04:05", "Pacific/Auckland","UTC"),roundName: 'Round 5',type: 'match'},
+
+        // *** ROUND 6 ***                
+        {homeSht:'HLR',awaySht:'HUR',date: convertTime("2015-03-20 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 6',type: 'match'},
+        {homeSht:'REB',awaySht:'LNS',date: convertTime("2015-03-20 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 6',type: 'match'},
+        {homeSht:'CRU',awaySht:'CTH',date: convertTime("2015-03-21 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 6',type: 'match'},
+        {homeSht:'BUL',awaySht:'FCE',date: convertTime("2015-03-22 04:05", "Pacific/Auckland","UTC"),roundName: 'Round 6',type: 'match'},
+        {homeSht:'SHK',awaySht:'CHF',date: convertTime("2015-03-22 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 6',type: 'match'},
+        {homeSht:'WAR',awaySht:'BRM',date: convertTime("2015-03-22 18:05", "Pacific/Auckland","UTC"),roundName: 'Round 6',type: 'match'},
+
+        // *** ROUND 7 ***                
+        {homeSht:'HUR',awaySht:'REB',date: convertTime("2015-03-27 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 7',type: 'match'},
+        {homeSht:'RED',awaySht:'LNS',date: convertTime("2015-03-27 22:00", "Pacific/Auckland","UTC"),roundName: 'Round 7',type: 'match'},
+        {homeSht:'CHF',awaySht:'CTH',date: convertTime("2015-03-28 16:30", "Pacific/Auckland","UTC"),roundName: 'Round 7',type: 'match'},
+        {homeSht:'HLR',awaySht:'STM',date: convertTime("2015-03-28 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 7',type: 'match'},
+        {homeSht:'WAR',awaySht:'BLU',date: convertTime("2015-03-28 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 7',type: 'match'},
+        {homeSht:'SHK',awaySht:'FCE',date: convertTime("2015-03-29 04:05", "Pacific/Auckland","UTC"),roundName: 'Round 7',type: 'match'},
+        {homeSht:'BUL',awaySht:'CRU',date: convertTime("2015-03-29 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 7',type: 'match'},
+
+        // *** ROUND 8 ***                
+        {homeSht:'HUR',awaySht:'STM',date: convertTime("2015-04-03 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 8',type: 'match'},
+        {homeSht:'REB',awaySht:'RED',date: convertTime("2015-04-03 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 8',type: 'match'},
+        {homeSht:'CHF',awaySht:'BLU',date: convertTime("2015-04-04 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 8',type: 'match'},
+        {homeSht:'BRM',awaySht:'CTH',date: convertTime("2015-04-04 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 8',type: 'match'},
+        {homeSht:'SHK',awaySht:'CRU',date: convertTime("2015-04-05 02:00", "Pacific/Auckland","UTC"),roundName: 'Round 8',type: 'match'},
+        {homeSht:'LNS',awaySht:'BUL',date: convertTime("2015-04-05 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 8',type: 'match'},
+
+        // *** ROUND 9 ***                
+        {homeSht:'BLU',awaySht:'BRM',date: convertTime("2015-04-10 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 9',type: 'match'},
+        {homeSht:'CRU',awaySht:'HLR',date: convertTime("2015-04-11 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 9',type: 'match'},
+        {homeSht:'WAR',awaySht:'STM',date: convertTime("2015-04-11 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 9',type: 'match'},
+        {homeSht:'FCE',awaySht:'CTH',date: convertTime("2015-04-11 23:45", "Pacific/Auckland","UTC"),roundName: 'Round 9',type: 'match'},
+        {homeSht:'BUL',awaySht:'RED',date: convertTime("2015-04-12 01:00", "Pacific/Auckland","UTC"),roundName: 'Round 9',type: 'match'},
+        {homeSht:'LNS',awaySht:'SHK',date: convertTime("2015-04-12 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 9',type: 'match'},
+
+        // *** ROUND 10 ***                
+        {homeSht:'CRU',awaySht:'CHF',date: convertTime("2015-04-17 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 10',type: 'match'},
+        {homeSht:'HUR',awaySht:'WAR',date: convertTime("2015-04-18 16:30", "Pacific/Auckland","UTC"),roundName: 'Round 10',type: 'match'},
+        {homeSht:'HLR',awaySht:'BLU',date: convertTime("2015-04-18 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 10',type: 'match'},
+        {homeSht:'BRM',awaySht:'REB',date: convertTime("2015-04-18 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 10',type: 'match'},
+        {homeSht:'FCE',awaySht:'STM',date: convertTime("2015-04-18 23:45", "Pacific/Auckland","UTC"),roundName: 'Round 10',type: 'match'},
+        {homeSht:'SHK',awaySht:'BUL',date: convertTime("2015-04-19 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 10',type: 'match'},
+        {homeSht:'CTH',awaySht:'RED',date: convertTime("2015-04-19 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 10',type: 'match'},
+
+        // *** ROUND 11 ***                
+        {homeSht:'CHF',awaySht:'FCE',date: convertTime("2015-04-24 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 11',type: 'match'},
+        {homeSht:'BRM',awaySht:'HLR',date: convertTime("2015-04-24 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 11',type: 'match'},
+        {homeSht:'CRU',awaySht:'BLU',date: convertTime("2015-04-25 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 11',type: 'match'},
+        {homeSht:'WAR',awaySht:'REB',date: convertTime("2015-04-25 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 11',type: 'match'},
+        {homeSht:'LNS',awaySht:'CTH',date: convertTime("2015-04-26 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 11',type: 'match'},
+        {homeSht:'STM',awaySht:'BUL',date: convertTime("2015-04-26 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 11',type: 'match'},
+        {homeSht:'RED',awaySht:'HUR',date: convertTime("2015-04-26 18:05", "Pacific/Auckland","UTC"),roundName: 'Round 11',type: 'match'},
+
+        // *** ROUND 12 ***                
+        {homeSht:'HLR',awaySht:'SHK',date: convertTime("2015-05-01 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 12',type: 'match'},
+        {homeSht:'BRM',awaySht:'WAR',date: convertTime("2015-05-01 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 12',type: 'match'},
+        {homeSht:'BLU',awaySht:'FCE',date: convertTime("2015-05-02 17:30", "Pacific/Auckland","UTC"),roundName: 'Round 12',type: 'match'},
+        {homeSht:'HUR',awaySht:'CRU',date: convertTime("2015-05-02 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 12',type: 'match'},
+        {homeSht:'REB',awaySht:'CHF',date: convertTime("2015-05-02 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 12',type: 'match'},
+        {homeSht:'CTH',awaySht:'STM',date: convertTime("2015-05-03 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 12',type: 'match'},
+        {homeSht:'BUL',awaySht:'LNS',date: convertTime("2015-05-03 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 12',type: 'match'},
+
+        // *** ROUND 13 ***                
+        {homeSht:'CRU',awaySht:'RED',date: convertTime("2015-05-08 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 13',type: 'match'},
+        {homeSht:'REB',awaySht:'BLU',date: convertTime("2015-05-08 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 13',type: 'match'},
+        {homeSht:'STM',awaySht:'BRM',date: convertTime("2015-05-09 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 13',type: 'match'},
+        {homeSht:'HUR',awaySht:'SHK',date: convertTime("2015-05-09 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 13',type: 'match'},
+        {homeSht:'FCE',awaySht:'WAR',date: convertTime("2015-05-09 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 13',type: 'match'},
+        {homeSht:'LNS',awaySht:'HLR',date: convertTime("2015-05-10 01:00", "Pacific/Auckland","UTC"),roundName: 'Round 13',type: 'match'},
+
+        // *** ROUND 14 ***                
+        {homeSht:'BLU',awaySht:'BUL',date: convertTime("2015-05-15 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 14',type: 'match'},
+        {homeSht:'RED',awaySht:'REB',date: convertTime("2015-05-15 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 14',type: 'match'},
+        {homeSht:'HUR',awaySht:'CHF',date: convertTime("2015-05-16 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 14',type: 'match'},
+        {homeSht:'WAR',awaySht:'SHK',date: convertTime("2015-05-16 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 14',type: 'match'},
+        {homeSht:'LNS',awaySht:'BRM',date: convertTime("2015-05-17 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 14',type: 'match'},
+        {homeSht:'CTH',awaySht:'HLR',date: convertTime("2015-05-17 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 14',type: 'match'},
+
+        // *** ROUND 15 ***                
+        {homeSht:'CHF',awaySht:'BUL',date: convertTime("2015-05-22 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 15',type: 'match'},
+        {homeSht:'RED',awaySht:'SHK',date: convertTime("2015-05-22 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 15',type: 'match'},
+        {homeSht:'BLU',awaySht:'HUR',date: convertTime("2015-05-23 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 15',type: 'match'},
+        {homeSht:'WAR',awaySht:'CRU',date: convertTime("2015-05-23 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 15',type: 'match'},
+        {homeSht:'FCE',awaySht:'HLR',date: convertTime("2015-05-23 23:45", "Pacific/Auckland","UTC"),roundName: 'Round 15',type: 'match'},
+        {homeSht:'CTH',awaySht:'LNS',date: convertTime("2015-05-24 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 15',type: 'match'},
+        {homeSht:'STM',awaySht:'REB',date: convertTime("2015-05-24 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 15',type: 'match'},
+
+        // *** ROUND 16 ***                
+        {homeSht:'CRU',awaySht:'HUR',date: convertTime("2015-05-29 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 16',type: 'match'},
+        {homeSht:'BRM',awaySht:'BUL',date: convertTime("2015-05-29 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 16',type: 'match'},
+        {homeSht:'SHK',awaySht:'REB',date: convertTime("2015-05-30 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 16',type: 'match'},
+        {homeSht:'HLR',awaySht:'CHF',date: convertTime("2015-05-30 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 16',type: 'match'},
+        {homeSht:'FCE',awaySht:'RED',date: convertTime("2015-05-30 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 16',type: 'match'},
+        {homeSht:'STM',awaySht:'CTH',date: convertTime("2015-05-31 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 16',type: 'match'},
+        {homeSht:'LNS',awaySht:'WAR',date: convertTime("2015-05-31 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 16',type: 'match'},
+
+        // *** ROUND 17 ***                
+        {homeSht:'HUR',awaySht:'HLR',date: convertTime("2015-06-05 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 17',type: 'match'},
+        {homeSht:'FCE',awaySht:'BRM',date: convertTime("2015-06-05 23:00", "Pacific/Auckland","UTC"),roundName: 'Round 17',type: 'match'},
+        {homeSht:'REB',awaySht:'BUL',date: convertTime("2015-06-06 17:30", "Pacific/Auckland","UTC"),roundName: 'Round 17',type: 'match'},
+        {homeSht:'BLU',awaySht:'CRU',date: convertTime("2015-06-06 19:25", "Pacific/Auckland","UTC"),roundName: 'Round 17',type: 'match'},
+        {homeSht:'RED',awaySht:'CHF',date: convertTime("2015-06-06 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 17',type: 'match'},
+        {homeSht:'CTH',awaySht:'WAR',date: convertTime("2015-06-07 01:00", "Pacific/Auckland","UTC"),roundName: 'Round 17',type: 'match'},
+        {homeSht:'STM',awaySht:'LNS',date: convertTime("2015-06-07 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 17',type: 'match'},
+
+        // *** ROUND 18 ***                
+        {homeSht:'BLU',awaySht:'HLR',date: convertTime("2015-06-12 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
+        {homeSht:'REB',awaySht:'FCE',date: convertTime("2015-06-12 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
+        {homeSht:'BRM',awaySht:'CRU',date: convertTime("2015-06-13 17:30", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
+        {homeSht:'CHF',awaySht:'HUR',date: convertTime("2015-06-13 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
+        {homeSht:'WAR',awaySht:'RED',date: convertTime("2015-06-13 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
+        {homeSht:'BUL',awaySht:'CTH',date: convertTime("2015-06-14 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
+        {homeSht:'SHK',awaySht:'STM',date: convertTime("2015-06-14 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
+
+
+
+
         ];
         
     League.findOne({name:leagueName}, function (err, league) {
@@ -248,6 +401,7 @@ function updateFixture(leagueName, eventName){
 
 }
 
+// DO THE BYE ROUNDS AS A SEPERATE BATCH AS THEY GET 4 POINTS FOR EACH BYE ANYWAY. LIST OF BYES AT SUPER15.CO>NZ (unoffical iste)
 
 mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
 var db = mongoose.connection;
