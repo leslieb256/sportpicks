@@ -31,3 +31,14 @@ fixtureSchema.methods.rounds = function(cb){
 
 // create the model for users and expose it to our app
 module.exports = mongoose.model('Fixture', fixtureSchema);
+
+/**
+ * 
+ * Fixture type determines what type of fixture it is. Usually it is
+ * "Match" denoting a fixutre where the user needs to select things based on
+ * the competition type.
+ * Another type is "Bye" where a team may not be in a round but still
+ * score points. This is included so that league points for a team may
+ * be tracked even though it is invisible to the user.
+ * 
+ **/
