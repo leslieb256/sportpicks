@@ -363,7 +363,7 @@ function updateFixture(leagueName, eventName){
                                                             //load a new set of rounds
                                                             Team.findOne({shtcode:fixtureData.winner}, function(err, winner){
                                                                 Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date, event: event._id, league: league._id},
-                                                                {$set:{round: round._id}},
+                                                                {$set:{round: round._id, type:'match'}},
                                                                     {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString())}
                                                                     );
                                                             });
@@ -412,6 +412,24 @@ db.once('open', function callback(){
     //loadCompetitions(); DONE 2015
     //updateTeams(); DONE 2015
     //updateRounds('Super Rugby','2015 Season'); DONE 2015
-    updateFixture('Super Rugby','2015 Season');
+    // updateFixture('Super Rugby','2015 Season');
+    var Fixture = require('../models/fixture');
+    Fixture.find({}).exec(function(err, fixtures){
+            fixtures.forEach(function (fixture){
+                fixture.type = 'match';
+                fixture.save();
+                console.log(fixture._id);
+        });
+    });
     console.log("done");
 });
+
+/**
+ * 
+ * 
+ * Tank.findByIdAndUpdate(id, { $set: { size: 'large' }}, function (err, tank) {
+  if (err) return handleError(err);
+  res.send(tank);
+});
+
+**/

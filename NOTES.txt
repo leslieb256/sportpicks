@@ -15,8 +15,6 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-Change images siezes to 'em' eg: width=5em.
-
 
 TODO - SHORT TERM
 =================
