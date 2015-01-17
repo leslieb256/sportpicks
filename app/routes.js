@@ -353,50 +353,7 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/');
 }
 
-function collatePicks(userPicks){
-	var Competition =require('../app/models/competition');
-	var async = require('async');
 
-	var data={};
-	console.log('WOKRING OUT PICK DATA');
-	console.log('WINNER IN req.body %s',userPicks.winner);
-	Competition.findById(userPicks.competitionId).exec(function (err, competition){
-	// ADD AN ASYNC HERE TO CONTROL RETURNING THE DATA, ATM IT IS RETUNRING DATA BEFORE WOKRING OUT WTF the DATA IS.
-		async.forEachSeries(competition.scoring,function(option, callback_so){
-		//competition.scoring.forEach(function (option){
-			if (option.type=='winner'){
-				if (userPicks.winner === undefined){
-					return {};
-				}
-				else{
-					console.log('WINNER:%s',userPicks.winner);
-					data.winner = userPicks.winner;
-				}
-			}
-			if (option.type == 'exactResult'){
-				if (userPicks.homeScore === undefined || userPicks.awayScore === undefined){
-					return {};
-				}
-				else{
-					data.homeScore = userPicks.homeScore;
-					data.awayScore = userPicks.awayScore;
-					console.log('DID DATA.WINNER, data score1 STORE: %s %s %s',data.winner, data.homeScore, data.awayScore);					
-				}
-			}
-			if (option.type== 'scoreDifference'){
-				if(userPicks.scoreDifference===undefined){
-					return {};
-				}
-				else{
-					data.scoreDifference = userPicks.scoreDifference;
-				}
-			} 
-			callback_so();	
-		});
-	});
-	console.log('DATA at end of creating picks %s',data.winner);
-	return data;
-}
 
 function createCompetitionLookup(queryData){
 	var lookup = {};

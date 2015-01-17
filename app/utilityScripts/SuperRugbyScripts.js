@@ -174,8 +174,8 @@ function updateFixture(leagueName, eventName){
     var Fixture = require('../models/fixture');
 
     var fixtureList = [
+
         // *** ROUND 1 ***
-        
         {homeSht:'CRU',awaySht:'REB',date: convertTime("2015-02-13 19:35", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
         {homeSht:'BRM',awaySht:'RED',date: convertTime("2015-02-13 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
         {homeSht:'LNS',awaySht:'HUR',date: convertTime("2015-02-14 06:10", "Pacific/Auckland","UTC"),roundName: 'Round 1',type: 'match'},
@@ -331,9 +331,6 @@ function updateFixture(leagueName, eventName){
         {homeSht:'WAR',awaySht:'RED',date: convertTime("2015-06-13 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
         {homeSht:'BUL',awaySht:'CTH',date: convertTime("2015-06-14 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
         {homeSht:'SHK',awaySht:'STM',date: convertTime("2015-06-14 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
-
-
-
 
         ];
         

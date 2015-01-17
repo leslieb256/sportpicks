@@ -11,7 +11,9 @@ var pointSchema = new mongoose.Schema({
     round:{type: mongoose.Schema.Types.ObjectId, ref: 'Round'},
     fixture: {type: mongoose.Schema.Types.ObjectId, ref: 'Fixture'},
     ranking: Number,
-    points: Number
+    points: Number,
+    cummulativePoints: Number,
+    cummulativePointAll: [Number]
 });
 
 // methods ======================

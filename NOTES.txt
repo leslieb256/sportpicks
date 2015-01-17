@@ -15,20 +15,18 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
+* update fixture thing should work out score difference, winner and home/away pts by itself (will need seperate ones for Super15 and Aleague though), note Super15 will still need points added manually as 
+they get bonus points for# of tries.
+
+Round chart data should be based on the date of the last fixture (lastFixtureClosing Date)
 
 TODO - SHORT TERM
 =================
 
-* make fictures page only pick up ficxtures with type: match
-
-* add Super15 fixutres with type: bye, Bye is to allow points to be reocrded for team with a bye.
-
-* add nots on fixture type: bye to the model.
-
-* update fixture thing should work out score difference, winner and home/away pts by itself (will need seperate ones for Super15 and Aleague though).
-
 * need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
 
+*   Should create graphs of how you are doing. Also, when scoring ficture/round and comp should calc mean, media and mode scores to compaare the player with. At minimum should show each player against median and current leader
+    Chart.js dimple.js? chart looks like the easiest option.
 
 see scoring.js for valid scoring options
 
@@ -51,7 +49,7 @@ Results: http://www.a-league.com.au/results/214/2014/0/4
 
 SUPER15
 ========
-http://www.superxv.com/fixtures/
+http://www.superxv.com/fixtures/ - note: 4 ppints for win, 0 for loss, 2 for draw, 1 pt if you lose within 7 points and 1 point if you win by more than 4 tries
 http://superrugby.com/co.nz for the offical site - use this data.
 
 
@@ -64,9 +62,6 @@ TODO LONG TERM
 *   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
 
 *   Should create statistics by compeition on % of people that selected the various results, should maybe have the points table?, %age of people that picked the correct margin?
-
-*   Should create graphs of how you are doing. Also, when scoring ficture/round and comp should calc mean, media and mode scores to compaare the player with. At minimum should show each player against median and current leader
-    Chart.js dimple.js? chart looks like the easiest option.
 
 *   Competition model needs a closing date, probably the date of the last fixture in the event.
 
@@ -95,10 +90,7 @@ TODO LONG TERM
 
 *    when users are added it should take the first part of the email address and make that the display name by default. The user should also be able to change displayname at anytime.
 
-*   shoudl email users last tune results and that picks are due.
-
 *   should page scrape results or have a decent results entry screen
-
 
 * on th epicks screen need to be able to speciy in competiton or event whether a draw can be selected as some comeption types may not be able to draw (eg: world cup)
 
@@ -106,8 +98,6 @@ TODO LONG TERM
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
 
 * Make the list of rounds a table of links, later can make it sortable or something.
-
-* need to link teams to compeitions, each A leagaue team needs a "Leagaue: ..." in their record
 
 * Add round type:'fixture' and lastFixtureDates(?) to Aleague rounds for 2014/15 - this may be a compatability issue later. Type is to differentiate between rounds and bonus rounds etc, maybe finals as well?
 
@@ -117,8 +107,10 @@ TODO LONG TERM
 
 * set redirect so that people can log in and it takes you to the relevent page automtically.
 
-* should check if user is registered in a compeitiotn that is linked to the event/fixture.
+* should check if user is registered in a compeitiotn that is linked to the event/fixture before accepting pick
 
 * Next round/previous round buttons on the round page.
 
-* currently set so that fixture closes 1 hour before the first game of aroudn. later change to be set to either 12 hor before each fixtur
+*   shoudl email users last tune results and that picks are due.
+
+* use sendgrid free plan to send emails?

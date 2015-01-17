@@ -532,6 +532,111 @@ function testScoringOptions(scoringOptions, pick) {
 }
 
 
+function updateCummulativeRoundPoints(startRoundId){
+    var async = require('async');
+    var Competition = require('./app/models/competition');
+ //   var Event = require('./app/models/event');
+ //   var League = require('./app/models/league');
+    var Round = require('./app/models/round');
+//    var Fixture = require('./app/models/fixture');
+    var User = require('./app/models/user');
+    var Point = require('./app/models/point');
+
+    console.log('IN rankingChartData');
+
+    Round.findById(startRoundId).populate('event').exec(function(err,startRound){
+       if(err){console.log('\tERR in startRound query: %s',err)}
+       else{
+           // work out which rounds need updating
+           Round.find({ roundPosition:{$gte: startRound.roundPosition}, closeDate:{$lt: new Date()} }).exec(function(err, rounds){
+               if (err) {console.log('\tERR in finding rounds to look at query: %s',err)}
+               else{
+                    //console.log(startRound.event.id);
+                   Competition.find({event: startRound.event.id}).exec(function(err, competitions){
+                        if(err){console.log('\tERR in getting Comptitions List: %s',err)}
+                        else {
+                            competitions.forEach(function (competition){
+                                competition.usersAccepted.forEach(function(user){
+                                    //console.log(user.local.name);
+                                    Point.find({user:user, type:'round'}).where('round').in(rounds).populate('round').populate('user').sort('round.roundPosition').exec(function(err,points){
+                                        if(err){console.log('\tERR in getting Comptitions List: %s',err)}
+                                        else{
+                                            points.forEach(function(point){
+                                               console.log('USER: %s | ROUND: %s',point.user.displayName,point.round.roundPosition); 
+                                            });
+                                    // get users points for the given rounds (in order of ROUND position)
+                                    // async foreach them and record the cummulative points leading to the round eg: round 1 = 1 record, round 5 = 5 items in array
+                                    //save each updated round
+                                
+                                        }
+                                    
+                                    });
+                                    
+                                });
+                            });
+                            
+                        }
+                   });
+                    
+               }
+           });
+       }
+    });
+
+
+    // RoundPoints will have a field called cummulativePoints Then to get the data you
+    // run a query by forEach user in comp to get their points for the dataset.
+    // This query actually calcaultes cummulative points.
+    
+	// returns an object containing the information required for chart.js to
+	// create a chart showing ranking by round over time for the users
+	// WILL NEED TO USE ASYNC WATERFALL AS DATA BEING APSSED BACK BIT BY BIT
+	// WITH A FINAL RETURN
+	
+	// get all rounds in comp that are closed in order of clsing date
+		// create a list of round labels and create a list of ruod IDs (use async)
+		
+	//for each user in the compeition get the points for the rounds in order
+		// async through the user rounds to create the data setss and append them
+		// to data.dataset.
+	
+	// save it to the compeititon (will need to edit schema!)
+	
+	
+
+/**
+ * EXAMPLE FROM SITE
+ * var data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+            label: "My Second dataset",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [28, 48, 40, 19, 86, 27, 90]
+        }
+    ]
+};
+ * 
+ **/
+	
+}
+
+
 
 // connect to the database
 mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
@@ -557,7 +662,9 @@ db.once('open', function callback(){
     //getFixtures()
    // console.log('TEST: %s',picksAvailByComp('5401512fb918a6b661d42b77'));
     //picksMade();
-    console.log(testScoringOptions({type:'scoreDifference',margins:[7,14], points:5},{scoreDifference:7}));
+    //console.log(testScoringOptions({type:'scoreDifference',margins:[7,14], points:5},{scoreDifference:7}));
+    
+    updateCummulativeRoundPoints('542bd1842367c9209a739133');
 });
 
 
