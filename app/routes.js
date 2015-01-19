@@ -360,24 +360,30 @@ function isLoggedIn(req, res, next) {
 function createCjsDataPointHistory(pointsData){
     // takes a competition ID and formats the data so that ChartJS can
     // draw the chart
-    var chartData = {};
-    chartData.labels = pointsData[0].historyTitles;
-    //console.log(pointsData[0]);
-    chartData.datasets=[];
-    pointsData.forEach(function (point){
-        var dataset = {};
-        dataset.label = point.user.displayName;
-        dataset.data = point.cummulativePointsHistory;
-        dataset.fillColor= "rgba(220,220,220,0.2)";
-        dataset.strokeColor= "rgba(220,220,220,1)";
-        dataset.pointColor= "rgba(220,220,220,1)";
-        dataset.pointStrokeColor= "#fff";
-        dataset.pointHighlightFill= "#fff";
-        dataset.pointHighlightStroke= "rgba(220,220,220,1)";
-        //console.log(dataset);
-        chartData.datasets.push(dataset);
-    });
-    return (chartData);
+	try {
+		var chartData = {};
+	    chartData.labels = pointsData[0].historyTitles;
+	    //console.log(pointsData[0]);
+	    chartData.datasets=[];
+	    pointsData.forEach(function (point){
+	        var dataset = {};
+	        dataset.label = point.user.displayName;
+	        dataset.data = point.cummulativePointsHistory;
+	        dataset.fillColor= "rgba(220,220,220,0.2)";
+	        dataset.strokeColor= "rgba(220,220,220,1)";
+	        dataset.pointColor= "rgba(220,220,220,1)";
+	        dataset.pointStrokeColor= "#fff";
+	        dataset.pointHighlightFill= "#fff";
+	        dataset.pointHighlightStroke= "rgba(220,220,220,1)";
+	        //console.log(dataset);
+	        chartData.datasets.push(dataset);
+    	});
+    	return (chartData);
+	}
+	catch (err) {
+		//probably end up here because there is no points History Data
+		return null;
+	}
 }
 
 
