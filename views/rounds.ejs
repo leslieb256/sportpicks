@@ -68,9 +68,11 @@
 			<canvas id="pointsHistoryChart" ></canvas>
 			<script type="text/javascript">
 				Chart.defaults.global.responsive = true;
+				Chart.defaults.global.showScale = false;
+				Chart.defaults.global.tooltipFontSize = 10;
 				Chart.defaults.global.multiTooltipTemplate = "<%- pointsHistoryToolTip %>";
 				var pointsHistoryChart = document.getElementById('pointsHistoryChart').getContext('2d');
-				new Chart (pointsHistoryChart).Line(<%- pointsHistoryData %>,{bezierCurve:false});
+				new Chart (pointsHistoryChart).Line(<%- pointsHistoryData %>,{bezierCurve:false,scaleShowGridLines:false});
 			</script>
 			<% } %>
 		</div>
