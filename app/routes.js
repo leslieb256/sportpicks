@@ -77,7 +77,7 @@ module.exports = function(app, passport) {
 		var Competition = require('../app/models/competition');
 		var League = require('../app/models/league');
 		var Event = require('../app/models/event');
-		
+
 		Competition.find({usersAccepted:req.user.id}).populate('event league').exec( function(err,comps) {
 			if (err) {console.log('ERR: compeitions page on comps')}
 			else{
@@ -128,7 +128,9 @@ module.exports = function(app, passport) {
 													rounds: rounds,
 													competition: comp,
 													points: createRoundLookup(points),
-													rankings:rank
+													rankings:rank,
+													pointsHistoryData: JSON.stringify(createCjsDataPointHistory(rank)),
+													pointsHistoryToolTip: "<%= datasetLabel%>:<%= value %>"
 												});
 											}
 										});
@@ -353,6 +355,30 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/');
 }
 
+
+
+function createCjsDataPointHistory(pointsData){
+    // takes a competition ID and formats the data so that ChartJS can
+    // draw the chart
+    var chartData = {};
+    chartData.labels = pointsData[0].historyTitles;
+    //console.log(pointsData[0]);
+    chartData.datasets=[];
+    pointsData.forEach(function (point){
+        var dataset = {};
+        dataset.label = point.user.displayName;
+        dataset.data = point.cummulativePointsHistory;
+        dataset.fillColor= "rgba(220,220,220,0.2)";
+        dataset.strokeColor= "rgba(220,220,220,1)";
+        dataset.pointColor= "rgba(220,220,220,1)";
+        dataset.pointStrokeColor= "#fff";
+        dataset.pointHighlightFill= "#fff";
+        dataset.pointHighlightStroke= "rgba(220,220,220,1)";
+        //console.log(dataset);
+        chartData.datasets.push(dataset);
+    });
+    return (chartData);
+}
 
 
 function createCompetitionLookup(queryData){

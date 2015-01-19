@@ -535,10 +535,7 @@ function testScoringOptions(scoringOptions, pick) {
 function updateCummulativeRoundPoints(startRoundId){
     var async = require('async');
     var Competition = require('./app/models/competition');
- //   var Event = require('./app/models/event');
- //   var League = require('./app/models/league');
     var Round = require('./app/models/round');
-//    var Fixture = require('./app/models/fixture');
     var User = require('./app/models/user');
     var Point = require('./app/models/point');
 
@@ -558,18 +555,61 @@ function updateCummulativeRoundPoints(startRoundId){
                             competitions.forEach(function (competition){
                                 competition.usersAccepted.forEach(function(user){
                                     //console.log(user.local.name);
-                                    Point.find({user:user, type:'round'}).where('round').in(rounds).populate('round').populate('user').sort('round.roundPosition').exec(function(err,points){
+                                    Point.find({user:user, type:'round'}).where('round').in(rounds).populate('round').populate('user').lean().exec(function(err,points){
                                         if(err){console.log('\tERR in getting Comptitions List: %s',err)}
                                         else{
-                                            points.forEach(function(point){
-                                               console.log('USER: %s | ROUND: %s',point.user.displayName,point.round.roundPosition); 
-                                            });
-                                    // get users points for the given rounds (in order of ROUND position)
-                                    // async foreach them and record the cummulative points leading to the round eg: round 1 = 1 record, round 5 = 5 items in array
-                                    //save each updated round
-                                
+                                            
+                                            // Sort the points data ascending by the round position.
+                                            points.sort(function (a,b){ return a.round.roundPosition - b.round.roundPosition; });
+    
+                                            // need to waterfall this so that once the points history is calculated it can be stored in the compPoints for the user.
+                                            async.waterfall([
+                                                function collatePoints(collatePointsCallback){
+                                                    // set the starting points for the points to be the total for the first round to be caclualted
+                                                    // we also have to remove this rounds points from the running total before we start or else there will be a double up.
+                                                    var totalPoints = 0;
+                                                    if (points[0].cummulativePoints) {totalPoints = points[0].cummulativePoints - points[0].points;}
+
+                                                    // set the starting points history for the points to be the same as for first round to be caclualted
+                                                    // we also have to remove this last entry from the points history before we start or else there will be a double up.
+                                                    var pointsHistory=[];
+                                                    if(points[0].cummulativePointHistory) {
+                                                        pointsHistory = points[0].cummulativePointHistory;
+                                                        pointsHistory.pop();
+                                                    }
+                                                    
+                                                    var historyTitles = [];
+                                                    if(points[0].historyTitles){
+                                                        historyTitles = points[0].historyTitles;
+                                                        historyTitles.pop();
+                                                    }
+
+                                                    async.eachSeries(points, function(point, pointsCallback){
+                                                       totalPoints += point.points;
+                                                       pointsHistory.push (totalPoints);
+                                                       historyTitles.push(point.round.name);
+                                                       // Store cummulative point total for round in the points for the round.
+                                                       Point.findByIdAndUpdate(point._id,{ $set: {cummulativePoints: totalPoints} },
+                                                        function (err, updatedPoints){
+                                                            if (err){pointsCallback('Failed to update the cummulativePoints in Point')}
+                                                        });
+                                                        pointsCallback(null);
+                                                    });
+                                                    collatePointsCallback(null, pointsHistory, historyTitles);
+                                                },
+                                                function storePointHistory (pointsHistory, historyTitles, sphCallback){
+                                                    // Store the cummulativePointsHistory in the compeitionPoint document
+                                                    Point.update({type:'event', user:user, competition:competition._id},
+                                                                 {$set: {cummulativePointsHistory:pointsHistory, historyTitles: historyTitles}}, 
+                                                                 {upsert:false}, function(err){
+                                                                    if (err) {console.log('Failed to store cummulativePointsHistory in Point')}
+                                                                    else {console.log('Sotre good')}
+                                                     });
+                                                    sphCallback(null);
+                                                },
+                                                function (error) {if (error){console.log('error triggered: %s',error)}}
+                                            ]);
                                         }
-                                    
                                     });
                                     
                                 });
@@ -582,27 +622,31 @@ function updateCummulativeRoundPoints(startRoundId){
            });
        }
     });
+}
 
+function createCjsDataPointHistory(pointsData){
+    // takes a competition ID and formats the data so that ChartJS can
+    // draw the chart
+    var chartData = {};
+    chartData.labels = pointsData[0].historyTitles;
+    //console.log(pointsData[0]);
+    chartData.datasets=[];
+    pointsData.forEach(function (point){
+        var dataset = {};
+        dataset.label = point.user.displayName;
+        dataset.data = point.cummulativePointsHistory;
+        dataset.fillColor= "rgba(220,220,220,0.2)";
+        dataset.strokeColor= "rgba(220,220,220,1)";
+        dataset.pointColor= "rgba(220,220,220,1)";
+        dataset.pointStrokeColor= "#fff";
+        dataset.pointHighlightFill= "#fff";
+        dataset.pointHighlightStroke= "rgba(220,220,220,1)";
+        //console.log(dataset);
+        chartData.datasets.push(dataset);
+    });
+    return (chartData);
+}
 
-    // RoundPoints will have a field called cummulativePoints Then to get the data you
-    // run a query by forEach user in comp to get their points for the dataset.
-    // This query actually calcaultes cummulative points.
-    
-	// returns an object containing the information required for chart.js to
-	// create a chart showing ranking by round over time for the users
-	// WILL NEED TO USE ASYNC WATERFALL AS DATA BEING APSSED BACK BIT BY BIT
-	// WITH A FINAL RETURN
-	
-	// get all rounds in comp that are closed in order of clsing date
-		// create a list of round labels and create a list of ruod IDs (use async)
-		
-	//for each user in the compeition get the points for the rounds in order
-		// async through the user rounds to create the data setss and append them
-		// to data.dataset.
-	
-	// save it to the compeititon (will need to edit schema!)
-	
-	
 
 /**
  * EXAMPLE FROM SITE
@@ -634,7 +678,7 @@ function updateCummulativeRoundPoints(startRoundId){
  * 
  **/
 	
-}
+
 
 
 
@@ -664,7 +708,14 @@ db.once('open', function callback(){
     //picksMade();
     //console.log(testScoringOptions({type:'scoreDifference',margins:[7,14], points:5},{scoreDifference:7}));
     
-    updateCummulativeRoundPoints('542bd1842367c9209a739133');
+    //updateCummulativeRoundPoints('542bd1842367c9209a739130');
+    Point.find({competition:'542a5ffa736e3e35532f2d24', type:'event'}).populate('user').exec(function (err, pointsData){
+        console.log(createCjsDataPointHistory(pointsData));
+        //createCjsDataPointHistory(pointsData);
+        //console.log(pointsData);
+    });
+
+    
 });
 
 

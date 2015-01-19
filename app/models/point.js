@@ -13,7 +13,8 @@ var pointSchema = new mongoose.Schema({
     ranking: Number,
     points: Number,
     cummulativePoints: Number,
-    cummulativePointAll: [Number]
+    cummulativePointsHistory: [Number],
+    historyTitles: [String]
 });
 
 // methods ======================

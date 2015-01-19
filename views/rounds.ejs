@@ -8,6 +8,7 @@
 	<style>
 		body 		{ padding-top:80px; word-wrap:break-word; }
 	</style>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.min.js'></script>
 	<script type="text/javascript">
 		function localTime(utcTime, adjustment){
 			var m_lng = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
@@ -23,6 +24,7 @@
 
 </head>
 <body>
+	
 <div class="container">
 
 	<div class="page-header text-center">
@@ -60,6 +62,18 @@
 				<tr <% if (rankings.user._id == user.id) { %> class="active" <% } %> ><td><%= rankings.ranking %></td><td><%= rankings.user.displayName %></td></td><td><%= rankings.points %></td></tr>				
 				<% }) %>
 			</table>
+
+			<!--create canvas for chart -->
+			<canvas id="pointsHistoryChart" width="400" height="400"></canvas>
+	
+
+			<script type="text/javascript">
+				Chart.defaults.global.responsive = true;
+				Chart.defaults.global.multiTooltipTemplate = "<%- pointsHistoryToolTip %>";
+				var pointsHistoryChart = document.getElementById('pointsHistoryChart').getContext('2d');
+				new Chart (pointsHistoryChart).Line(<%- pointsHistoryData %>,{bezierCurve:false});
+			</script>
+
 		</div>
 
 	</div>
