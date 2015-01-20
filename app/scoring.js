@@ -389,6 +389,99 @@ function updateCompetitionEventRanking(fixture){
     });
 }
 
+function updateCummulativeRoundPoints(startRoundId){
+    var async = require('async');
+    var Competition = require('./app/models/competition');
+    var Round = require('./app/models/round');
+    var User = require('./app/models/user');
+    var Point = require('./app/models/point');
+
+    console.log('IN rankingChartData');
+
+    Round.findById(startRoundId).populate('event').exec(function(err,startRound){
+       if(err){console.log('\tERR in startRound query: %s',err)}
+       else{
+           // work out which rounds need updating
+           Round.find({ roundPosition:{$gte: startRound.roundPosition}, closeDate:{$lt: new Date()} }).exec(function(err, rounds){
+               if (err) {console.log('\tERR in finding rounds to look at query: %s',err)}
+               else{
+                    //console.log(startRound.event.id);
+                   Competition.find({event: startRound.event.id}).exec(function(err, competitions){
+                        if(err){console.log('\tERR in getting Comptitions List: %s',err)}
+                        else {
+                            competitions.forEach(function (competition){
+                                competition.usersAccepted.forEach(function(user){
+                                    //console.log(user.local.name);
+                                    Point.find({user:user, type:'round'}).where('round').in(rounds).populate('round').populate('user').lean().exec(function(err,points){
+                                        if(err){console.log('\tERR in getting Comptitions List: %s',err)}
+                                        else{
+                                            
+                                            // Sort the points data ascending by the round position.
+                                            points.sort(function (a,b){ return a.round.roundPosition - b.round.roundPosition; });
+    
+                                            // need to waterfall this so that once the points history is calculated it can be stored in the compPoints for the user.
+                                            async.waterfall([
+                                                function collatePoints(collatePointsCallback){
+                                                    // set the starting points for the points to be the total for the first round to be caclualted
+                                                    // we also have to remove this rounds points from the running total before we start or else there will be a double up.
+                                                    var totalPoints = 0;
+                                                    if (points[0].cummulativePoints) {totalPoints = points[0].cummulativePoints - points[0].points;}
+
+                                                    // set the starting points history for the points to be the same as for first round to be caclualted
+                                                    // we also have to remove this last entry from the points history before we start or else there will be a double up.
+                                                    var pointsHistory=[];
+                                                    if(points[0].cummulativePointHistory) {
+                                                        pointsHistory = points[0].cummulativePointHistory;
+                                                        pointsHistory.pop();
+                                                    }
+                                                    
+                                                    var historyTitles = [];
+                                                    if(points[0].historyTitles){
+                                                        historyTitles = points[0].historyTitles;
+                                                        historyTitles.pop();
+                                                    }
+
+                                                    async.eachSeries(points, function(point, pointsCallback){
+                                                       totalPoints += point.points;
+                                                       pointsHistory.push (totalPoints);
+                                                       historyTitles.push(point.round.name);
+                                                       // Store cummulative point total for round in the points for the round.
+                                                       Point.findByIdAndUpdate(point._id,{ $set: {cummulativePoints: totalPoints} },
+                                                        function (err, updatedPoints){
+                                                            if (err){pointsCallback('Failed to update the cummulativePoints in Point')}
+                                                        });
+                                                        pointsCallback(null);
+                                                    });
+                                                    collatePointsCallback(null, pointsHistory, historyTitles);
+                                                },
+                                                function storePointHistory (pointsHistory, historyTitles, sphCallback){
+                                                    // Store the cummulativePointsHistory in the compeitionPoint document
+                                                    Point.update({type:'event', user:user, competition:competition._id},
+                                                                 {$set: {cummulativePointsHistory:pointsHistory, historyTitles: historyTitles}}, 
+                                                                 {upsert:false}, function(err){
+                                                                    if (err) {console.log('Failed to store cummulativePointsHistory in Point')}
+                                                                    else {console.log('Sotre good')}
+                                                     });
+                                                    sphCallback(null);
+                                                },
+                                                function (error) {if (error){console.log('error triggered: %s',error)}}
+                                            ]);
+                                        }
+                                    });
+                                    
+                                });
+                            });
+                            
+                        }
+                   });
+                    
+               }
+           });
+       }
+    });
+}
+
+
     // =====================================
     // FAKE DATA FOR SCORING TESTING =======
     // =====================================
@@ -542,12 +635,10 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
    // TEST UPDATE SCORE
-   //updateScoreByFixtureId('5450a7e5e1b59aa496b5b273');
    updateScoreForFixtureList(['53fc6408b918a6b661d423e1']);
-   // scoreFixture('5450a7e5e1b59aa496b5b273');
-   //RND1FIX:542c9ae12367c9209a739150
-   //RND2FIX: 5434a4cc2367c9209a73916f
-   
+   updateCummulativeRoundPoints("ROUNDID");
+
+
    // TEST SCORING OPTION
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));
    console.log(testPick2.pickcomment + " : "+fixtureScoring(testPick2,testFixture,testCompetition));
