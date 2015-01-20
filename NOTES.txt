@@ -19,9 +19,8 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
-* Move the test query for cummulative points in to the Scoring.js
-
 *   Competition model needs a closing date, probably the date of the last fixture in the event.
+    in Event but should be copied to compeition
 
 * Add round type:'fixture' and lastFixtureDates(?) to Aleague rounds for 2014/15 - this may be a compatability issue later. Type is to differentiate between rounds and bonus rounds etc, maybe finals as well?
 

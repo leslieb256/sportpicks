@@ -372,7 +372,7 @@ function createCjsDataPointHistory(pointsData,userId){
 	        dataset.data = point.cummulativePointsHistory;
 			//console.log('user:%s ranking: %s', point.user.displayName, point.ranking);
 	        if (String(userId) == String(point.user._id)){
-		        dataset.fillColor= "rgba(180,0,0,0.2)";
+		        dataset.fillColor= "rgba(220,220,220,0.1)";
 		        dataset.strokeColor= "rgba(180,0,0,1)";
 		        dataset.pointColor= "rgba(180,0,0,1)";
 		        dataset.pointStrokeColor= "#fff";
@@ -381,7 +381,7 @@ function createCjsDataPointHistory(pointsData,userId){
 	        }
 	        else {
    		        if (point.ranking == 1){
-			        dataset.fillColor= "rgba(128,128,128,0.2)";
+			        dataset.fillColor= "rgba(220,220,220,0.1)";
 			        dataset.strokeColor= "rgba(128,128,128,1)";
 			        dataset.pointColor= "rgba(128,128,128,1)";
 			        dataset.pointStrokeColor= "#fff";
@@ -389,7 +389,7 @@ function createCjsDataPointHistory(pointsData,userId){
 			        dataset.pointHighlightStroke= "rgba(128,128,128,1)";
 		        }
 		        else {
-			        dataset.fillColor= "rgba(220,220,220,0.2)";
+			        dataset.fillColor= "rgba(220,220,220,0.1)";
 			        dataset.strokeColor= "rgba(220,220,220,1)";
 			        dataset.pointColor= "rgba(220,220,220,1)";
 			        dataset.pointStrokeColor= "#fff";

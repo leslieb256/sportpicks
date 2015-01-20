@@ -65,16 +65,16 @@
 
 			<!--create canvas for chart -->
 			<%if (pointsHistoryData) { %>
-			<h4>Points History</h4>
-			<canvas id="pointsHistoryChart" height="400" width="800"></canvas>
-			<script type="text/javascript">
-				Chart.defaults.global.responsive = true;
-				Chart.defaults.global.showScale = false;
-				Chart.defaults.global.tooltipFontSize = 10;
-				Chart.defaults.global.multiTooltipTemplate = "<%- pointsHistoryToolTip %>";
-				var pointsHistoryChart = document.getElementById('pointsHistoryChart').getContext('2d');
-				new Chart (pointsHistoryChart).Line(<%- pointsHistoryData %>,{bezierCurve:false,scaleShowGridLines:false});
-			</script>
+				<h4>Points History</h4>
+				<canvas id="pointsHistoryChart" height="400" width="800"></canvas>
+				<script type="text/javascript">
+					Chart.defaults.global.responsive = true;
+					Chart.defaults.global.showScale = false;
+					Chart.defaults.global.tooltipFontSize = 10;
+					Chart.defaults.global.multiTooltipTemplate = "<%- pointsHistoryToolTip %>";
+					var pointsHistoryChart = document.getElementById('pointsHistoryChart').getContext('2d');
+					new Chart (pointsHistoryChart).Line(<%- pointsHistoryData %>,{bezierCurve:false,scaleShowGridLines:false});
+				</script>
 			<% } %>
 		</div>
 

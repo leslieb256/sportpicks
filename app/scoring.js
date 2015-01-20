@@ -392,9 +392,9 @@ function updateCompetitionEventRanking(fixture){
 function updateCummulativeRoundPoints(startRoundId){
     var async = require('async');
     var Competition = require('./app/models/competition');
-    var Round = require('./app/models/round');
-    var User = require('./app/models/user');
-    var Point = require('./app/models/point');
+    var Round = require('../app/models/round');
+    var User = require('../app/models/user');
+    var Point = require('../app/models/point');
 
     console.log('IN rankingChartData');
 
