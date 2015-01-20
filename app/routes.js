@@ -121,7 +121,8 @@ module.exports = function(app, passport) {
 										Point.find({competition:comp.id, type:'round', user:req.user.id}).exec(function(err,points){
 											if (err){console.log('ERR: round page on points')}
 											else{
-												//console.log(rank);
+												console.log(req.user._id);
+												console.log(rank[0].user._id);
 												//console.log(createCompetitionLookup(rank));
 												res.render('rounds.ejs', {
 													user : req.user, // get the user out of session and pass to template
@@ -129,7 +130,7 @@ module.exports = function(app, passport) {
 													competition: comp,
 													points: createRoundLookup(points),
 													rankings:rank,
-													pointsHistoryData: JSON.stringify(createCjsDataPointHistory(rank)),
+													pointsHistoryData: JSON.stringify(createCjsDataPointHistory(rank,req.user._id)),
 													pointsHistoryToolTip: "<%= datasetLabel%>:<%= value %>"
 												});
 											}
@@ -357,7 +358,7 @@ function isLoggedIn(req, res, next) {
 
 
 
-function createCjsDataPointHistory(pointsData){
+function createCjsDataPointHistory(pointsData,userId){
     // takes a competition ID and formats the data so that ChartJS can
     // draw the chart
 	try {
@@ -369,12 +370,33 @@ function createCjsDataPointHistory(pointsData){
 	        var dataset = {};
 	        dataset.label = point.user.displayName;
 	        dataset.data = point.cummulativePointsHistory;
-	        dataset.fillColor= "rgba(220,220,220,0.2)";
-	        dataset.strokeColor= "rgba(220,220,220,1)";
-	        dataset.pointColor= "rgba(220,220,220,1)";
-	        dataset.pointStrokeColor= "#fff";
-	        dataset.pointHighlightFill= "#fff";
-	        dataset.pointHighlightStroke= "rgba(220,220,220,1)";
+			//console.log('user:%s ranking: %s', point.user.displayName, point.ranking);
+	        if (String(userId) == String(point.user._id)){
+		        dataset.fillColor= "rgba(0,0,0,0.2)";
+		        dataset.strokeColor= "rgba(0,0,0,1)";
+		        dataset.pointColor= "rgba(0,0,0,1)";
+		        dataset.pointStrokeColor= "#fff";
+		        dataset.pointHighlightFill= "#fff";
+		        dataset.pointHighlightStroke= "rgba(0,0,0,1)";
+	        }
+	        else {
+   		        if (point.ranking == 1){
+			        dataset.fillColor= "rgba(128,128,128,0.2)";
+			        dataset.strokeColor= "rgba(128,128,128,1)";
+			        dataset.pointColor= "rgba(128,128,128,1)";
+			        dataset.pointStrokeColor= "#fff";
+			        dataset.pointHighlightFill= "#fff";
+			        dataset.pointHighlightStroke= "rgba(128,128,128,1)";
+		        }
+		        else {
+			        dataset.fillColor= "rgba(220,220,220,0.2)";
+			        dataset.strokeColor= "rgba(220,220,220,1)";
+			        dataset.pointColor= "rgba(220,220,220,1)";
+			        dataset.pointStrokeColor= "#fff";
+			        dataset.pointHighlightFill= "#fff";
+			        dataset.pointHighlightStroke= "rgba(220,220,220,1)";
+		        }
+	        }
 	        //console.log(dataset);
 	        chartData.datasets.push(dataset);
     	});

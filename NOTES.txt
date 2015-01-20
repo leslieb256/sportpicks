@@ -14,12 +14,9 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 
 WORKING ON
 ==========
-*   Should create graphs of how you are doing. Also, when scoring ficture/round and comp should calc mean, media and mode scores to compaare the player with. At minimum should show each player against median and current leader
-    Chart.js dimple.js? chart looks like the easiest option.
+*   Chart data should be sorted alphabetically by first character of diplayname. Bes tplace to do this would be before passing back from Chart Data creattion, ie: beofre the JSONifity
 
-    NEED TO MAKE CURRENT USER AND 1st PLACE (RANKING 1) A NEW COLOUR, ALSO REMOVE POINTS FROM SIDE OF GRAPH TO GIVE ME ROOM, PUT GRAPH IN A CONTRAINER DIV, MIGHT HELP WITH TEH EDGE OF SCREEN ISSUE WHEN RESIXING
-    NEED TOCH EHCKED THERE IS CHART DATA OR ELSE DO NOT TRY TO DRA CHART!
-
+    
 TODO - SHORT TERM
 =================
 
