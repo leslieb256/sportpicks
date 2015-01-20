@@ -84,6 +84,7 @@ module.exports = function(app, passport) {
 				Competition.userRanking(req.user.id, function(err, rank){
 					if (err) {console.log('ERR: compeitions page on rank')}
 					else {
+						comps.sort(function compare(a,b) {if (a.event.lastFixtureDate > b.event.lastFixtureDate){return -1};if (a.event.lastFixtureDate < b.event.lastFixtureDate){return 1};return 0;});
 						//console.log(rank);
 						//console.log(createCompetitionLookup(rank));
 						res.render('competitions.ejs', {
@@ -122,7 +123,7 @@ module.exports = function(app, passport) {
 											if (err){console.log('ERR: round page on points')}
 											else{
 												//console.log(req.user._id);
-												console.log(rank);
+												//console.log(rank);
 												//console.log(createCompetitionLookup(rank));
 												res.render('rounds.ejs', {
 													user : req.user, // get the user out of session and pass to template

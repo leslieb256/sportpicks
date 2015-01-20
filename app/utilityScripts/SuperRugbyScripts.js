@@ -38,7 +38,7 @@ function updateEvent(){
         if (err) console.log("ERROR:"+err.toString());
         else {
             Event.update({name:'2015 Season'},
-                {$set: {league: league._id}},
+                {$set: {league: league._id, lastFixtureDate:(convertTime('2015-07-05 00:00',"Pacific/Auckland","UTC"))}},
                 {upsert:true},
                 function (err){
                     if (err) console.log("Event update Error:"+err.toString());
@@ -71,7 +71,7 @@ function loadCompetitions(){
                                 else{
                             
                                     Competition.create({
-                                        name: 'Wellington City Council',
+                                        name: 'WCC Finance',
                                         usersAccepted: [user2.id],
                                         league: league._id,
                                         event: event._id
@@ -140,6 +140,9 @@ function updateRounds(leagueName, eventName){
         {name:'Round 16',type: 'fixture', roundPosition: 16, firstFixture: "2015-05-29 19:35", lastFixture: "2015-05-31 05:10", ffTimeZone: "Pacific/Auckland"},
         {name:'Round 17',type: 'fixture', roundPosition: 17, firstFixture: "2015-06-05 19:35", lastFixture: "2015-06-07 03:05", ffTimeZone: "Pacific/Auckland"},
         {name:'Round 18',type: 'fixture', roundPosition: 18, firstFixture: "2015-06-12 19:35", lastFixture: "2015-06-14 05:10", ffTimeZone: "Pacific/Auckland"}, 
+        {name:'Qualifiers',type: 'fixture', roundPosition: 19, firstFixture: "2015-06-19 00:00", lastFixture: "2015-06-20 00:00", ffTimeZone: "Pacific/Auckland"},
+        {name:'Semi Finals',type: 'fixture', roundPosition: 20, firstFixture: "2015-06-19 00:00", lastFixture: "2015-06-27 00:00", ffTimeZone: "Pacific/Auckland"}, 
+        {name:'Final',type: 'fixture', roundPosition: 21, firstFixture: "2015-07-04 00:00", lastFixture: "2015-07-04 00:00", ffTimeZone: "Pacific/Auckland"}, 
     ];
     
     League.findOne({name:leagueName}, function (err, league) {
@@ -331,7 +334,18 @@ function updateFixture(leagueName, eventName){
         {homeSht:'WAR',awaySht:'RED',date: convertTime("2015-06-13 21:40", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
         {homeSht:'BUL',awaySht:'CTH',date: convertTime("2015-06-14 03:05", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
         {homeSht:'SHK',awaySht:'STM',date: convertTime("2015-06-14 05:10", "Pacific/Auckland","UTC"),roundName: 'Round 18',type: 'match'},
-
+/**
+        // *** QUALIFERS ***
+        {homeSht:'',awaySht:'',date: convertTime("2015-06-19", "Pacific/Auckland","UTC"),roundName: 'Qualifiers',type: 'match'},
+        {homeSht:'',awaySht:'',date: convertTime("2015-06-20", "Pacific/Auckland","UTC"),roundName: 'Qualifiers',type: 'match'},
+        
+        // *** SEMI FINALS ***
+        {homeSht:'',awaySht:'',date: convertTime("2015-06-26", "Pacific/Auckland","UTC"),roundName: 'Semi Finals',type: 'match'},
+        {homeSht:'',awaySht:'',date: convertTime("2015-06-27", "Pacific/Auckland","UTC"),roundName: 'Semi Finals',type: 'match'},
+        
+        // *** FINALS
+        {homeSht:'',awaySht:'',date: convertTime("2015-07-04", "Pacific/Auckland","UTC"),roundName: 'Final',type: 'match'},
+**/     
         ];
         
     League.findOne({name:leagueName}, function (err, league) {
@@ -405,21 +419,14 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
     //updateLeagues(); DONE
-    //updateEvent(); DONE 2015
+    //updateEvent(); 
     //loadCompetitions(); DONE 2015
     //updateTeams(); DONE 2015
-    //updateRounds('Super Rugby','2015 Season'); DONE 2015
+    updateRounds('Super Rugby','2015 Season'); //DONE 2015
     // updateFixture('Super Rugby','2015 Season');
-    var Fixture = require('../models/fixture');
-    Fixture.find({}).exec(function(err, fixtures){
-            fixtures.forEach(function (fixture){
-                fixture.type = 'match';
-                fixture.save();
-                console.log(fixture._id);
-        });
-    });
-    console.log("done");
 });
+
+// nEED TO UPDATE EVENT LAST FICTURE, SEMIS AND QUALS AND FINALS ONCE DATE AND TIME IS KNOWN.
 
 /**
  * 

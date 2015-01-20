@@ -5,7 +5,8 @@ var mongoose = require('mongoose');
 // define the schema for the competition model
 var eventSchema = new mongoose.Schema({
     name: String,
-    league: {type: mongoose.Schema.Types.ObjectId, ref: 'League'}
+    league: {type: mongoose.Schema.Types.ObjectId, ref: 'League'},
+    lastFixtureDate: Date
 });
 
 // create the model and expose the Competition model to our app

@@ -29,10 +29,7 @@ Round chart data should be based on the date of the last fixture (lastFixtureClo
 * update fixture thing should work out score difference, winner and home/away pts by itself (will need seperate ones for Super15 and Aleague though), note Super15 will still need points added manually as 
 they get bonus points for# of tries.
 
-
-
 * need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
-
 
 see scoring.js for valid scoring options
 

@@ -531,6 +531,7 @@ function testScoringOptions(scoringOptions, pick) {
     if (pick.scoreDifference == correctMargin) { totalPoints += scoringOptions.points; }
 }
 
+function addLastFixToEvent
 
 // connect to the database
 mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
