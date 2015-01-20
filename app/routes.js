@@ -121,8 +121,8 @@ module.exports = function(app, passport) {
 										Point.find({competition:comp.id, type:'round', user:req.user.id}).exec(function(err,points){
 											if (err){console.log('ERR: round page on points')}
 											else{
-												console.log(req.user._id);
-												console.log(rank[0].user._id);
+												//console.log(req.user._id);
+												//console.log(rank[0].user._id);
 												//console.log(createCompetitionLookup(rank));
 												res.render('rounds.ejs', {
 													user : req.user, // get the user out of session and pass to template
