@@ -122,7 +122,7 @@ module.exports = function(app, passport) {
 											if (err){console.log('ERR: round page on points')}
 											else{
 												//console.log(req.user._id);
-												//console.log(rank[0].user._id);
+												console.log(rank);
 												//console.log(createCompetitionLookup(rank));
 												res.render('rounds.ejs', {
 													user : req.user, // get the user out of session and pass to template
@@ -372,12 +372,12 @@ function createCjsDataPointHistory(pointsData,userId){
 	        dataset.data = point.cummulativePointsHistory;
 			//console.log('user:%s ranking: %s', point.user.displayName, point.ranking);
 	        if (String(userId) == String(point.user._id)){
-		        dataset.fillColor= "rgba(0,0,0,0.2)";
-		        dataset.strokeColor= "rgba(0,0,0,1)";
-		        dataset.pointColor= "rgba(0,0,0,1)";
+		        dataset.fillColor= "rgba(180,0,0,0.2)";
+		        dataset.strokeColor= "rgba(180,0,0,1)";
+		        dataset.pointColor= "rgba(180,0,0,1)";
 		        dataset.pointStrokeColor= "#fff";
 		        dataset.pointHighlightFill= "#fff";
-		        dataset.pointHighlightStroke= "rgba(0,0,0,1)";
+		        dataset.pointHighlightStroke= "rgba(180,0,0,1)";
 	        }
 	        else {
    		        if (point.ranking == 1){
@@ -400,6 +400,7 @@ function createCjsDataPointHistory(pointsData,userId){
 	        //console.log(dataset);
 	        chartData.datasets.push(dataset);
     	});
+    	chartData.datasets.sort(function compare(a,b) {if (a.label < b.label){return -1};if (a.label > b.label){return 1};return 0;});
     	return (chartData);
 	}
 	catch (err) {

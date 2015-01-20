@@ -624,63 +624,6 @@ function updateCummulativeRoundPoints(startRoundId){
     });
 }
 
-function createCjsDataPointHistory(pointsData){
-    // takes a competition ID and formats the data so that ChartJS can
-    // draw the chart
-    var chartData = {};
-    chartData.labels = pointsData[0].historyTitles;
-    //console.log(pointsData[0]);
-    chartData.datasets=[];
-    pointsData.forEach(function (point){
-        var dataset = {};
-        dataset.label = point.user.displayName;
-        dataset.data = point.cummulativePointsHistory;
-        dataset.fillColor= "rgba(220,220,220,0.2)";
-        dataset.strokeColor= "rgba(220,220,220,1)";
-        dataset.pointColor= "rgba(220,220,220,1)";
-        dataset.pointStrokeColor= "#fff";
-        dataset.pointHighlightFill= "#fff";
-        dataset.pointHighlightStroke= "rgba(220,220,220,1)";
-        //console.log(dataset);
-        chartData.datasets.push(dataset);
-    });
-    return (chartData);
-}
-
-
-/**
- * EXAMPLE FROM SITE
- * var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-            label: "My Second dataset",
-            fillColor: "rgba(151,187,205,0.2)",
-            strokeColor: "rgba(151,187,205,1)",
-            pointColor: "rgba(151,187,205,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86, 27, 90]
-        }
-    ]
-};
- * 
- **/
-	
-
-
-
 
 // connect to the database
 mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
@@ -709,11 +652,6 @@ db.once('open', function callback(){
     //console.log(testScoringOptions({type:'scoreDifference',margins:[7,14], points:5},{scoreDifference:7}));
     
     //updateCummulativeRoundPoints('542bd1842367c9209a739130');
-    Point.find({competition:'542a5ffa736e3e35532f2d24', type:'event'}).populate('user').exec(function (err, pointsData){
-        console.log(createCjsDataPointHistory(pointsData));
-        //createCjsDataPointHistory(pointsData);
-        //console.log(pointsData);
-    });
 
     
 });
