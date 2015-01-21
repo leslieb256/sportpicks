@@ -19,17 +19,15 @@ WORKING ON
 TODO - SHORT TERM
 =================
 
-*   Competition model needs a closing date, probably the date of the last fixture in the event.
-    in Event but should be copied to compeition
-
-* Add round type:'fixture' and lastFixtureDates(?) to Aleague rounds for 2014/15 - this may be a compatability issue later. Type is to differentiate between rounds and bonus rounds etc, maybe finals as well?
-
-Round chart data should be based on the date of the last fixture (lastFixtureClosing Date)
+* Round chart data (see scoring.js for cummulative) should be based on the date of the last fixture (lastFixtureClosing Date) rather than round position.
 
 * update fixture thing should work out score difference, winner and home/away pts by itself (will need seperate ones for Super15 and Aleague though), note Super15 will still need points added manually as 
 they get bonus points for# of tries.
 
 * need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
+
+* do regualr backups of the mongo database c:\prgram files\mongodb\bin\backup.bat
+
 
 see scoring.js for valid scoring options
 
@@ -48,6 +46,11 @@ Large logos are 512x512, small are 128x128
 A League
 =========
 Results: http://www.a-league.com.au/results/214/2014/0/4
+http://www.ultimatealeague.com/fixtures.php?season=2014-15&round=27
+
+FIFA U20 World Cup
+===================
+Final draw is 10 Feb - set up with bouns poitns for winner of tournament.
 
 
 SUPER15
@@ -65,8 +68,12 @@ But the idea is the port type can limit what scoring option are avaailbae, soprt
 
 
 * colours for badges showi pnts etc, maybe should be blue for information and grey if currnely unscored or somrthing?
-
 *   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
+*  Rounds shold store how many fixtures are in them
+*  Bonus rounds, since they re optioanl per comp need something like Competition.bonuspoints.[{roundID, fixutreID, no of fixutres}] to prpery ID when pciks are due and fixtures are missing - unpicked
+*  Rounds closing soon or RUOnds with fixtures closing soon shuold be copied to a special section at the top of the Rounds page.
+* rounds model now has a number of fixtures item, compare with the numbver of fixture pixks for that round and you know whether they have got them all
+*   need to come up with a goo d tree for the badege/lable eg: if scored the score - infor, else if not scored and closed then badge with grey -, if not scored and closing in a week but has picks etc...
 
 *   Should create statistics by compeition on % of people that selected the various results, should maybe have the points table?, %age of people that picked the correct margin?
 
@@ -122,3 +129,6 @@ But the idea is the port type can limit what scoring option are avaailbae, soprt
 * see the scoring for getting points history data on a better way to do the sorting in one line rather than an external function call.
 
 * you could add groups of users so that they can have an average or total score to compare to the other group to see who is best.
+
+* add data for 2013/14 algeaue and 2014 suerr rugby for historical stats later
+

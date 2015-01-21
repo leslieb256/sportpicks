@@ -402,7 +402,7 @@ function updateCummulativeRoundPoints(startRoundId){
        if(err){console.log('\tERR in startRound query: %s',err)}
        else{
            // work out which rounds need updating
-           Round.find({ roundPosition:{$gte: startRound.roundPosition}, closeDate:{$lt: new Date()} }).exec(function(err, rounds){
+           Round.find({ roundPosition:{$gte: startRound.roundPosition}, lastFixtureDate:{$lt: new Date()} }).exec(function(err, rounds){
                if (err) {console.log('\tERR in finding rounds to look at query: %s',err)}
                else{
                     //console.log(startRound.event.id);
@@ -637,7 +637,7 @@ db.once('open', function callback(){
    // TEST UPDATE SCORE
    updateScoreForFixtureList(['53fc6408b918a6b661d423e1']);
    updateCummulativeRoundPoints("ROUNDID");
-
+// * NExt time I do a round cummulative points update check it all before and after I changed it to use last fixture date rathe than closing date
 
    // TEST SCORING OPTION
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));
