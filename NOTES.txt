@@ -15,16 +15,20 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
+*   add DRW team to super15
+
+
 
 TODO - SHORT TERM
 =================
+* colours for badges showi pnts etc, maybe should be blue for information and grey if currnely unscored or somrthing?
+*   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
+*  Rounds shold store how many fixtures are in them
+*  Bonus rounds, since they re optioanl per comp need something like Competition.bonuspoints.[{roundID, fixutreID, no of fixutres}] to prpery ID when pciks are due and fixtures are missing - unpicked
+*  Rounds closing soon or RUOnds with fixtures closing soon shuold be copied to a special section at the top of the Rounds page.
+* rounds model now has a number of fixtures item, compare with the numbver of fixture pixks for that round and you know whether they have got them all
+*   need to come up with a goo d tree for the badege/lable eg: if scored the score - infor, else if not scored and closed then badge with grey -, if not scored and closing in a week but has picks etc...
 
-* Round chart data (see scoring.js for cummulative) should be based on the date of the last fixture (lastFixtureClosing Date) rather than round position.
-
-* update fixture thing should work out score difference, winner and home/away pts by itself (will need seperate ones for Super15 and Aleague though), note Super15 will still need points added manually as 
-they get bonus points for# of tries.
-
-* need to work out why async does not seem to wotk on the rankling aprt (ie: I have to run it three times to get rankings to work to the comp ranking) - my application of async was bad, need to use callbacks see the submit pciks for example
 
 * do regualr backups of the mongo database c:\prgram files\mongodb\bin\backup.bat
 
@@ -66,14 +70,6 @@ TODO LONG TERM
 *Add 'sport' to league and event and comp. Sport data type will let me do some stuff eg: toprunscorere and topgoalscorere etc might need to do the seperately for each comp.
 But the idea is the port type can limit what scoring option are avaailbae, soprt should record relevent scoring optns.
 
-
-* colours for badges showi pnts etc, maybe should be blue for information and grey if currnely unscored or somrthing?
-*   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
-*  Rounds shold store how many fixtures are in them
-*  Bonus rounds, since they re optioanl per comp need something like Competition.bonuspoints.[{roundID, fixutreID, no of fixutres}] to prpery ID when pciks are due and fixtures are missing - unpicked
-*  Rounds closing soon or RUOnds with fixtures closing soon shuold be copied to a special section at the top of the Rounds page.
-* rounds model now has a number of fixtures item, compare with the numbver of fixture pixks for that round and you know whether they have got them all
-*   need to come up with a goo d tree for the badege/lable eg: if scored the score - infor, else if not scored and closed then badge with grey -, if not scored and closing in a week but has picks etc...
 
 *   Should create statistics by compeition on % of people that selected the various results, should maybe have the points table?, %age of people that picked the correct margin?
 
