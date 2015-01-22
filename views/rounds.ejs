@@ -20,6 +20,15 @@
 			if (origTime.getMinutes()<10){minutes = "0"+origTime.getMinutes();}else{minutes = origTime.getMinutes()}
     		document.write(d_lng[origTime.getDay()]+" "+origTime.getHours()+":"+minutes+", "+m_sht[origTime.getMonth()]+" "+origTime.getDate()+" "+origTime.getFullYear());
 		}
+		
+		function drawPointsHistoryGraph(){
+			Chart.defaults.global.responsive = true;
+			Chart.defaults.global.showScale = false;
+			Chart.defaults.global.tooltipFontSize = 10;
+			Chart.defaults.global.multiTooltipTemplate = "<%- pointsHistoryToolTip %>";
+			var pointsHistoryChart = document.getElementById('pointsHistoryChart').getContext('2d');
+			new Chart (pointsHistoryChart).Line(<%- pointsHistoryData %>,{bezierCurve:false,scaleShowGridLines:false});
+		}
 	</script>
 
 </head>
@@ -67,14 +76,7 @@
 			<%if (pointsHistoryData) { %>
 				<h4>Points History</h4>
 				<canvas id="pointsHistoryChart" height="400" width="800"></canvas>
-				<script type="text/javascript">
-					Chart.defaults.global.responsive = true;
-					Chart.defaults.global.showScale = false;
-					Chart.defaults.global.tooltipFontSize = 10;
-					Chart.defaults.global.multiTooltipTemplate = "<%- pointsHistoryToolTip %>";
-					var pointsHistoryChart = document.getElementById('pointsHistoryChart').getContext('2d');
-					new Chart (pointsHistoryChart).Line(<%- pointsHistoryData %>,{bezierCurve:false,scaleShowGridLines:false});
-				</script>
+				<script type="text/javascript">window.onload = drawPointsHistoryGraph()</script>
 			<% } %>
 		</div>
 

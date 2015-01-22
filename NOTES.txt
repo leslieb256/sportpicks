@@ -17,6 +17,8 @@ WORKING ON
 
 *   add DRW team to super15
 
+* use http://stackoverflow.com/questions/807878/javascript-that-executes-after-page-load to run the script for the graph only AFTER screen is drawn
+
 
 
 TODO - SHORT TERM
