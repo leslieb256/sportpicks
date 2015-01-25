@@ -97,7 +97,7 @@ function updateTeams(){
     var League = require('../models/league');    
 
     League.findOne({name:"Super Rugby"}, function (err, league) {
-        Team.update({name: 'Brumbies'},{$set: {shtname:'Brumbies', shtcode:'BRM',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
+        /**Team.update({name: 'Brumbies'},{$set: {shtname:'Brumbies', shtcode:'BRM',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
         Team.update({name: 'Melbourne Rebels'},{$set: {shtname:'Rebels', shtcode:'REB',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
         Team.update({name: 'New South Wales Waratahs'},{$set: {shtname:'Waratahs', shtcode:'WAR',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
         Team.update({name: 'Queensland Reds'},{$set: {shtname:'Reds', shtcode:'RED',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
@@ -111,7 +111,8 @@ function updateTeams(){
         Team.update({name: 'Central Cheetahs'},{$set: {shtname:'Cheetahs', shtcode:'CTH',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
         Team.update({name: 'Lions'},{$set: {shtname:'Lions', shtcode:'LNS',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
         Team.update({name: 'Sharks'},{$set: {shtname:'Sharks', shtcode:'SHK',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
-        Team.update({name: 'Stormers'},{$set: {shtname:'Stormers', shtcode:'STM',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
+        Team.update({name: 'Stormers'},{$set: {shtname:'Stormers', shtcode:'STM',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())}); **/
+        Team.update({name: 'Draw'},{$set: {shtname:'Draw', shtcode:'DRW',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});        
     });   
 }
 
@@ -421,19 +422,10 @@ db.once('open', function callback(){
     //updateLeagues(); DONE
     //updateEvent(); 
     //loadCompetitions(); DONE 2015
-    //updateTeams(); DONE 2015
-    updateRounds('Super Rugby','2015 Season'); //DONE 2015
+    //updateTeams();// DONE 2015
+    //updateRounds('Super Rugby','2015 Season'); //DONE 2015
     // updateFixture('Super Rugby','2015 Season');
 });
 
 // nEED TO UPDATE EVENT LAST FICTURE, SEMIS AND QUALS AND FINALS ONCE DATE AND TIME IS KNOWN.
 
-/**
- * 
- * 
- * Tank.findByIdAndUpdate(id, { $set: { size: 'large' }}, function (err, tank) {
-  if (err) return handleError(err);
-  res.send(tank);
-});
-
-**/

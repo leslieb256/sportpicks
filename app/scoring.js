@@ -704,8 +704,8 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
   
-   updateScoreForFixtureList(['548e9ade0c51310bc0e00b16']);
-  //updateCummulativeRoundPoints("542bd1842367c9209a739130"); 
+   //updateScoreForFixtureList(['548e9ade0c51310bc0e00b21','548e9ade0c51310bc0e00b11']);//
+  updateCummulativeRoundPoints("542bd1842367c9209a739130"); 
   
    // TEST SCORING OPTION
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));

@@ -107,13 +107,16 @@ module.exports = function(app, passport) {
 		var Round = require('../app/models/round');
 		var Point = require('../app/models/point');
 		var User = require('../app/models/user');		
+		var FixturePick =require('../app/models/fixturePick');
+		var async = require('async');
+		
 		Competition.findById(req.param('competition'), function (err,comp){
 		if (err) {console.log('ERR: rounds page on comps')}
 			else{
 				Round.userRanking(req.user.id, function(err, rank){
 					if (err) {console.log('ERR: round page on rank')}
 					else {
-						Round.find({event:comp.event}).sort('roundPosition').lean().exec(function(err,rounds){
+						Round.find({event:comp.event}).sort('roundPosition').exec(function(err,rounds){
 							if (err){console.log('ERR: round page on rounds')}
 							else {
 								Point.find({competition:comp.id, type:'event'}).sort('ranking').populate('user').lean().exec(function(err,rank){
@@ -122,24 +125,48 @@ module.exports = function(app, passport) {
 										Point.find({competition:comp.id, type:'round', user:req.user.id}).exec(function(err,points){
 											if (err){console.log('ERR: round page on points')}
 											else{
-												//console.log(req.user._id);
-												//console.log(rank);
-												//console.log(createCompetitionLookup(rank));
-												res.render('rounds.ejs', {
-													user : req.user, // get the user out of session and pass to template
-													rounds: rounds,
-													competition: comp,
-													points: createRoundLookup(points),
-													rankings:rank,
-													pointsHistoryData: JSON.stringify(createCjsDataPointHistory(rank,req.user._id)),
-													pointsHistoryToolTip: "<%= datasetLabel%>:<%= value %>"
+												User.findById(req.user.id).exec(function (err, user){
+													if (err){console.log('ERROR:', err)}
+													else {
+														async.waterfall([
+															// get data ready for rendering
+															function (renderData_cbk){
+																// WARNING YOU HAVE TO USE MONGO OBJECT WHEN USING MATCH.
+																FixturePick.aggregate([
+														            {$match:{ user:user._id, competition:comp._id }},
+																	{$group: {_id:"$round", count:{$sum:1}} }
+																], function(err, result){
+																	if(err){console.log('ERROR: %s',err)}
+																	else{
+																		//console.log("got the result:");
+																		renderData_cbk(null, createFixturePicksByRoundLookup(result));
+																	}
+																});
+															}, 
+															
+														],
+														// once all data gathered and passed forward it is rendered.
+															function (err,pickLookupByRound){
+																if (err){console.log("ERROR:%s",err)}
+																res.render('rounds.ejs', {
+																	user : req.user, // get the user out of session and pass to template
+																	competition: comp,
+																	points: createRoundLookup(points),
+																	rounds: roundsStatusDisplay(rounds,createRoundLookup(points),pickLookupByRound),
+																	rankings:rank,
+																	pointsHistoryData: JSON.stringify(createCjsDataPointHistory(rank,req.user.id)),
+																	pointsHistoryToolTip: "<%= datasetLabel%>:<%= value %>"
+																});
+															}
+
+														);								
+													}
 												});
+												
 											}
 										});
 									}
 								});
-								
-								
 							}
 						});
 							
@@ -357,12 +384,81 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/');
 }
 
+function createFixturePicksByRoundLookup(queryData){
+	//console.log('making lookup from:');
+	//console.log(queryData);
+	var lookup = {};
+	for (var i = 0; i<queryData.length; i++){
+		lookup[queryData[i]._id] = queryData[i].count;
+	}
+	//console.log('RETUNING LOOKUP DATA');
+	//console.log(lookup);
+	
+	return lookup;
+}
 
+
+function roundsStatusDisplay(rounds,userPoints,fixturePicksByRound){
+	// takes a list of rounds and adds html to call on the rounds page
+	//information to allow rounds list to be displayed properly.
+	// it is easier to put the logic in here than in the template
+	// userPoints is the users points with a lookup by round added.
+	//console.log("LOOKUP %s",fixturePicksByRound['542bd1842367c9209a73913d'])
+	//console.log('IS THIS THE RIGHT DATA:');
+	//console.log(fixturePicksByRound);
+
+	rounds.forEach(function (round){
+		if (round.closeDate<Date.now()){
+			//if round is closed
+			if(round.lastFixtureDate>(Date.now())){ //+(1000*60*60*24*2)
+				//but the last fixture date + 2 days is before now (added two days to give me a chance to do the scoring)
+				if (round._id in userPoints){
+					round.viewBadge = '<span class="badge alert-warning">'+userPoints[round._id].points+'</span>';
+				}
+				else {
+					round.viewBadge = '<span class="badge alert-warning">&nbsp-&nbsp</span>';
+				}
+			}
+			else {
+				// if the round should all be scored and good to go then
+				if (round._id in userPoints){
+				// and round has points
+				round.viewBadge = '<span class="badge">'+userPoints[round._id].points+'</span>';
+				}
+				else {
+					// round has not been scored yet
+					round.viewBadge = '<span class="badge alert-warning">&nbsp-&nbsp</span>';
+				}
+			}
+		}
+		else {
+			// round has not closed yet
+			// find how many picks theuser has done for the round
+			if (fixturePicksByRound[round._id]>=round.numberOfFixtures){ //fixturePicksByRound[round.id] >= round.numberOfFixtures
+				round.viewBadge = '<span class="label label-success pull-right\"><span class="fa fa-check"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
+			}
+			else {
+				//console.log(round._id);
+				//console.log(fixturePicksByRound);
+				//not all picks done for round
+				if (round.closeDate <= (Date.now()+(1000*60*60*24*7))){
+					// if round closing in the next week put a warning on
+					round.viewBadge='<span class="label label-danger pull-right\"><span class="fa fa-warning"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
+				}
+				else {
+					round.viewBadge='<span class="label label-default pull-right">closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
+				}
+			}
+		}
+	});
+	return rounds;
+}
 
 function createCjsDataPointHistory(pointsData,userId){
     // takes a competition ID and formats the data so that ChartJS can
-    // draw the chart
+    // draw the chart on the website
 	try {
+		//console.log("THIS IS CHART DATA");
 		var chartData = {};
 	    chartData.labels = pointsData[0].historyTitles;
 	    //console.log(pointsData[0]);
