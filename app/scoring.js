@@ -705,7 +705,7 @@ db.once('open', function callback(){
 
   
    //updateScoreForFixtureList(['548e9ade0c51310bc0e00b21','548e9ade0c51310bc0e00b11']);//
-  updateCummulativeRoundPoints("542bd1842367c9209a739130"); 
+  updateCummulativeRoundPoints("542bd1842367c9209a739138"); // NOTE you have to use either round 1 OR the round before the one you want to update.
   
    // TEST SCORING OPTION
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));

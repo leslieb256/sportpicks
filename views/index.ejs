@@ -26,6 +26,7 @@
 		<h1><span class="fa fa-sign-in"></span> Login</h1>
 		<% if (successMsg.length > 0) { %><div class="alert alert-success"><%= successMsg %></div><% } %>
 		<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><%= dangerMsg %></div><% } %>
+		<% if (warningMsg.length > 0) { %><div class="alert alert-warning"><%= warningMsg %></div><% } %>		
 		<!-- LOGIN FORM -->
 		<form action="/login" method="post">
 			<div class="form-group">

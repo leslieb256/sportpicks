@@ -5,8 +5,10 @@ module.exports = function(app, passport) {
 	// HOME PAGE (with login links) ========
 	// =====================================
 	app.get('/', function(req, res) {
+		console.log("PATH: %s", req.session.postAuthRedirect);	
+
 		res.render('index.ejs', {successMsg: req.flash('successMsg'),
-								 dangerMsg: req.flash('dangerMsg')}); // load the index.ejs file
+								 dangerMsg: req.flash('dangerMsg'), warningMsg: req.flash('warningMsg')}); // load the index.ejs file
 	});
 
 	// =====================================
@@ -14,18 +16,36 @@ module.exports = function(app, passport) {
 	// =====================================
 	// show the login form
 	app.get('/login', function(req, res) {
-
 		// render the page and pass in any flash data if it exists
 		res.render('login.ejs', { message: req.flash('loginMessage') }); 
 	});
 
-	// process the login form
-    // process the login form
-	app.post('/login', passport.authenticate('local-login', {
+    // process the login form (format taken from https://stackoverflow.com/questions/9885711/custom-returnurl-on-node-js-passports-google-strategy to allow custom redirects)
+	app.post('/login', function(req,res,next){
+		passport.authenticate('local-login', function(err, user, info){
+			var redirectUrl = '/competitions'; // set a defulat success redirect url.
+			
+			if (err){return next(err)}
+			if(!user) {return res.redirect('/')}
+			
+			// if we have storeed a url to redirect to use that instead of default
+			if (req.session.postAuthRedirect) {
+				redirectUrl = req.session.postAuthRedirect;
+				req.session.postAuthRedirect = null;
+			}
+			req.logIn(user, function(err){
+				if (err){return next(err)}
+			});
+			res.redirect(redirectUrl);
+		})(req, res, next);
+	});
+
+/**	app.post('/login', passport.authenticate('local-login', {
 		successRedirect : '/competitions', // redirect to the compeitions list
 		failureRedirect : '/', // redirect back to the index/login page if there is an error
 		failureFlash : true // allow flash messages
 	}));
+**/
 
 
 	// =====================================
@@ -375,12 +395,11 @@ module.exports = function(app, passport) {
 		
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
-
 	// if user is authenticated in the session, carry on 
-	if (req.isAuthenticated())
-		return next();
+	if (req.isAuthenticated()){return next();}
 
-	// if they aren't redirect them to the home page
+	req.session.postAuthRedirect = req.originalUrl;
+	req.flash('warningMsg', 'Please login to continue');
 	res.redirect('/');
 }
 

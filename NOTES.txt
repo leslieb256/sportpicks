@@ -14,50 +14,23 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 
 WORKING ON
 ==========
-* colours for badges showi pnts etc, maybe should be blue for information and grey if currnely unscored or somrthing?
-*   disaply with a red tiangle excl. rounds where pciks have not been coimpleted and comps where picks are closing and not completed.
-*  Rounds shold store how many fixtures are in them
-*  Bonus rounds, since they re optioanl per comp need something like Competition.bonuspoints.[{roundID, fixutreID, no of fixutres}] to prpery ID when pciks are due and fixtures are missing - unpicked
-*  Rounds closing soon or RUOnds with fixtures closing soon shuold be copied to a special section at the top of the Rounds page.
-* rounds model now has a number of fixtures item, compare with the numbver of fixture pixks for that round and you know whether they have got them all
-*   need to come up with a goo d tree for the badege/lable eg: if scored the score - infor, else if not scored and closed then badge with grey -, if not scored and closing in a week but has picks etc...
 
-Pseudo tests:
+* Need to look at the scoring thing again, it is not go through all the fixtures, only scores the first one.
 
-if Round closed (round close date passed)
-    scoring not completed (scoring just not done, check if there is a points record for the round if none)
-        YELLOW badge with "-"
-    scoring not completed (not all fixtures compelte, check if any fixtures have a closedate past current date)
-        YELLOW badge with user score so far
-        (there may be a points record but round not complete)
-    else (all fixtures compelted and points calculated)
-        DEFAULT badge with points
-if Round open
-    all picks done (picks count for round = round.fixtures)
-        GREEN tick with closing date
-    not all picks done
-        closing within 1 week 
-            Warning triangel RED round label with closing date
-        closing within
-            DEFAULT badge with closing date
-            
-Use tooltips on the yellow ones to explain what it means (http://getbootstrap.com/javascript/#tooltips)
-Can test by just looking at teh round query and taking it to insert data in to a new function and see what comes uout. Ideally just adding relvent html to the object would be good.
-
+http://www.w3schools.com/html/html_form_attributes.asp
 
 TODO - SHORT TERM
 =================
 
-* Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
-
-* summry of round and picks for people to print and take home.
+* Rounds closing within 1 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
+* Rounds that are closing in 1 day should be in the closing soon and also RED
+ * store in round[0] whether there are any rounds closing soon, if not then don't even put the heading up.If there are then in thw view cycle the rounds again and find ones closing soon.
+ * change the "make it red" in the rounds.routes to only kick in when 2 days to go. The rest of the time it can be red.
 
 * bonuspoints for selecting grand final winner for event
 * event should store which teams are relevent for the event.
 *   Need to add a awy to only bring through relevent teams, might happen if I start tracking teams and players linked to certain events. probably the best way is to add an event[] to the team or a team [] to the event.Need
 * the fact a bonus round is being used needs to be recorded in the comp, Along with the relvent ficutres maybe bonusPoints:{roundid{[fixtureID]}}} or something like that. If null then no bounspoints?
-
-* set redirect so that people can log in and it takes you to the relevent page automtically.
 
 * do regualr backups of the mongo database c:\prgram files\mongodb\bin\backup.bat
 
