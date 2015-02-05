@@ -50,15 +50,26 @@
 		<!-- LOCAL INFORMATION -->
 
 		<div class="col-sm-6">
-			<div class="list-group">
-				<% rounds.forEach(function(round){ %>
-					<a href="/fixtures?competition=<%= competition.id %>&round=<%= round._id %>" class="list-group-item"><b><%= round.name %></b><%-round.viewBadge%>
-					</a> 
-				<% }); %>
+			<div>
+				<% if (rounds[0].roundsClosingSoon == true) { %><h2>closing soon</h2><% } %>
+				<div class="list-group">
+					<% rounds.forEach(function(round){ %>
+						<% if (round.closingSoon) { %>
+						<a href="/fixtures?competition=<%= competition.id %>&round=<%= round._id %>" class="list-group-item"><b><%= round.name %></b><%-round.viewBadge%></a> 
+				 		<% } %>
+					<% }); %>
+				</div>
 			</div>
+				<h2>rounds</h2>
+				<div class="list-group">
+					<% rounds.forEach(function(round){ %>
+						<a href="/fixtures?competition=<%= competition.id %>&round=<%= round._id %>" class="list-group-item"><b><%= round.name %></b><%-round.viewBadge%></a> 
+					<% }); %>
+				</div>
 		</div>
 
 		<div class="col-sm-6">
+			<h2>competition ranking</h2>			
 			<table class="table">
 				<tr><th>Rank</th><th>Name</th><th>Competition Points</th></tr>
 				<% rankings.forEach(function (rankings){ %>

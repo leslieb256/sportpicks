@@ -422,14 +422,22 @@ function roundsStatusDisplay(rounds,userPoints,fixturePicksByRound){
 	//information to allow rounds list to be displayed properly.
 	// it is easier to put the logic in here than in the template
 	// userPoints is the users points with a lookup by round added.
+	// A flag is also put in to round[0] to advise the round page generator that there are rounds closing soon
+	// so the page generator knows to put a rounds closing soon heading in.
 	//console.log("LOOKUP %s",fixturePicksByRound['542bd1842367c9209a73913d'])
 	//console.log('IS THIS THE RIGHT DATA:');
 	//console.log(fixturePicksByRound);
+	
+	if (rounds.length > 0){
+		// if there is rounds data then create a false closeDate flag
+		rounds[0].roundsClosingSoon = false;
+	}
 
 	rounds.forEach(function (round){
+		round.closingSoon = false;
 		if (round.closeDate<Date.now()){
 			//if round is closed
-			if(round.lastFixtureDate>(Date.now())){ //+(1000*60*60*24*2)
+			if(round.lastFixtureDate>(Date.now())-(1000*60*60*24*2)){ //+(1000*60*60*24*2)
 				//but the last fixture date + 2 days is before now (added two days to give me a chance to do the scoring)
 				if (round._id in userPoints){
 					round.viewBadge = '<span class="badge alert-warning">'+userPoints[round._id].points+'</span>';
@@ -452,15 +460,23 @@ function roundsStatusDisplay(rounds,userPoints,fixturePicksByRound){
 		}
 		else {
 			// round has not closed yet
-			// find how many picks theuser has done for the round
-			if (fixturePicksByRound[round._id]>=round.numberOfFixtures){ //fixturePicksByRound[round.id] >= round.numberOfFixtures
+
+			if (round.closeDate <= (Date.now()+(1000*60*60*24*7))){
+				// if there are rounds closing soon we mark round[0] so that the page generator
+				// can put in the relevent heading and mark the rounds as closing soon.
+				round.closingSoon = true;
+				rounds[0].roundsClosingSoon = true;
+			}
+
+			// find how many picks theuser has done for the round			
+			if (fixturePicksByRound[round._id]>=round.numberOfFixtures){ 
+				// if the user has done all the picks in the rounds mark it done.
 				round.viewBadge = '<span class="label label-success pull-right\"><span class="fa fa-check"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
 			}
 			else {
-				//console.log(round._id);
-				//console.log(fixturePicksByRound);
 				//not all picks done for round
-				if (round.closeDate <= (Date.now()+(1000*60*60*24*7))){
+				// if round closes in the next 3 days mark it red to warn player
+				if (round.closeDate <= (Date.now()+(1000*60*60*24*3))){
 					// if round closing in the next week put a warning on
 					round.viewBadge='<span class="label label-danger pull-right\"><span class="fa fa-warning"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
 				}
