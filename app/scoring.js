@@ -113,13 +113,14 @@ function updateScoreForFixtureList(fixtureList){
                     updateCompetitionFixtureRanking(fixture),
                     updateCompetitionRoundRanking(fixture),
                     updateCompetitionEventRanking(fixture)
-                ]);
-                
+                ], 
+                function (err, results){
+                    if (err){console.log('ERROR: %s',err);list_cb(err)}
+                    else {console.log('Updated')}
+                 }
+                );
             }
-        }, function (err){
-                if (err){console.log('ERROR: %s',err);list_cb(err)}
-                else{list_cb(null)}
-                 });
+        });
     }); 
 }
 
@@ -704,8 +705,8 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
   
-   //updateScoreForFixtureList(['548e9ade0c51310bc0e00b21','548e9ade0c51310bc0e00b11']);//
-  updateCummulativeRoundPoints("542bd1842367c9209a739138"); // NOTE you have to use either round 1 OR the round before the one you want to update.
+   updateScoreForFixtureList(['548e9ade0c51310bc0e00b1c']);//
+  //updateCummulativeRoundPoints("542bd1842367c9209a739138"); // NOTE you have to use either round 1 OR the round before the one you want to update.
   
    // TEST SCORING OPTION
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));
