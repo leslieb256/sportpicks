@@ -115,12 +115,19 @@ function updateScoreForFixtureList(fixtureList){
                     updateCompetitionEventRanking(fixture)
                 ], 
                 function (err, results){
-                    if (err){console.log('ERROR: %s',err);list_cb(err)}
-                    else {console.log('Updated')}
+                    if (err){console.log('ASYNCWATERFALL FN: ERROR: %s',err);list_cb(err)}
+                    else {
+                        console.log('Fixture %s scored',fixture.id);
+                        // do the callback to get the next fixture
+                        list_cb();
+                    }
                  }
                 );
             }
         });
+    }, 
+    function(err){
+        if (err){console.log('ASYNC SERIES FUNCTION: error in processing fixture')}
     }); 
 }
 
@@ -705,7 +712,7 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
   
-   updateScoreForFixtureList(['548e9ade0c51310bc0e00b1c']);//
+   updateScoreForFixtureList(['548e9ade0c51310bc0e00b23','548e9ade0c51310bc0e00b11']);//
   //updateCummulativeRoundPoints("542bd1842367c9209a739138"); // NOTE you have to use either round 1 OR the round before the one you want to update.
   
    // TEST SCORING OPTION

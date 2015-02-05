@@ -17,7 +17,12 @@ WORKING ON
 
 * Need to look at the scoring thing again, it is not go through all the fixtures, only scores the first one.
 
-http://www.w3schools.com/html/html_form_attributes.asp
+*   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
+* e or 1hr before each round. Will also need to change how/when it updates the
+"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
+* Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
+
+
 
 TODO - SHORT TERM
 =================
@@ -66,9 +71,9 @@ TODO LONG TERM
 
 * rather than having a vague thing about whne a fixture or round is finalised maybe just have a boolean that says it is updated anc ranks caledc? routes.js roundsSatusDisplay woudl benegit from this
 
-* Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
 
 * use HTML5 "required" on forms. There might be some oterh cool html 5stuff. eg: drop down elect lists to use as well.
+    http://www.w3schools.com/html/html_form_attributes.asp
 
 *   Need to make the system validate pick update based on date before doing the update.
 * should check if user is registered in a compeitiotn that is linked to the event/fixture before accepting pick
@@ -78,12 +83,6 @@ TODO LONG TERM
 
 *Add 'sport' to league and event and comp. Sport data type will let me do some stuff eg: toprunscorere and topgoalscorere etc might need to do the seperately for each comp.
 But the idea is the port type can limit what scoring option are avaailbae, soprt should record relevent scoring optns.
-
-
-*   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
-* e or 1hr before each round. Will also need to change how/when it updates the
-"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
-
 
 *   Use the layout instructions to create a nested layyout like this:
 
@@ -113,6 +112,7 @@ But the idea is the port type can limit what scoring option are avaailbae, soprt
 
 *   shoudl email users last tune results and that picks are due.
 * use sendgrid free plan to send emails?
+* use mailchimp?
 
 * see the scoring for getting points history data on a better way to do the sorting in one line rather than an external function call.
 

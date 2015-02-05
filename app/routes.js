@@ -475,9 +475,8 @@ function roundsStatusDisplay(rounds,userPoints,fixturePicksByRound){
 			}
 			else {
 				//not all picks done for round
-				// if round closes in the next 3 days mark it red to warn player
 				if (round.closeDate <= (Date.now()+(1000*60*60*24*3))){
-					// if round closing in the next week put a warning on
+					// if round closes in the next 3 days mark it red to warn player
 					round.viewBadge='<span class="label label-danger pull-right\"><span class="fa fa-warning"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
 				}
 				else {
