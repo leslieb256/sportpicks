@@ -110,7 +110,10 @@ module.exports = function(app, passport) {
 						res.render('competitions.ejs', {
 							user : req.user, // get the user out of session and pass to template
 							competitions: comps,
-							rankings: createCompetitionLookup(rank)
+							rankings: createCompetitionLookup(rank),
+							successMsg: req.flash('successMsg'),
+							dangerMsg: req.flash('dangerMsg'),
+							warningMsg: req.flash('warningMsg')
 							});
 					}
 				});
@@ -175,7 +178,10 @@ module.exports = function(app, passport) {
 																	rounds: roundsStatusDisplay(rounds,createRoundLookup(points),pickLookupByRound),
 																	rankings:rank,
 																	pointsHistoryData: JSON.stringify(createCjsDataPointHistory(rank,req.user.id)),
-																	pointsHistoryToolTip: "<%= datasetLabel%>:<%= value %>"
+																	pointsHistoryToolTip: "<%= datasetLabel%>:<%= value %>",
+																	successMsg: req.flash('successMsg'),
+																	dangerMsg: req.flash('dangerMsg'),
+																	warningMsg: req.flash('warningMsg')
 																});
 															}
 
@@ -231,6 +237,7 @@ module.exports = function(app, passport) {
 										points: createFixtureLookup(points),
 										successMsg: req.flash('successMsg'),
 										dangerMsg: req.flash('dangerMsg'),
+										warningMsg: req.flash('warningMsg')
 									});
 								});
 							})
@@ -280,7 +287,10 @@ module.exports = function(app, passport) {
 																	draw: draw,
 																	round: round,
 																	competition: comp,
-																	points: points
+																	points: points,
+																	successMsg: req.flash('successMsg'),
+																	dangerMsg: req.flash('dangerMsg'),
+																	warningMsg: req.flash('warningMsg')
 																});
 															}
 														});
@@ -468,10 +478,10 @@ function roundsStatusDisplay(rounds,userPoints,fixturePicksByRound){
 				rounds[0].roundsClosingSoon = true;
 			}
 
-			// find how many picks theuser has done for the round			
+			// find how many picks theuser has done for the round
 			if (fixturePicksByRound[round._id]>=round.numberOfFixtures){ 
 				// if the user has done all the picks in the rounds mark it done.
-				round.viewBadge = '<span class="label label-success pull-right\"><span class="fa fa-check"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
+				round.viewBadge = '<span class="label label-success pull-right"><span class="fa fa-check"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
 			}
 			else {
 				//not all picks done for round

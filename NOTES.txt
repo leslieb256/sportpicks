@@ -15,6 +15,9 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
+* need to put the wanring messages as a return on all pages
+* need to put the message display on all pages in colm1 above first heading (see fixtures.ejs)
+
 *   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
 * e or 1hr before each round. Will also need to change how/when it updates the
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.

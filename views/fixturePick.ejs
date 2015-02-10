@@ -31,6 +31,7 @@
 		<%if (teams[fixture.homeTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.homeTeam].logo %>" height=50em width=50em><% } else { %><img src="/images/none.png" height="64" width="64"> <% } %>
 		<%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %>
 		<%if (teams[fixture.awayTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.awayTeam].logo %>" height=50em width=50em><% } else { %><img src="/images/none.png" height="64" width="64"> <% } %> </h1>
+
 		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
 	</div>
 
@@ -44,6 +45,11 @@
 		<!-- LOCAL INFORMATION -->
 		
 		<div class="col-sm-6">
+			<!-- show any messages that come back -->
+			<% if (successMsg.length > 0) { %><div class="alert alert-success"><span class="fa fa-check"></span>&nbsp<%= successMsg %></div><% } %>
+			<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><span class="fa fa-warning"></span>&nbsp<%= dangerMsg %></div><% } %>
+			<% if (warningMsg.length > 0) { %><div class="alert alert-warning"><span class="fa fa-warning"></span>&nbsp<%= warningMsg %></div><% } %>		
+			
 			<h2>fixture</h2>
 			<h3><%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %></h3>
 			<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>

@@ -24,9 +24,9 @@
 <div class="container">
 	<div class="col-sm-3">	
 		<h1><span class="fa fa-sign-in"></span> Login</h1>
-		<% if (successMsg.length > 0) { %><div class="alert alert-success"><%= successMsg %></div><% } %>
-		<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><%= dangerMsg %></div><% } %>
-		<% if (warningMsg.length > 0) { %><div class="alert alert-warning"><%= warningMsg %></div><% } %>		
+		<% if (successMsg.length > 0) { %><div class="alert alert-success"><span class="fa fa-check"></span>&nbsp<%= successMsg %></div><% } %>
+		<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><span class="fa fa-warning"></span>&nbsp<%= dangerMsg %></div><% } %>
+		<% if (warningMsg.length > 0) { %><div class="alert alert-warning"><span class="fa fa-warning"></span>&nbsp<%= warningMsg %></div><% } %>		
 		<!-- LOGIN FORM -->
 		<form action="/login" method="post">
 			<div class="form-group">

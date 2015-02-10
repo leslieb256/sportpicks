@@ -157,7 +157,7 @@ function updateRounds(leagueName, eventName){
                         Round.update({name: roundData.name,
                             league: league._id,
                             event: event._id},
-                            {$set: {roundPosition: roundData.roundPosition, type:roundData.type, closeDate:(convertTime(roundData.firstFixture, roundData.ffTimeZone,"UTC")),lastFixtureDate:(convertTime(roundData.lastFixture, roundData.ffTimeZone,"UTC"))}},
+                            {$set: {roundPosition: roundData.roundPosition, type:roundData.type, closeDate:(convertTime(roundData.firstFixture, roundData.ffTimeZone,"UTC")),lastFixtureDate:(convertTime(roundData.lastFixture, roundData.ffTimeZone,"UTC")), numberOfFixtures:roundData.numberOfFixtures}},
                             {upsert: true},
                             function(err){
                                 if (err) console.log("Round update Error:"+err.toString());                                
@@ -423,7 +423,7 @@ db.once('open', function callback(){
     //updateEvent(); 
     //loadCompetitions(); DONE 2015
     //updateTeams();// DONE 2015
-    //updateRounds('Super Rugby','2015 Season'); //DONE 2015
+    updateRounds('Super Rugby','2015 Season'); //DONE 2015
     // updateFixture('Super Rugby','2015 Season');
 });
 
