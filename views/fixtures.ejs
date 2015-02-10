@@ -42,6 +42,7 @@
 		<!-- LOCAL INFORMATION -->
 		
 		<div class="col-sm-6">
+		<h2>fixtures</h2>
 			<div class = "list-group">
 				<% fixtures.forEach(function(fixture){ %>
 					<a href="/fixturePick?competition=<%= competition._id %>&fixture=<%= fixture._id %>" class="list-group-item"> 
@@ -62,6 +63,7 @@
 		</div>
 
 		<div class="col-sm-6">
+			<h2>round ranking</h2>
 			<table class="table">
 				<tr><th>Rank</th><th>Name</th><th>Round Points</th></tr>
 				<% rankings.forEach(function (rankings){ %>

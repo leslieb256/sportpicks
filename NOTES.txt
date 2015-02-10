@@ -15,8 +15,6 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-* Need to look at the scoring thing again, it is not go through all the fixtures, only scores the first one.
-
 *   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
 * e or 1hr before each round. Will also need to change how/when it updates the
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
@@ -31,6 +29,8 @@ TODO - SHORT TERM
 * event should store which teams are relevent for the event.
 * Need to add a awy to only bring through relevent teams, might happen if I start tracking teams and players linked to certain events. probably the best way is to add an event[] to the team or a team [] to the event.Need
 * the fact a bonus round is being used needs to be recorded in the comp, Along with the relvent ficutres maybe bonusPoints:{roundid{[fixtureID]}}} or something like that. If null then no bounspoints?
+
+SHould have background image in div that stretches across sceen and then have a ligh greay transparent background with black text in ti for the Sport picks title in it. Maybe ajumbotron in a jumbotron?
 
 * do regualr backups of the mongo database c:\prgram files\mongodb\bin\backup.bat
 
