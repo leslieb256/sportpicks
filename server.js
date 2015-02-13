@@ -15,6 +15,7 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
 var configDB = require('./config/database.js');
+console.log('DATBASELINK:%s',configDB);
 var configSession = require('./config/session.js');
 
 // configuration ===============================================================
