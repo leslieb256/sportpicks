@@ -1,3 +1,14 @@
+SETTING UP
+==========
+You need to set environment vaiables for:
+DATABASE_NAME
+DATABASE_USER
+DATABASE_PASSWORD
+DATABASE_SERVER
+DATABASE_PORT
+SESSION_SECRET
+
+
 NOW USING GIT
 =============
 git commit -a : commit file changes.
@@ -15,14 +26,14 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-* need to put the wanring messages as a return on all pages
-* need to put the message display on all pages in colm1 above first heading (see fixtures.ejs)
-
 *   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
 * e or 1hr before each round. Will also need to change how/when it updates the
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
 * Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
 
+https://devcenter.heroku.com/articles/config-vars setting env var in heroku
+on weekend: Set passwords in heroku app to new dbname and user and password. copy db to new db and change name and password. push change to production. Heroku should work.
+Change the environment varaibles here then this should work again. Will have to edit these setting in the profiel file as I can't just append it.
 
 
 TODO - SHORT TERM
@@ -127,3 +138,11 @@ But the idea is the port type can limit what scoring option are avaailbae, soprt
 
 
 
+ENVIRONMENT VARIABLES
+======================
+You can define environment variables in ~/.profile. Files outside of the workspace directory /home/ubuntu/workspace are not accessible for read only users. You can do e.g.
+
+$ export SECRET=geheim"
+$ echo "export SECRET=geheim" >> ~/.profile
+
+to define the variable SECRET and then use it through process.env.SECRET from your application. On the restart the varaibles should be set automatically.

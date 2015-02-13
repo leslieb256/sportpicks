@@ -15,6 +15,7 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
 var configDB = require('./config/database.js');
+var configSession = require('./config/session.js');
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
@@ -33,7 +34,7 @@ app.use(express.static(__dirname + '/static'));
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
-app.use(session({secret: 'ilovescotchscotchyscotchscotch', 
+app.use(session({secret: configSession.secret, 
                  saveUninitialized: true,
                  resave: true}
 )); 

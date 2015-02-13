@@ -54,9 +54,9 @@ mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2')
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
-    //updateUsers('matthew.wong@wcc.govt.nz',"Matt W");
-    //updateUserPassword('matthew.wong@wcc.govt.nz',"password");    
-    //addUserToComp('54ae4e92da48880c5f1cdcb4','matthew.wong@wcc.govt.nz');
+    //updateUsers('mathew.bialy@wcc.govt.nz',"Matt B");
+    //updateUserPassword('mathew.bialy@wcc.govt.nz',"password");    
+    //addUserToComp('54ae4e92da48880c5f1cdcb4','mathew.bialy@wcc.govt.nz');
 
     //checkUser('5401512fb918a6b661d42b78');
     console.log("done");
