@@ -11,10 +11,11 @@ var pointSchema = new mongoose.Schema({
     round:{type: mongoose.Schema.Types.ObjectId, ref: 'Round'},
     fixture: {type: mongoose.Schema.Types.ObjectId, ref: 'Fixture'},
     ranking: Number,
-    points: Number,
-    cummulativePoints: Number,
-    cummulativePointsHistory: [Number],
-    historyTitles: [String]
+    points: Number, // records the points for the round
+    pointsHistory: [Number], // records the points for the rounds up to this one
+    cummulativePoints: Number, // records the total points up to this round
+    cummulativePointsHistory: [Number], // records the total points by round up to this one
+    historyTitles: [String] // records the round names up to this one
 });
 
 // methods ======================

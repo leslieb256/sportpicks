@@ -416,6 +416,9 @@ function updateFixture(leagueName, eventName){
 function updateFixtureResult(){
     var Fixture = require('../models/fixture');
     var Team = require('../models/team');
+    
+    //https://en.wikipedia.org/wiki/2015_Super_Rugby_season#Fixtures
+    
 /**
  * Prior to 2011, Super Rugby was a round-robin competition where each team played with every other team once; 
  * a team had six or seven home games, and six or seven away games each. The winner received four competition points; 
@@ -426,21 +429,14 @@ function updateFixtureResult(){
     
     var resultsList = [
         {
-            fixtureid:'54aeda88f1ace29007e4c0b2',
-            homeScore:10,
-            awayScore:20,
-            homeTeamLeaguePoints: 0,
-            awayTeamLeaguePoints: 4,
-        },
-        {
-            fixtureid:'54aeda88f1ace29007e4c0b4',
-            homeScore:47,
-            awayScore:3,
-            homeTeamLeaguePoints: 5,
-            awayTeamLeaguePoints: 0,
-        },
+            fixtureid:'54aeda88f1ace29007e4c0b0',
+            homeScore:17,
+            awayScore:29,
+            homeTeamLeaguePoints:0 ,
+            awayTeamLeaguePoints:4 ,
+        }
 
-        //calc scoredifference and winner
+
         ];
         
         var super15DrawTeamId = '54dedf115d82d635c1c414e4';
@@ -454,18 +450,19 @@ function updateFixtureResult(){
                    fixture.scoreDifference = Math.abs(result.homeScore-result.awayScore);
                    fixture.homeTeamLeaguePoints =result.homeTeamLeaguePoints;
                    fixture.awayTeamLeaguePoints = result.awayTeamLeaguePoints;
+                   if(result.homeScore==result.awayScore){fixture.winner = super15DrawTeamId}
+                   else {
+                       if(result.homeScore>result.awayScore){fixture.winner=fixture.homeTeam}
+                       else {fixture.winner=fixture.awayTeam}
+                   }
+                   fixture.save();
+                   console.log('fixture %s updated',fixture.id);
                }
            });
         });
 }
 
-function fixSUper15Picks(){
-    var FixturePick = require('../models/fixturePick');
-    FixturePick.find({competition:'54ae4e92da48880c5f1cdcb4',winner:'53fc6399b918a6b661d423b8'}).exec(function(err,picks){
-       console.log(picks) ;
-    });
-}
-// DO THE BYE ROUNDS AS A SEPERATE BATCH AS THEY GET 4 POINTS FOR EACH BYE ANYWAY. LIST OF BYES AT SUPER15.CO>NZ (unoffical iste)
+
 
 var dbUrl = 'mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@'+process.env.DATABASE_SERVER+':'+process.env.DATABASE_PORT+'/'+process.env.DATABASE_NAME;
 mongoose.connect(dbUrl);
@@ -478,7 +475,8 @@ db.once('open', function callback(){
     // updateTeams();// DONE 2015
     //updateRounds('Super Rugby','2015 Season'); //DONE 2015
     // updateFixture('Super Rugby','2015 Season');
-    fixSUper15Picks();
+    updateFixtureResult();
+
 });
 
 // nEED TO UPDATE EVENT LAST FICTURE, SEMIS AND QUALS AND FINALS ONCE DATE AND TIME IS KNOWN.

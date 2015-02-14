@@ -14,12 +14,6 @@ var roundSchema = new mongoose.Schema({
     numberOfFixtures: Number
 });
 
-// methods ======================
-// get the users ranks
-roundSchema.statics.userRanking = function(userId,cb){
-    var Point = require('./point');
-    return Point.find({user:userId, type:'round'}, cb).sort('roundPosition');
-};
 
 // create the model for users and expose it to our app
 module.exports = mongoose.model('Round', roundSchema);

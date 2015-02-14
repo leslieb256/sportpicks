@@ -136,9 +136,6 @@ module.exports = function(app, passport) {
 		Competition.findById(req.param('competition'), function (err,comp){
 		if (err) {console.log('ERR: rounds page on comps')}
 			else{
-				Round.userRanking(req.user.id, function(err, rank){
-					if (err) {console.log('ERR: round page on rank')}
-					else {
 						Round.find({event:comp.event}).sort('roundPosition').exec(function(err,rounds){
 							if (err){console.log('ERR: round page on rounds')}
 							else {
@@ -196,8 +193,8 @@ module.exports = function(app, passport) {
 							}
 						});
 							
-					}
-				});
+					
+				
 			}
 		});
 	});
