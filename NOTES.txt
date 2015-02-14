@@ -18,6 +18,7 @@ git push heroku master : to send files to heroku
 HEROKU
 =======
 https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app
+https://devcenter.heroku.com/articles/config-vars
 
 BOOTSTRAP
 =========
@@ -31,10 +32,9 @@ WORKING ON
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
 * Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
 
-https://devcenter.heroku.com/articles/config-vars setting env var in heroku
-on weekend: Set passwords in heroku app to new dbname and user and password. copy db to new db and change name and password. push change to production. Heroku should work.
-Change the environment varaibles here then this should work again. Will have to edit these setting in the profiel file as I can't just append it.
+* do some aleague scoring to test new db connection then do some super15 socring to test that.
 
+remvove modules from git
 
 TODO - SHORT TERM
 =================

@@ -112,7 +112,7 @@ function updateTeams(){
         Team.update({name: 'Lions'},{$set: {shtname:'Lions', shtcode:'LNS',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
         Team.update({name: 'Sharks'},{$set: {shtname:'Sharks', shtcode:'SHK',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});
         Team.update({name: 'Stormers'},{$set: {shtname:'Stormers', shtcode:'STM',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())}); **/
-        Team.update({name: 'Draw'},{$set: {shtname:'Draw', shtcode:'DRW',league:league}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});        
+        Team.update({name: 'Draw',league:league},{$set: {shtname:'Draw', shtcode:'DRW'}},{upsert:true}, function(err){if (err) console.log("Team update Error:"+err.toString())});        
     });   
 }
 
@@ -413,18 +413,72 @@ function updateFixture(leagueName, eventName){
 
 }
 
+function updateFixtureResult(){
+    var Fixture = require('../models/fixture');
+    var Team = require('../models/team');
+/**
+ * Prior to 2011, Super Rugby was a round-robin competition where each team played with every other team once; 
+ * a team had six or seven home games, and six or seven away games each. The winner received four competition points; 
+ * if the game was a draw two points were awarded to each team. The Rugby union bonus points system was also used, 
+ * where any team scoring four or more tries, and/or losing by less than seven points, receives an extra competition point. 
+ * 
+ **/
+    
+    var resultsList = [
+        {
+            fixtureid:'54aeda88f1ace29007e4c0b2',
+            homeScore:10,
+            awayScore:20,
+            homeTeamLeaguePoints: 0,
+            awayTeamLeaguePoints: 4,
+        },
+        {
+            fixtureid:'54aeda88f1ace29007e4c0b4',
+            homeScore:47,
+            awayScore:3,
+            homeTeamLeaguePoints: 5,
+            awayTeamLeaguePoints: 0,
+        },
+
+        //calc scoredifference and winner
+        ];
+        
+        var super15DrawTeamId = '54dedf115d82d635c1c414e4';
+        
+        resultsList.forEach(function(result){
+           Fixture.findById(result.fixtureid).exec(function(err,fixture){
+               if(err){console.log('ERROR:%s',err)}
+               else{
+                   fixture.homeScore = result.homeScore;
+                   fixture.awayScore = result.awayScore;
+                   fixture.scoreDifference = Math.abs(result.homeScore-result.awayScore);
+                   fixture.homeTeamLeaguePoints =result.homeTeamLeaguePoints;
+                   fixture.awayTeamLeaguePoints = result.awayTeamLeaguePoints;
+               }
+           });
+        });
+}
+
+function fixSUper15Picks(){
+    var FixturePick = require('../models/fixturePick');
+    FixturePick.find({competition:'54ae4e92da48880c5f1cdcb4',winner:'53fc6399b918a6b661d423b8'}).exec(function(err,picks){
+       console.log(picks) ;
+    });
+}
 // DO THE BYE ROUNDS AS A SEPERATE BATCH AS THEY GET 4 POINTS FOR EACH BYE ANYWAY. LIST OF BYES AT SUPER15.CO>NZ (unoffical iste)
 
-mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
+var dbUrl = 'mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@'+process.env.DATABASE_SERVER+':'+process.env.DATABASE_PORT+'/'+process.env.DATABASE_NAME;
+mongoose.connect(dbUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
     //updateLeagues(); DONE
     //updateEvent(); 
     //loadCompetitions(); DONE 2015
-    //updateTeams();// DONE 2015
-    updateRounds('Super Rugby','2015 Season'); //DONE 2015
+    // updateTeams();// DONE 2015
+    //updateRounds('Super Rugby','2015 Season'); //DONE 2015
     // updateFixture('Super Rugby','2015 Season');
+    fixSUper15Picks();
 });
 
 // nEED TO UPDATE EVENT LAST FICTURE, SEMIS AND QUALS AND FINALS ONCE DATE AND TIME IS KNOWN.

@@ -261,49 +261,50 @@ module.exports = function(app, passport) {
 		if (err) {console.log('ERR: fixturePick page on fixtures')}
 			else{
 				//console.log('FIXTURE:%s',fixture);
-				Team.find({}).exec(function (err,teams){
-				if (err) {console.log('ERR: fixtures page on teams')}
-					else{				
-						Team.findOne({name:'Draw'}).exec(function (err,draw){
-							if (err) {console.log('ERR: fixtures page on fixtures')}
+				Competition.findById(req.param('competition')).exec(function(err, comp){
+					if (err) {console.log('ERR: fixtures pick page on COMP lookup')}
+					else{
+						Team.find({league:comp.league}).exec(function (err,teams){
+						if (err) {console.log('ERR: fixtures page on teams')}
 							else{				
-								FixturePick.findOne({competition:req.param('competition'), fixture:req.param('fixture'), user:req.user.id}).exec(function(err,pick){
-									if (err) {console.log('ERR: fixtures page on picks')}
-									else {
-										Round.findById(fixture.round, function (err,round){
+								Team.findOne({name:'Draw', league:comp.league}).exec(function (err,draw){
+									if (err) {console.log('ERR: fixtures page on fixtures')}
+									else{				
+										FixturePick.findOne({competition:req.param('competition'), fixture:req.param('fixture'), user:req.user.id}).exec(function(err,pick){
 											if (err) {console.log('ERR: fixtures page on picks')}
 											else {
-												Competition.findById(req.param('competition')).exec(function(err, comp){
-													if (err) {console.log('ERR: fixtures pick page on COMP lookup')}
-													else{
+												Round.findById(fixture.round, function (err,round){
+													if (err) {console.log('ERR: fixtures page on picks')}
+													else {
 														Point.findOne({user:req.user.id, competition:comp.id, fixture:fixture.id}).exec(function (err, points){
-															if (err) {console.log('ERR: fixtures pick page on COMP lookup')}
-															else {
-																res.render('fixturePick.ejs', {
-																	user : req.user, // get the user out of session and pass to template
-																	fixture: fixture,
-																	pick: pick,
-																	teams: createIdLookup(teams),
-																	draw: draw,
-																	round: round,
-																	competition: comp,
-																	points: points,
-																	successMsg: req.flash('successMsg'),
-																	dangerMsg: req.flash('dangerMsg'),
-																	warningMsg: req.flash('warningMsg')
-																});
-															}
-														});
-													}			
+																if (err) {console.log('ERR: fixtures pick page on COMP lookup')}
+																else {
+																	res.render('fixturePick.ejs', {
+																		user : req.user, // get the user out of session and pass to template
+																		fixture: fixture,
+																		pick: pick,
+																		teams: createIdLookup(teams),
+																		draw: draw,
+																		round: round,
+																		competition: comp,
+																		points: points,
+																		successMsg: req.flash('successMsg'),
+																		dangerMsg: req.flash('dangerMsg'),
+																		warningMsg: req.flash('warningMsg')
+																	});
+																}
+															});
+													}
 												});
 											}
 										});
 									}
 								});
-							}
+							}				
 						});
-					}				
+					}			
 				});
+
 			}
 		});
 

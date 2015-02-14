@@ -2,55 +2,55 @@ var mongoose = require('mongoose');
 var User = require('../models/user');
 var Competition = require('../models/competition');
 var Team = require('../models/team');
-var Round = require('../models/round');
 var FixturePick = require('../models/fixturePick');
+var Fixture = require('../models/fixture');
 
 function updatePicks(user_email, comp_name){
     var picks = [
         {user: user_email, 
         competition: comp_name, 
-        fixture: '5434a4cc2367c9209a73916e', // CCM WPX
-        winner: 'CCM',
+        fixture: '549dbc89f1ace29007e4bff0', 
+        winner: 'BBR',
+        homeScore: 2,
+        awayScore: 1,
+        roundName: 'Round 17'
+        },
+
+        {user: user_email, 
+        competition: comp_name, 
+        fixture: '549dbc89f1ace29007e4bff7',
+        winner: 'WPX',
         homeScore: 2,
         awayScore: 0,
-        roundName: 'Round 2'
+        roundName: 'Round 17'
         },
 
         {user: user_email, 
         competition: comp_name, 
-        fixture: '5434a4cc2367c9209a73916f', // MCY NUJ
-        winner: 'MCY',
-        homeScore: 3,
+        fixture: '549dbc89f1ace29007e4c011',
+        winner: 'DRW',
+        homeScore: 2,
         awayScore: 2,
-        roundName: 'Round 2'
+        roundName: 'Round 17'
         },
 
         {user: user_email, 
         competition: comp_name, 
-        fixture: '5434a4cc2367c9209a739170', //ADU MBV
+        fixture: '549dbc89f1ace29007e4bfec',
         winner: 'MBV',
-        homeScore: 0,
-        awayScore: 2,
-        roundName: 'Round 2'
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '5434a4cc2367c9209a739171', // PTH BBR
-        winner: 'BBR',
         homeScore: 1,
         awayScore: 3,
-        roundName: 'Round 2'
+        roundName: 'Round 17'
 
         },
 
         {user: user_email, 
         competition: comp_name, 
-        fixture: '5434a4cc2367c9209a739172', // SFC WSW
-        winner: 'WSW',
+        fixture: '549dbc89f1ace29007e4bffd',
+        winner: 'PTH',
         homeScore: 1,
-        awayScore: 2,
-        roundName: 'Round 2'
+        awayScore: 3,
+        roundName: 'Round 17'
         }
     ];
     
@@ -64,18 +64,22 @@ function updatePicks(user_email, comp_name){
                         Team.findOne({'shtcode': pick.winner}, function (err, winner) {
                             if (err) console.log("ERROR:"+err.toString());
                             else{
-                                Round.findOne({competition:competition, name:pick.roundName}).exec(function(err,round){
-                                    console.log('WINNER %s', winner.name);
-                                    FixturePick.update({
-                                        user: user._id, 
-                                        competition: competition._id, 
-                                        fixture: pick.fixture}, 
-                                        {$set: {round:round.id, winner: winner._id, homeScore: pick.homeScore, awayScore:pick.awayScore}},
-                                        {upsert: true},
-                                        function(err){
-                                            if (err) console.log("ERROR2:"+err.toString());
-                                        }
-                                    );
+                                Fixture.findById(pick.fixture).exec(function(err, fixture){
+                                    if (err) console.log('ERROR:%s',err);
+                                    else{
+                                        console.log('WINNER %s', winner.name);
+                                       // console.log(fixture.round);
+                                        FixturePick.update({
+                                            user: user._id, 
+                                            competition: competition._id, 
+                                            fixture: pick.fixture}, 
+                                            {$set: {round:fixture.round, winner: winner._id, homeScore: pick.homeScore, awayScore:pick.awayScore}},
+                                            {upsert: true},
+                                            function(err){
+                                                if (err) console.log("ERROR2:"+err.toString());
+                                            }
+                                        );
+                                    }
                                 });
                             }
                         });
@@ -88,11 +92,35 @@ function updatePicks(user_email, comp_name){
     
 }
 
+function showallPicksforUserForROund(user_email,round_id){
+    var FixturePick = require('../models/fixturePick');
+    var User = require('../models/user');
+    
+    User.findOne({'local.email':user_email}).exec(function(err,user){
+        if (err){console.log('ERROR:%s',err)}
+        else{
+           FixturePick.find({user:user.id,round:round_id}).exec(function(err,picks){
+            if (err){console.log('ERROR:%s',err)}
+            else{
+                  picks.forEach(function(pick){
+                    console.log('PICK\n=============');
+                    console.log(pick);
+                    console.log('==============');
+                  });
+            }
+           });
+        }
+    });
+    
+    
+}
 
-mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
+var dbUrl = 'mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@'+process.env.DATABASE_SERVER+':'+process.env.DATABASE_PORT+'/'+process.env.DATABASE_NAME;
+mongoose.connect(dbUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
     updatePicks('darcy@araitanga.com', 'Roseneath School');
+    //showallPicksforUserForROund('darcy@araitanga.com','542bd1842367c9209a739134')
     console.log("done");
 });
