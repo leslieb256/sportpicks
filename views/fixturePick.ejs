@@ -140,7 +140,10 @@
 							<% if (scoringOption.selectOver) { %>
 								<div class = "radio">
 									<label for="SD--1" >
-										<input type="radio" name="scoreDifference" id="SD--1" value = "-1" <% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==-1) ) { %>checked <% } %>/> <%= scoringOption.margins[scoringOption.margins.length - 1 ] + 1 %> +
+										<input type="radio" name="scoreDifference" id="SD--1" value = "-1" 
+										<% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==-1) ) { %> checked <% } %>
+										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> 
+										<%= scoringOption.margins[scoringOption.margins.length - 1 ] + 1 %> +
 									</label>
 								</div>
 							<% } %>

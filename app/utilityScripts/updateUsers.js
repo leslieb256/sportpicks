@@ -66,14 +66,16 @@ function removeAllUserRecords(userId,competitionId){
             Point.find({user:user, competition:competitionId}).remove().exec(function(err, points){
                 if(err){console.log('ERROR:%s',err)}
                 else {
-                    console.log('points for user %s (%s) removed',user.name, user.id);
+                    console.log(points);
+                    console.log('points for user %s (%s) removed',user.displyName, user.id);
                 }
             });                
             // remove record of user picks
             FixturePick.find({user:user, competition:competitionId}).remove().exec(function(err, picks){
                 if(err){console.log('ERROR:%s',err)}
                 else {
-                    console.log('picks for user %s (%s) removed',user.name, user.id);
+                    console.log(picks);
+                    console.log('picks for user %s (%s) removed',user.displayNamename, user.id);
                 }                
             });
             
@@ -93,6 +95,6 @@ db.once('open', function callback(){
     //addUserToComp('54ae4e92da48880c5f1cdcb4','mathew.bialy@wcc.govt.nz');
 
     //checkUser('5401512fb918a6b661d42b78');
-    removeAllUserRecords('5413f5114e06b040143dbbac','54ae4e92da48880c5f1cdcb4');
+    removeAllUserRecords('54d16e14309ec08d3553b0fa','54ae4e92da48880c5f1cdcb4');
     console.log("done");
 });

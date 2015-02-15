@@ -429,11 +429,11 @@ function updateFixtureResult(){
     
     var resultsList = [
         {
-            fixtureid:'54aeda88f1ace29007e4c0b0',
-            homeScore:17,
-            awayScore:29,
-            homeTeamLeaguePoints:0 ,
-            awayTeamLeaguePoints:4 ,
+            fixtureid:'54aeda88f1ace29007e4c0b6',
+            homeScore:15,
+            awayScore:25,
+            homeTeamLeaguePoints: 0,
+            awayTeamLeaguePoints: 5,
         }
 
 

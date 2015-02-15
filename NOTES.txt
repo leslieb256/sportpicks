@@ -26,18 +26,22 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 
 WORKING ON
 ==========
-
-*   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
-* e or 1hr before each round. Will also need to change how/when it updates the
-"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
-* Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
-
-* do some aleague scoring to test new db connection then do some super15 socring to test that.
+* add fixture statistics. by compeition starting with who picked what winner, then do who picked which margins. need to make a new 'stats' type.
+type: fixture, event, round
+statistics: {type: winner, numberHome, numberAway, 5ageHome, %Away}
+            {type: scordemaring: number 0, 1 and 2, percetnage 0,1 and 2}
+            {type: score difference: median home score, median away score}
 
 remvove modules from git
 
 TODO - SHORT TERM
 =================
+
+
+*   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
+* e or 1hr before each round. Will also need to change how/when it updates the
+"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
+* Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
 
 * bonuspoints for selecting grand final winner for event
 * event should store which teams are relevent for the event.
