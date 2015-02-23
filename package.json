@@ -20,6 +20,6 @@
     "passport": "~0.1.17",
     "passport-local": "^1.0.0",
     "moment": "^2.8.3",
-    "moment-timezone": "^0.2.2"
+    "moment-timezone": "^0.2.2",
   }
 }

@@ -27,16 +27,16 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 * add fixture statistics. by compeition starting with who picked what winner, then do who picked which margins. need to make a new 'stats' type.
-type: fixture, event, round
+type: fixture, event, round, team
 statistics: {type: winner, numberHome, numberAway, 5ageHome, %Away}
             {type: scordemaring: number 0, 1 and 2, percetnage 0,1 and 2}
             {type: score difference: median home score, median away score}
+            team wins/losses per history all teams and against this team.
 
 remvove modules from git
 
 TODO - SHORT TERM
 =================
-
 
 *   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
 * e or 1hr before each round. Will also need to change how/when it updates the

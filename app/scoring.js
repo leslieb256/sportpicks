@@ -703,8 +703,8 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
   
-   updateScoreForFixtureList(['549dbc89f1ace29007e4bffd','54aeda88f1ace29007e4c0b6']);
-  //updateCummulativeRoundPoints("542a5f2392bef71ffb812bcb"); // a league 14/15
+   //updateScoreForFixtureList(['549dbc89f1ace29007e4bff3','549dbc89f1ace29007e4bfeb','549dbc89f1ace29007e4c00b','549dbc89f1ace29007e4bff1','549dbc89f1ace29007e4c004']); 
+  updateCummulativeRoundPoints("542a5f2392bef71ffb812bcb"); // a league 14/15
   //updateCummulativeRoundPoints("54ae4da6f1ace29007e4c08e"); // super rugby 2015
   
    // TEST SCORING OPTION

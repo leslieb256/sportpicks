@@ -429,11 +429,53 @@ function updateFixtureResult(){
     
     var resultsList = [
         {
-            fixtureid:'54aeda88f1ace29007e4c0b6',
-            homeScore:15,
-            awayScore:25,
-            homeTeamLeaguePoints: 0,
-            awayTeamLeaguePoints: 5,
+            fixtureid:'54af2d35f1ace29007e4c0c5', //CHF v BRM
+            homeScore:19,
+            awayScore:17,
+            homeTeamLeaguePoints: 4,
+            awayTeamLeaguePoints: 1,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c0c1',  // REB WAR
+            homeScore:28,
+            awayScore:38,
+            homeTeamLeaguePoints:0 ,
+            awayTeamLeaguePoints: 4,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c0d1', // BUL HUR
+            homeScore:13,
+            awayScore:17,
+            homeTeamLeaguePoints: 1,
+            awayTeamLeaguePoints: 4,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c0fe', // HGH CRU
+            homeScore:20,
+            awayScore:26,
+            homeTeamLeaguePoints:1 ,
+            awayTeamLeaguePoints: 4,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c0c9', // RED FCE
+            homeScore:18,
+            awayScore:6,
+            homeTeamLeaguePoints: 4,
+            awayTeamLeaguePoints: 0,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c107', // STM BLU
+            homeScore:27,
+            awayScore:16,
+            homeTeamLeaguePoints: 4,
+            awayTeamLeaguePoints: 0,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c0f1', // shk leo
+            homeScore:29,
+            awayScore:12,
+            homeTeamLeaguePoints: 4,
+            awayTeamLeaguePoints: 0,
         }
 
 
