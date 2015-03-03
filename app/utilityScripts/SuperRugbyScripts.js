@@ -429,55 +429,54 @@ function updateFixtureResult(){
     
     var resultsList = [
         {
-            fixtureid:'54af2d35f1ace29007e4c0c5', //CHF v BRM
-            homeScore:19,
-            awayScore:17,
-            homeTeamLeaguePoints: 4,
-            awayTeamLeaguePoints: 1,
+            fixtureid:'54af2d35f1ace29007e4c0ec', //HIGH REDS
+            homeScore:20,
+            awayScore:13,
+            homeTeamLeaguePoints:4 ,
+            awayTeamLeaguePoints:0 ,
         },
         {
-            fixtureid:'54af2d35f1ace29007e4c0c1',  // REB WAR
-            homeScore:28,
-            awayScore:38,
-            homeTeamLeaguePoints:0 ,
-            awayTeamLeaguePoints: 4,
+            fixtureid:'54af2d35f1ace29007e4c0f5', //CTHS BLUES
+            homeScore:25,
+            awayScore:24,
+            homeTeamLeaguePoints: 0,
+            awayTeamLeaguePoints: 5,
         },
         {
-            fixtureid:'54af2d35f1ace29007e4c0d1', // BUL HUR
+            fixtureid:'54af2d35f1ace29007e4c0eb', //FCE HURR
             homeScore:13,
-            awayScore:17,
+            awayScore:42,
+            homeTeamLeaguePoints: 0,
+            awayTeamLeaguePoints: 5,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c0cc', //CHF CRU
+            homeScore:40,
+            awayScore:16,
+            homeTeamLeaguePoints: 5,
+            awayTeamLeaguePoints: 0,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c0d4', //REBS BRUM
+            homeScore:15,
+            awayScore:20,
             homeTeamLeaguePoints: 1,
             awayTeamLeaguePoints: 4,
         },
         {
-            fixtureid:'54af2d35f1ace29007e4c0fe', // HGH CRU
-            homeScore:20,
-            awayScore:26,
-            homeTeamLeaguePoints:1 ,
+            fixtureid:'54af2d35f1ace29007e4c0e5', //BUL SH
+            homeScore:43,
+            awayScore:35,
+            homeTeamLeaguePoints: 5,
+            awayTeamLeaguePoints: 0,
+        },
+        {
+            fixtureid:'54af2d35f1ace29007e4c0d5', //LNS STRM
+            homeScore:19,
+            awayScore:22,
+            homeTeamLeaguePoints: 1,
             awayTeamLeaguePoints: 4,
-        },
-        {
-            fixtureid:'54af2d35f1ace29007e4c0c9', // RED FCE
-            homeScore:18,
-            awayScore:6,
-            homeTeamLeaguePoints: 4,
-            awayTeamLeaguePoints: 0,
-        },
-        {
-            fixtureid:'54af2d35f1ace29007e4c107', // STM BLU
-            homeScore:27,
-            awayScore:16,
-            homeTeamLeaguePoints: 4,
-            awayTeamLeaguePoints: 0,
-        },
-        {
-            fixtureid:'54af2d35f1ace29007e4c0f1', // shk leo
-            homeScore:29,
-            awayScore:12,
-            homeTeamLeaguePoints: 4,
-            awayTeamLeaguePoints: 0,
         }
-
 
         ];
         

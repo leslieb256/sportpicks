@@ -703,9 +703,9 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
   
-   //updateScoreForFixtureList(['549dbc89f1ace29007e4bff3','549dbc89f1ace29007e4bfeb','549dbc89f1ace29007e4c00b','549dbc89f1ace29007e4bff1','549dbc89f1ace29007e4c004']); 
+   //updateScoreForFixtureList(['54af2d35f1ace29007e4c0ec','54af2d35f1ace29007e4c0e5','54af2d35f1ace29007e4c0f5','54af2d35f1ace29007e4c0d5','54af2d35f1ace29007e4c0d4','54af2d35f1ace29007e4c0eb','54af2d35f1ace29007e4c0cc']); 
   updateCummulativeRoundPoints("542a5f2392bef71ffb812bcb"); // a league 14/15
-  //updateCummulativeRoundPoints("54ae4da6f1ace29007e4c08e"); // super rugby 2015
+  updateCummulativeRoundPoints("54ae4da6f1ace29007e4c08e"); // super rugby 2015
   
    // TEST SCORING OPTION
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));
