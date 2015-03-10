@@ -254,6 +254,7 @@ module.exports = function(app, passport) {
 		var Round =require('../app/models/round');
 		var Competition =require('../app/models/competition');
 		var Point =require('../app/models/point');
+
 		Fixture.findById(req.param('fixture')).exec(function (err,fixture){
 		if (err) {console.log('ERR: fixturePick page on fixtures')}
 			else{
@@ -276,8 +277,6 @@ module.exports = function(app, passport) {
 														Point.findOne({user:req.user.id, competition:comp.id, fixture:fixture.id}).exec(function (err, points){
 																if (err) {console.log('ERR: fixtures pick page on COMP lookup')}
 																else {
-																	console.log('TEST FUNCTION');
-																	console.log(createCjsDonutDataWinnerPickData(fixture._id,comp._id,createIdLookup(teams)));
 																	res.render('fixturePick.ejs', {
 																		user : req.user, // get the user out of session and pass to template
 																		fixture: fixture,
@@ -287,7 +286,6 @@ module.exports = function(app, passport) {
 																		round: round,
 																		competition: comp,
 																		points: points,
-																		gWinnerPickGraph: JSON.stringify( createCjsDonutDataWinnerPickData(fixture._id,comp._id,createIdLookup(teams)) ),									
 																		successMsg: req.flash('successMsg'),
 																		dangerMsg: req.flash('dangerMsg'),
 																		warningMsg: req.flash('warningMsg')
@@ -550,67 +548,6 @@ function createCjsDataPointHistory(pointsData,userId){
 		return undefined;
 	}
 }
-
-	function createCjsDonutDataWinnerPickData(fixtureID,competitionID,teamLookup){
-		var Statistic = require('../app/models/statistic');
-	    var Fixture = require('../app/models/fixture');
-	    var async = require('async');
-	    
-	    try {
-	    	async.waterfall([
-	    		function(cb_ReturnData){
-	    			var chartData =[];
-	   				Statistic.findOne({fixture:fixtureID, competition:competitionID,type:'winnerPickNumber'}).populate('fixture').exec(function (err,statData){
-						if (err) {console.log('ERROR in preparing data for graph');throw (err)}
-						else {
-	
-							async.each(statData.data, function(dataPoint,cb_PrepData){
-								var sliceData = {};
-								if (statData.fixture.homeTeam._id == dataPoint.teamID){
-									//console.log('Found data for home team')
-									sliceData = {value: dataPoint.number, color:"rgba(151,187,205,0.5)", highlight: "rgba(151,187,205,0.75)", label:teamLookup[dataPoint.teamID].name };
-								}
-								else
-								{
-									//console.log('Found data for away team')
-									sliceData = {value: dataPoint.number, color:"rgba(220,220,220,0.5)", highlight: "rgba(220,220,220,0.75)", label:teamLookup[dataPoint.teamID].name };
-								}
-								//console.log('Pusihgin slice data to data')
-								chartData.push(sliceData);
-								cb_PrepData();
-							}, function(err){
-								if (err) {
-									console.log('ERROR in creating data for WinnerPickGraph');
-									cb_ReturnData(err);
-								}
-								else {
-									//console.log('CHART DATA IN INNER ASYNC');
-									//console.log(chartData);
-									cb_ReturnData(null, chartData);
-								}
-							});
-	
-						}
-					});
-	
-	    			
-	    		}
-	    		],function(err,chartData){
-	    			if (err) {console.log('ERROR in preparing return data')}
-	    			else {
-	    				console.log('HERE IS THE FINAL RETURN');
-	    				console.log(chartData);
-	    				return (chartData);
-	    			}
-	    		});
-	     }
-		catch (err){
-			//probably end up here because there is no points History Data
-			console.log('threw erro returning undefined');
-			return undefined;
-		}
-	}
-
 
 function createCompetitionLookup(queryData){
 	var lookup = {};

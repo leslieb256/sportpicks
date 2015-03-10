@@ -140,7 +140,9 @@ But the idea is the port type can limit what scoring option are avaailbae, soprt
 
 * work out why the graph does not work pepery in IE, it draw it way too big, Tried making the graph only load after the rest of the pages and this did not help.
 
+* for stats need to do "if winner required, if not erquired for score difference and exact result as it will change the graphs since they currently assume winner is required.).
 
+* change score over to be 99999 or something silly so that you could also have a silly score under of -99999 
 
 ENVIRONMENT VARIABLES
 ======================
@@ -150,3 +152,4 @@ $ export SECRET=geheim"
 $ echo "export SECRET=geheim" >> ~/.profile
 
 to define the variable SECRET and then use it through process.env.SECRET from your application. On the restart the varaibles should be set automatically.
+

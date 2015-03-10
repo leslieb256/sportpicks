@@ -90,11 +90,11 @@ mongoose.connect(dbUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
-    //updateUsers('mathew.bialy@wcc.govt.nz',"Matt B");
-    //updateUserPassword('mathew.bialy@wcc.govt.nz',"password");    
-    //addUserToComp('54ae4e92da48880c5f1cdcb4','mathew.bialy@wcc.govt.nz');
+    //updateUsers('mark.shackleton@wcc.govt.nz',"Mark");
+    updateUserPassword('mark.shackleton@wcc.govt.nz',"password");    
+    addUserToComp('54ae4e92da48880c5f1cdcb4','mark.shackleton@wcc.govt.nz');
 
     //checkUser('5401512fb918a6b661d42b78');
-    removeAllUserRecords('54d16e14309ec08d3553b0fa','54ae4e92da48880c5f1cdcb4');
+    //removeAllUserRecords('54d16e14309ec08d3553b0fa','54ae4e92da48880c5f1cdcb4');
     console.log("done");
 });

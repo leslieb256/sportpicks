@@ -17,10 +17,10 @@
  * scoreDifference
  *  points - points if you get the score difference (margin) right
  *  margins [x,y,z...] - an array of the possible brackets for score difference the first number is 
- *               0 - x, then from gt x to y, then from gt than y to z, then z+
+ *               0 - x, then from gt x to y, then from gt than y to z, then [z+1]+
  *  needsWinner - boolean - do you need to have picked the winner before you can get these points
  *  
- *  The user Pick if the want x+ should be recorded as "-1" eg: if the options are: 0,1,2+
+ *  The user Pick if they want x+ should be recorded as "-1" eg: if the options are: 0,1,2+ then 2+ is recorded as -1
  * 
  **/
  
@@ -703,9 +703,9 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
   
-   //updateScoreForFixtureList(['54af2d35f1ace29007e4c0ec','54af2d35f1ace29007e4c0e5','54af2d35f1ace29007e4c0f5','54af2d35f1ace29007e4c0d5','54af2d35f1ace29007e4c0d4','54af2d35f1ace29007e4c0eb','54af2d35f1ace29007e4c0cc']); 
+   //updateScoreForFixtureList(['549dbc89f1ace29007e4c015','549dbc89f1ace29007e4bff4','549dbc89f1ace29007e4c006','549dbc89f1ace29007e4c002','549dbc89f1ace29007e4c01e']); 
   updateCummulativeRoundPoints("542a5f2392bef71ffb812bcb"); // a league 14/15
-  updateCummulativeRoundPoints("54ae4da6f1ace29007e4c08e"); // super rugby 2015
+  //updateCummulativeRoundPoints("54ae4da6f1ace29007e4c08e"); // super rugby 2015
   
    // TEST SCORING OPTION
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));
