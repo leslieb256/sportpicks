@@ -2,11 +2,11 @@
 // See statistics.js model for more information
 
 function storeCompetitionFixtureStatistics(fixtureID, competitionID){
-    var FixturePick = require('../models/fixturePick');
-    var Fixture = require('../models/fixture');
-    var Competition = require('../models/competition');
-    var Statistic = require('../models/statistic');
-    var Team = require('../models/team');
+    var FixturePick = require('./models/fixturePick');
+    var Fixture = require('./models/fixture');
+    var Competition = require('./models/competition');
+    var Statistic = require('./models/statistic');
+    var Team = require('./models/team');
     var async = require('async');
 
 // See http://stackoverflow.com/questions/23667086/why-is-my-variable-unaltered-after-i-modify-it-inside-of-a-function-asynchron might need to make a call back?
@@ -77,17 +77,15 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
         
                                 },
                                 function (db_write_cb){
-                                    console.log('sAVING STATS DATA HERE');
-                                    console.log(statsData);
-                        			/**Statistic.update({
+                        			Statistic.update({
                         				 fixture: fixture._id,
                         				 competition: competition._id},
-                        				 {$set: {type: 'winnerPickNumber', data:statsData}},
+                        				 {$set: {data: statsData}},
                         				 {upsert: true},
                         				 function(err){
                         				 	if(err){console.log('Error on adding stats data to mongo');}
                         				 	else {console.log('Statistics data stored.')}
-                        				 }); **/
+                        				 }); 
                                 },
         
                             ]);
