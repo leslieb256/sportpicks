@@ -231,7 +231,10 @@ function createIdLookup(queryData){
 	return lookup;
 }
 
-
+//==================
+// EXPORTS =========
+//==================
+exports.storeCompetitionFixtureStatistics = storeCompetitionFixtureStatistics;
 
     // TEAM FIXTURE STATISTICS LAST 5 games result and last up to 5 games vs that team result.
 

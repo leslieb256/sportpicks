@@ -676,6 +676,22 @@ var testPick6 = {
   pickcomment: "wrongTeam correct Pick (1)"
 }
 
+function updateStatisticsForRound(roundId, competitionId){
+    var Competition = require('../app/models/competition');
+    var Fixture = require('../app/models/fixture');
+    var Statistics = require('../app/statistics');
+    
+    Fixture.find({round:roundId}).exec(function(err, fixtures){
+        if (err){console.log(err)}
+        else {
+            fixtures.forEach(function (fixture){
+                Statistics.storeCompetitionFixtureStatistics(fixture._id, competitionId);
+            });
+        }
+    });
+    
+}
+
 
 function removeCummulativeData(){
     var Point = require('../app/models/point');
@@ -704,8 +720,9 @@ db.once('open', function callback(){
 
   
    //updateScoreForFixtureList(['549dbc89f1ace29007e4c015','549dbc89f1ace29007e4bff4','549dbc89f1ace29007e4c006','549dbc89f1ace29007e4c002','549dbc89f1ace29007e4c01e']); 
-  updateCummulativeRoundPoints("542a5f2392bef71ffb812bcb"); // a league 14/15
+  //updateCummulativeRoundPoints("542a5f2392bef71ffb812bcb"); // a league 14/15
   //updateCummulativeRoundPoints("54ae4da6f1ace29007e4c08e"); // super rugby 2015
+  updateStatisticsForRound('54ae4fd9f1ace29007e4c0a0','54ae4e92da48880c5f1cdcb4');
   
    // TEST SCORING OPTION
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));

@@ -38,6 +38,8 @@ remvove modules from git
 TODO - SHORT TERM
 =================
 
+* do stats calc for exactresult = should combine all the picked values for home and away in to a list for the labels. Then go through and apply the number of selections to it.
+
 *   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
 * e or 1hr before each round. Will also need to change how/when it updates the
 "closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
@@ -49,8 +51,6 @@ TODO - SHORT TERM
 * the fact a bonus round is being used needs to be recorded in the comp, Along with the relvent ficutres maybe bonusPoints:{roundid{[fixtureID]}}} or something like that. If null then no bounspoints?
 
 SHould have background image in div that stretches across sceen and then have a ligh greay transparent background with black text in ti for the Sport picks title in it. Maybe ajumbotron in a jumbotron?
-
-* review what happens if I make the round graph not a window.onload and function, just put it in the script and test on IE at work
 
 * do regualr backups of the mongo database c:\prgram files\mongodb\bin\backup.bat
 
