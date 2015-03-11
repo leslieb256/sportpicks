@@ -8,6 +8,10 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
     var Statistic = require('./models/statistic');
     var Team = require('./models/team');
     var async = require('async');
+    
+    var HOMERGB = "190, 95, 124";
+    var AWAYRGB = "187, 205, 103";
+    var DRAWRGB = "220,220,220";
 
 // See http://stackoverflow.com/questions/23667086/why-is-my-variable-unaltered-after-i-modify-it-inside-of-a-function-asynchron might need to make a call back?
     
@@ -35,29 +39,29 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
                                                 {$match:{ fixture:fixture._id, competition:competition._id }},
                                             	{$group: {_id:"$winner", count:{$sum:1}} }
                                             ], function(err, result){
-                                                console.log('in te result function');
+                                                //console.log('in te result function');
                                             	if(err){
                                             	    console.log('ERROR: %s',err)
                                             	    collection_cb(err);
                                             	}
                                             	else {
                                             	    formatWinnerPickNumberResult(result, createIdLookup(compTeams), fixture,  function(formattedData){
-                                                	    console.log('formatting winner data for return');
+                                                	    //console.log('formatting winner data for return');
                                                         statsData.push(formattedData);
-                                                        console.log(formattedData);
+                                                        //console.log(formattedData);
                                                         collection_cb();
                                             	    })
                                             	}
                                             });
                                         }
                                         if (scoringOption.type=='scoreDifference'){
-                                            console.log('looking at scoreDifference stats');
+                                            //console.log('looking at scoreDifference stats');
                                             // should have a test, if winner required as if winner not required the split between the teams is lss important
                                             FixturePick.aggregate([
                                                 {$match:{fixture:fixture._id, competition:competition._id}},
                                                 {$group:{_id:{winner:'$winner', scoreDifference:'$scoreDifference'}, count:{$sum:1} }} 
                                             ], function(err, result){
-                                                console.log('inscore diff result function');
+                                                //console.log('inscore diff result function');
                                                 if (err) {console.log('ERROR in scoredifference stats calc')}
                                                 else {
                                                     formatScoreDiffNumberResult(result, createIdLookup(compTeams), fixture, scoringOption, function(formattedData){
@@ -67,6 +71,23 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
                                                 }
                                             });
                                         }
+                                        
+                                        if(scoringOption.type=='exactResult'){
+                                            // This is about the mix of the selected scores, the winner is not important for the graph.
+                                            FixturePick.find({fixture:fixture._id, competition: competition._id}).exec(function (err, fixturePicks){
+                                                if (err){console.log(err)}
+                                                else{
+                                                    formatExactResultNumber(fixturePicks,fixture, function(formattedData){
+                                                        //console.log('========FORMATTED DATA ========');
+                                                        //console.log(JSON.stringify(formattedData));
+                                                        statsData.push(formattedData);                                                        
+                                                        collection_cb();
+                                                    });
+                                                }
+                                            });
+                                        }
+                                        
+                                        
                                     }, function(err){
                                             if (err){console.log(err)}
                                             else {
@@ -77,6 +98,8 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
         
                                 },
                                 function (db_write_cb){
+                                    console.log('======STATS DATA======');
+                                    console.log(JSON.stringify(statsData));
                         			Statistic.update({
                         				 fixture: fixture._id,
                         				 competition: competition._id},
@@ -95,6 +118,77 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
             });
         }
     });
+    
+    function formatExactResultNumber (fixturePicks, fixture, callback){
+        console.log('in foramt Exact Result');
+        // create the structure for our formatted data.
+        var formattedData = {
+            'type':'exactResult',
+            'data':{
+                'labels': [],
+                'datasets':[
+                    {   label: fixture.homeTeam.name,
+                        fillColor: "rgba("+HOMERGB+",0.5)",
+                        strokeColor: "rgba("+HOMERGB+",0.8)",
+                        highlightFill: "rgba("+HOMERGB+",0.5)",
+                        highlightStroke: "rgba("+HOMERGB+",1)",
+                        pointColor : "rgba("+HOMERGB+",0.8)",                
+                        pointStrokeColor : "rgba("+HOMERGB+",0.8)",                
+                        data: []                        
+                    },
+                    {   label: fixture.awayTeam.name,
+                        fillColor: "rgba("+AWAYRGB+",0.5)",
+                        strokeColor: "rgba("+AWAYRGB+",0.8)",
+                        highlightFill: "rgba("+AWAYRGB+",0.5)",
+                        highlightStroke: "rgba("+AWAYRGB+",1)",
+                        pointColor : "rgba("+AWAYRGB+",0.8)",
+                        pointStrokeColor : "rgba("+AWAYRGB+",0.8)",                
+                        data: []
+                    }
+                ]
+            }
+        };
+
+        uniquePickValues(fixturePicks, function(uniqueValues){
+            
+            formattedData.data['labels'] = uniqueValues;
+            
+            var numberOfOptions = uniqueValues.length;
+            formattedData.data.datasets[0].data = new Array(numberOfOptions);
+            formattedData.data.datasets[1].data = new Array(numberOfOptions);
+    		for (var i=0;i<numberOfOptions;i++){formattedData.data.datasets[0].data[i] = 0;}
+    		for (var i=0;i<numberOfOptions;i++){formattedData.data.datasets[1].data[i] = 0;}
+
+            fixturePicks.forEach(function(pick){
+                //find where the score pick is in the relvent dataset and add one to the entry
+                var positionHS = uniqueValues.indexOf(pick.homeScore);
+                formattedData.data.datasets[0].data[positionHS] += 1;
+
+                var positionAS = uniqueValues.indexOf(pick.awayScore);
+                formattedData.data.datasets[1].data[positionAS] += 1;
+            });
+
+            callback (formattedData);
+        });
+
+        function uniquePickValues (fixturePicks, callback){
+            console.log('identifying unique values');
+            // function that iterates through a set of picks and 
+            // idenfities the unique values
+            var uniqueValues = [];            
+            fixturePicks.forEach(function(pick){
+                if (uniqueValues.indexOf(pick.homeScore)==-1) {
+                    uniqueValues.push(pick.homeScore);
+                }
+                if (uniqueValues.indexOf(pick.awayScore)==-1) {
+                    uniqueValues.push(pick.awayScore);
+                }
+            });
+            uniqueValues.sort();
+            callback(uniqueValues);
+        }
+        
+    }
     
     function formatWinnerPickNumberResult(resultData,teamLookup, fixture,  callback){
         // formats picks statistics in to format for database for storing the stats
@@ -185,7 +279,7 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
         });	
 
         // fill the datasets based on the user selection summary above
-        console.log('building sd data');
+        //console.log('building sd data');
         formattedData.data.datasets = [
             {   label: fixture.homeTeam.name,
                 fillColor: "rgba(190, 95, 124,0.5)",
@@ -247,7 +341,7 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
     console.log('starting');
 
-   storeCompetitionFixtureStatistics('54af2d35f1ace29007e4c0ec', '54ae4e92da48880c5f1cdcb4');
+   storeCompetitionFixtureStatistics('542c9ae12367c9209a739150', '542a5ffa736e3e35532f2d24');
 
     console.log("done");
 

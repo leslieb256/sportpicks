@@ -199,9 +199,15 @@
 							var scoreDifferencePickChart = document.getElementById('scoreDifferencePickChart').getContext('2d');
 							new Chart (scoreDifferencePickChart).Radar(<%- JSON.stringify(stats[i].data) %>);
 						</script>
-	
 					<% }
-				
+					if (stats[i].type == 'exactResult'){ %> 
+						<h4>Exact result picks</h4>
+						<canvas id="exactResultPickChart" height="200" width="400"></canvas>
+						<script type="text/javascript">
+							var exactResultPickChart = document.getElementById('exactResultPickChart').getContext('2d');
+							new Chart (exactResultPickChart).Radar(<%- JSON.stringify(stats[i].data) %>);
+						</script>
+					<% }
 				} %>
 			<% } %>
 		</div>
