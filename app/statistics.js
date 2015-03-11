@@ -101,14 +101,14 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
         var formattedData = {'type':'winnerPickNumber', data:[]};
         resultData.forEach(function (pickSummary){
             if (fixture.homeTeam.id == pickSummary._id){
-                formattedData.data.push({'value':pickSummary.count, 'color':'#F7464A', 'highlight':'#FF5A5E', 'label':teamLookup[pickSummary._id].name});                
+                formattedData.data.push({'value':pickSummary.count, 'color':"rgba(190, 95, 124,0.5)", 'highlight':"rgba(190, 95, 124,0.8)", 'label':teamLookup[pickSummary._id].name});                
             }
             else {
                 if (fixture.awayTeam.id == pickSummary._id){
-                    formattedData.data.push({'value':pickSummary.count, 'color':'#46BFBD', 'highlight':'#5AD3D1', 'label':teamLookup[pickSummary._id].name});                
+                    formattedData.data.push({'value':pickSummary.count, 'color':"rgba(187, 205, 103,0.5)", 'highlight':"rgba(187, 205, 103,0.8)", 'label':teamLookup[pickSummary._id].name});                
                 }
                 else {
-                    formattedData.data.push({'value':pickSummary.count, 'color':'#FDB45C', 'highlight':'#FFC870', 'label':teamLookup[pickSummary._id].name});                
+                    formattedData.data.push({'value':pickSummary.count, 'color':"rgba(220,220,220,0.5)", 'highlight':"rgba(220,220,220,0.8)", 'label':teamLookup[pickSummary._id].name});                
                 }
             }
         });
@@ -188,24 +188,30 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
         console.log('building sd data');
         formattedData.data.datasets = [
             {   label: fixture.homeTeam.name,
-                fillColor: "rgba(220,220,220,0.5)",
-                strokeColor: "rgba(220,220,220,0.8)",
-                highlightFill: "rgba(220,220,220,0.75)",
-                highlightStroke: "rgba(220,220,220,1)",
+                fillColor: "rgba(190, 95, 124,0.5)",
+                strokeColor: "rgba(190, 95, 124,0.8)",
+                highlightFill: "rgba(190, 95, 124,0.5)",
+                highlightStroke: "rgba(190, 95, 124,1)",
+                pointColor : "rgba(190, 95, 124,0.8)",                
+                pointStrokeColor : "rgba(190, 95, 124,0.8)",                
                 data: homeSelections
             },
             {   label: fixture.awayTeam.name,
-                fillColor: "rgba(151,187,205,0.5)",
-                strokeColor: "rgba(151,187,205,0.8)",
-                highlightFill: "rgba(151,187,205,0.75)",
-                highlightStroke: "rgba(151,187,205,1)",
+                fillColor: "rgba(187, 205, 103,0.5)",
+                strokeColor: "rgba(187, 205, 103,0.8)",
+                highlightFill: "rgba(187, 205, 103,0.5)",
+                highlightStroke: "rgba(187, 205, 103,1)",
+                pointColor : "rgba(187, 205, 103,0.8)",
+                pointStrokeColor : "rgba(187, 205, 103,0.8)",                
                 data: awaySelections
             },
-            {   label: fixture.awayTeam.name,
-                fillColor: "rgba(255,188,0,0.5)",
-                strokeColor: "rgba(255,188,0,0.8)",
-                highlightFill: "rgba(255,188,0,0.75)",
-                highlightStroke: "rgba(255,188,0,1)",
+            {   label: 'Draw',
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.5)",
+                highlightStroke: "rgba(220,220,220,0.8)",
+                pointColor : "rgba(220,220,220,0.8)",                                                
+                pointStrokeColor : "rgba(220,220,220,0.8)",
                 data: drawSelections
             }
         
@@ -226,33 +232,6 @@ function createIdLookup(queryData){
 }
 
 
-/**
-DATA FORMAT FOR BAR GRAPH
-
-var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-            label: "My Second dataset",
-            fillColor: "rgba(151,187,205,0.5)",
-            strokeColor: "rgba(151,187,205,0.8)",
-            highlightFill: "rgba(151,187,205,0.75)",
-            highlightStroke: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86, 27, 90]
-        }
-    ]
-};
-
-**/
-    
 
     // TEAM FIXTURE STATISTICS LAST 5 games result and last up to 5 games vs that team result.
 

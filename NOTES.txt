@@ -50,6 +50,8 @@ TODO - SHORT TERM
 
 SHould have background image in div that stretches across sceen and then have a ligh greay transparent background with black text in ti for the Sport picks title in it. Maybe ajumbotron in a jumbotron?
 
+* review what happens if I make the round graph not a window.onload and function, just put it in the script and test on IE at work
+
 * do regualr backups of the mongo database c:\prgram files\mongodb\bin\backup.bat
 
 

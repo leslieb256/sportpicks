@@ -176,23 +176,35 @@
 				<% if (!(fixture.awayScore == undefined)) { %> <tr><td><%= teams[fixture.awayTeam].name %></td><td><%= fixture.awayScore %></td></tr><% } %>
 			</table>
 			
-			<h2>fixture statistics</h2>
-			<% for (var i=0;i<stats.length;i++){
-				if (stats[i].type == 'winnerPickNumber'){ %>
-					<h3>Winner picks</h3>
-					<canvas id="winnerPickChart" height="200" width="200"></canvas>
-					<script type="text/javascript">
-						var winnerPickChart = document.getElementById('winnerPickChart').getContext('2d');
-						new Chart (winnerPickChart).Doughnut(<%- JSON.stringify(stats[i].data) %>);
-					</script>
-				<% }
-				if (stats[i].type == 'scoreDifferencePickNumber'){ %> 
-					<h3>Score difference (margin) picks</h3>
-					<p> put bargraph in here</p>
-					<%= JSON.stringify(stats[i].data) %>					
-				<% }
+			<% if (stats !== undefined) { %>
 			
-			} %>
+				<h2>fixture statistics</h2>
+				<script type="text/javascript">
+					Chart.defaults.global.responsive = true;
+					Chart.defaults.global.multiTooltipTemplate = "<%- statsMultiToolTip %>";				
+				</script>
+	
+				<% for (var i=0;i<stats.length;i++){
+					if (stats[i].type == 'winnerPickNumber'){ %>
+						<h4>Winner picks</h4>
+						<canvas id="winnerPickChart" height="100" width="400"></canvas>
+						<script type="text/javascript">
+							var winnerPickChart = document.getElementById('winnerPickChart').getContext('2d');
+							new Chart (winnerPickChart).Doughnut(<%- JSON.stringify(stats[i].data) %>);
+						</script>
+					<% }
+					if (stats[i].type == 'scoreDifferencePickNumber'){ %> 
+						<h4>Score difference (margin) picks</h4>
+						<canvas id="scoreDifferencePickChart" height="200" width="400"></canvas>
+						<script type="text/javascript">
+							var scoreDifferencePickChart = document.getElementById('scoreDifferencePickChart').getContext('2d');
+							new Chart (scoreDifferencePickChart).Radar(<%- JSON.stringify(stats[i].data) %>);
+						</script>
+	
+					<% }
+				
+				} %>
+			<% } %>
 		</div>
 		
 	</div>

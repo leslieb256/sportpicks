@@ -281,6 +281,9 @@ module.exports = function(app, passport) {
 																	Statistic.findOne({fixture:fixture._id, competition:comp._id}).exec(function(err, stats){
 																		if (err){console.log('error in getting the stats for the fixture')}
 																		else {
+																			if (stats === null){
+																				stats = {data: undefined};
+																			}
 																			res.render('fixturePick.ejs', {
 																				user : req.user, // get the user out of session and pass to template
 																				fixture: fixture,
@@ -291,6 +294,7 @@ module.exports = function(app, passport) {
 																				competition: comp,
 																				points: points,
 																				stats: stats.data,
+																			    statsMultiToolTip: "<%= datasetLabel %> : <%= value %>",																				
 																				successMsg: req.flash('successMsg'),
 																				dangerMsg: req.flash('dangerMsg'),
 																				warningMsg: req.flash('warningMsg')
