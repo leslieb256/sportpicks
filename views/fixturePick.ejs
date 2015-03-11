@@ -8,6 +8,7 @@
 	<style>
 		body 		{ padding-top:80px; word-wrap:break-word; }
 	</style>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.min.js'></script>	
 	<script type="text/javascript">
 		function localTime(utcTime){
 			var m_lng = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
@@ -18,6 +19,14 @@
 			if (origTime.getMinutes()<10){minutes = "0"+origTime.getMinutes();}else{minutes = origTime.getMinutes()}
     		document.write(d_lng[origTime.getDay()]+" "+origTime.getHours()+":"+minutes+", "+m_sht[origTime.getMonth()]+" "+origTime.getDate()+" "+origTime.getFullYear());
 		}
+		
+		function drawWinnerPickChart(chartData){
+			Chart.defaults.global.responsive = true;
+			Chart.defaults.global.showScale = false;
+			Chart.defaults.global.tooltipFontSize = 10;
+			var winnerPickChart = document.getElementById('winnerPickChart').getContext('2d');
+			new Chart (winnerPickChart).Doughnut([{"value":1,"color":"#46BFBD","highlight":"#5AD3D1","label":"Queensland Reds"},{"value":6,"color":"#F7464A","highlight":"#FF5A5E","label":"Highlanders"});
+		}		
 	</script>
 
 	
@@ -166,6 +175,24 @@
 				<% if (!(fixture.homeScore == undefined)) { %> <tr><td><%= teams[fixture.homeTeam].name %></td><td><%= fixture.homeScore %></td></tr><% } %>
 				<% if (!(fixture.awayScore == undefined)) { %> <tr><td><%= teams[fixture.awayTeam].name %></td><td><%= fixture.awayScore %></td></tr><% } %>
 			</table>
+			
+			<h2>fixture statistics</h2>
+			<% for (var i=0;i<stats.length;i++){
+				if (stats[i].type == 'winnerPickNumber'){ %>
+					<h3>Winner picks</h3>
+					<canvas id="winnerPickChart" height="200" width="200"></canvas>
+					<script type="text/javascript">
+						var winnerPickChart = document.getElementById('winnerPickChart').getContext('2d');
+						new Chart (winnerPickChart).Doughnut(<%- JSON.stringify(stats[i].data) %>);
+					</script>
+				<% }
+				if (stats[i].type == 'scoreDifferencePickNumber'){ %> 
+					<h3>Score difference (margin) picks</h3>
+					<p> put bargraph in here</p>
+					<%= JSON.stringify(stats[i].data) %>					
+				<% }
+			
+			} %>
 		</div>
 		
 	</div>

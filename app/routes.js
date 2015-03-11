@@ -254,6 +254,7 @@ module.exports = function(app, passport) {
 		var Round =require('../app/models/round');
 		var Competition =require('../app/models/competition');
 		var Point =require('../app/models/point');
+		var Statistic =require('../app/models/statistic');
 
 		Fixture.findById(req.param('fixture')).exec(function (err,fixture){
 		if (err) {console.log('ERR: fixturePick page on fixtures')}
@@ -277,19 +278,26 @@ module.exports = function(app, passport) {
 														Point.findOne({user:req.user.id, competition:comp.id, fixture:fixture.id}).exec(function (err, points){
 																if (err) {console.log('ERR: fixtures pick page on COMP lookup')}
 																else {
-																	res.render('fixturePick.ejs', {
-																		user : req.user, // get the user out of session and pass to template
-																		fixture: fixture,
-																		pick: pick,
-																		teams: createIdLookup(teams),
-																		draw: draw,
-																		round: round,
-																		competition: comp,
-																		points: points,
-																		successMsg: req.flash('successMsg'),
-																		dangerMsg: req.flash('dangerMsg'),
-																		warningMsg: req.flash('warningMsg')
+																	Statistic.findOne({fixture:fixture._id, competition:comp._id}).exec(function(err, stats){
+																		if (err){console.log('error in getting the stats for the fixture')}
+																		else {
+																			res.render('fixturePick.ejs', {
+																				user : req.user, // get the user out of session and pass to template
+																				fixture: fixture,
+																				pick: pick,
+																				teams: createIdLookup(teams),
+																				draw: draw,
+																				round: round,
+																				competition: comp,
+																				points: points,
+																				stats: stats.data,
+																				successMsg: req.flash('successMsg'),
+																				dangerMsg: req.flash('dangerMsg'),
+																				warningMsg: req.flash('warningMsg')
+																			});
+																		}
 																	});
+																	
 																}
 															});
 													}
