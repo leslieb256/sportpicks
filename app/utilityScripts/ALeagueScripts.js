@@ -1714,12 +1714,11 @@ function updateFixtureResult(){
     
     var resultsList = [
         
-        {   fixtureid:'549dbc89f1ace29007e4c015', homeScore:0,   awayScore: 1 }, //NUJ sfc
-        {   fixtureid:'549dbc89f1ace29007e4bff4', homeScore:2,   awayScore:0  }, // phx adu
-        {   fixtureid:'549dbc89f1ace29007e4c006', homeScore:1,   awayScore: 1 }, // mbv pth
-        {   fixtureid:'549dbc89f1ace29007e4c002', homeScore:1,   awayScore:0  }, // ccm mcy
-        {   fixtureid:'549dbc89f1ace29007e4c01e', homeScore:1,   awayScore: 0 }, // bbr wsw
-        
+        {   fixtureid:'549f0a61f1ace29007e4c029', homeScore:2,   awayScore:1  }, //ADU CCM
+            fixtureid:'549f0a61f1ace29007e4c028', homeScore:0,   awayScore:3  }, //WSW MBV
+            fixtureid:'549f0a61f1ace29007e4c026', homeScore:,   awayScore:  }, // SFC BBR
+            fixtureid:'549f0a61f1ace29007e4c022', homeScore:1,   awayScore:2  }, // PTH PHX
+            fixtureid:'549f0a61f1ace29007e4c027', homeScore:4,   awayScore:0  }, // MCY NUJ
         ];
         
         var aLeagueDrawTeamId = '53fc6399b918a6b661d423b8';

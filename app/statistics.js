@@ -9,8 +9,8 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
     var Team = require('./models/team');
     var async = require('async');
     
-    var HOMERGB = "190, 95, 124";
-    var AWAYRGB = "187, 205, 103";
+    var HOMERGB = "190,95,124";
+    var AWAYRGB = "187,205,103";
     var DRAWRGB = "220,220,220";
 
 // See http://stackoverflow.com/questions/23667086/why-is-my-variable-unaltered-after-i-modify-it-inside-of-a-function-asynchron might need to make a call back?

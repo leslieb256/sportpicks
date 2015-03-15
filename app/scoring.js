@@ -719,12 +719,14 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
   
-   //updateScoreForFixtureList(['549dbc89f1ace29007e4c015','549dbc89f1ace29007e4bff4','549dbc89f1ace29007e4c006','549dbc89f1ace29007e4c002','549dbc89f1ace29007e4c01e']); 
+   //updateScoreForFixtureList(['54af2d35f1ace29007e4c0dc','54af2d35f1ace29007e4c0f2','54af2d35f1ace29007e4c0fa','54af2d35f1ace29007e4c0c8','54af2d35f1ace29007e4c0ba','54af2d35f1ace29007e4c0cd','54af2d35f1ace29007e4c110']); 
+
   //updateCummulativeRoundPoints("542a5f2392bef71ffb812bcb"); // a league 14/15
-  //updateCummulativeRoundPoints("54ae4da6f1ace29007e4c08e"); // super rugby 2015
-  updateStatisticsForRound('54ae4fd9f1ace29007e4c0a0','54ae4e92da48880c5f1cdcb4');
-  
-   // TEST SCORING OPTION
+  updateCummulativeRoundPoints("54ae4da6f1ace29007e4c08e"); // super rugby 2015
+
+  //updateStatisticsForRound('542bd1842367c9209a739148','542a5ffa736e3e35532f2d24'); // A league
+  // updateStatisticsForRound('54ae4fd9f1ace29007e4c0a1','54ae4e92da48880c5f1cdcb4'); // super 15
+
 /**   console.log(testPick1.pickcomment + " : "+fixtureScoring(testPick1,testFixture,testCompetition));
    console.log(testPick2.pickcomment + " : "+fixtureScoring(testPick2,testFixture,testCompetition));
     console.log(testPick2a.pickcomment + " : "+fixtureScoring(testPick2a,testFixture,testCompetition));

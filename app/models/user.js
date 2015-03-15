@@ -9,8 +9,12 @@ var userSchema = new mongoose.Schema({
         email   : String,
         password: String
     },
-    displayName: String
+    displayName: String,
+    roles:[String]
 });
+
+// VAILD roles:
+// resultAdmin means user can update results and run scoring.
 
 // methods ======================
 // generating a hash

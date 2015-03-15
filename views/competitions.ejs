@@ -14,7 +14,7 @@
 
 	<div class="page-header text-center">
 		<h1><span class="fa fa-check-square-o"></span> Competitions</h1>
-
+		<% if (user.roles.indexOf('resultAdmin')!=-1){ %><a href="/resultAdmin" class="btn btn-default btn-sm">Edit Results</a> <% } %>
 		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
 	</div>
 

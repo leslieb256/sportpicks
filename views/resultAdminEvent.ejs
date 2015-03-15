@@ -1,0 +1,46 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Sport Picks | Result Administration</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class="page-header text-center">
+		<h1><span class="fa fa-cog"></span> Result Administration</h1>
+		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+	</div>
+
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="/resultAdmin">Leagues</a></li>
+			<li class="active"><%= league.name %></li>
+		</ol>
+
+		<!-- LOCAL INFORMATION -->
+		<div class="col-sm-6">
+			<!-- show any messages that come back -->
+			<% if (successMsg.length > 0) { %><div class="alert alert-success"><span class="fa fa-check"></span>&nbsp<%= successMsg %></div><% } %>
+			<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><span class="fa fa-warning"></span>&nbsp<%= dangerMsg %></div><% } %>
+			<% if (warningMsg.length > 0) { %><div class="alert alert-warning"><span class="fa fa-warning"></span>&nbsp<%= warningMsg %></div><% } %>		
+			<h2>leagues</h2>
+			<div class="list-group">
+				<% events.forEach(function(event){ %>
+						<a href="/resultAdmin/rounds?event=<%= event.id %>" class="list-group-item"><%= event.name %><span class="label label-default pull-right"></span></a>
+				<% }) %>
+			</div>
+		</div>
+		
+		<div class="col-sm-6">
+		</div>
+	</div>
+
+</div>
+</body>
+</html>

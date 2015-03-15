@@ -411,7 +411,110 @@ module.exports = function(app, passport) {
 		);
 
 	});
+	
+	// =====================================
+	// ADMIN - RESULTS ADMIN ===============
+	// =====================================
+
+	// LIST LEAGUES
+	app.get('/resultAdmin', isLoggedIn, function(req, res) {
+		
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('compeitions');
+		}
+		else {
+			var League = require('../app/models/league');
+			League.find().exec(function(err,leagues){
+				if (err){console.log(err)}
+				else {
+					res.render('resultAdmin.ejs', {
+						user : req.user, // get the user out of session and pass to template
+						leagues: leagues,
+						successMsg: req.flash('successMsg'),
+						dangerMsg: req.flash('dangerMsg'),
+						warningMsg: req.flash('warningMsg')
+						});
+				}
+			});
+		}
+	});		
+		
+	// LIST EVENTS IN LEAGUE
+	app.get('/resultAdmin/events', isLoggedIn, function(req, res) {
+		
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('compeitions');
+		}
+		else {
+			var League = require('../app/models/league');
+			var Event = require('../app/models/event');
+			
+			League.findById(req.param('league')).exec(function (err, league){
+				if (err){console.log(err)}
+				else{
+					Event.find({league:req.param('league')}).exec(function(err,events){
+						if (err){console.log(err)}
+						else {
+							res.render('resultAdminEvent.ejs', {
+								user : req.user, // get the user out of session and pass to template
+								league: league,
+								events: events,
+								successMsg: req.flash('successMsg'),
+								dangerMsg: req.flash('dangerMsg'),
+								warningMsg: req.flash('warningMsg')
+								});
+						}
+					});
+				}
+			});
+		}
+	});
+	// LIST ROUNDS IN EVENT
+	app.get('/resultAdmin/rounds', isLoggedIn, function(req, res) {
+		
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('compeitions');
+		}
+		else {
+			var Round = require('../app/models/round');
+			var League = require('../app/models/league');
+			var Event = require('../app/models/event');
+			Round.find({event:req.param('event')}).exec(function(err,rounds){
+				if (err){console.log(err)}
+				else {
+					Event.findById(req.param('event')).exec(function (err,event){
+						if (err){console.log(err)}
+						else {
+							League.findById(event.league).exec(function(err, league){
+								if (err){console.log(err)}
+								else {
+									res.render('resultAdminRound.ejs', {
+										user : req.user, // get the user out of session and pass to template
+										league: league,
+										event: event,
+										rounds: rounds,
+										successMsg: req.flash('successMsg'),
+										dangerMsg: req.flash('dangerMsg'),
+										warningMsg: req.flash('warningMsg')
+										});
+								}
+							});										
+						}
+					});								
+				}
+			});
+		}
+	});
+	
+	NEED TO PUT THE ROUNDS IN ORDER OF ROUND POSIITON , MIGH TNEED TO TEXT THE RESULT AS WELL TO ENSURE ORDER OF ROUNDS ON FOR EACH.
+
+	
 };
+
+
 
 		
 // route middleware to make sure a user is logged in

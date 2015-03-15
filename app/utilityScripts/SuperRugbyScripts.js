@@ -428,12 +428,13 @@ function updateFixtureResult(){
  **/
     
     var resultsList = [
-        {   fixtureid:'54af2d35f1ace29007e4c10c', homeScore:17, awayScore:20, homeTeamLeaguePoints:1 , awayTeamLeaguePoints:4 }, //chf v hgh
-        {   fixtureid:'54af2d35f1ace29007e4c0d9', homeScore:27, awayScore:15, homeTeamLeaguePoints: 5, awayTeamLeaguePoints:0 }, // brum fce
-        {   fixtureid:'54af2d35f1ace29007e4c106', homeScore:10, awayScore:13, homeTeamLeaguePoints:1 , awayTeamLeaguePoints:4 }, // blu v lio
-        {   fixtureid:'54af2d35f1ace29007e4c0bc', homeScore:5, awayScore:23, homeTeamLeaguePoints: 0, awayTeamLeaguePoints:4 }, // red nsw
-        {   fixtureid:'54af2d35f1ace29007e4c0c3', homeScore:20, awayScore:39, homeTeamLeaguePoints:0 , awayTeamLeaguePoints:4 }, //cth bull
-        {   fixtureid:'54af2d35f1ace29007e4c0e3', homeScore:34, awayScore:13, homeTeamLeaguePoints:4 , awayTeamLeaguePoints:0 }, // stm shk
+        {   fixtureid:'54af2d35f1ace29007e4c0dc', homeScore:30, awayScore:23, homeTeamLeaguePoints: 4, awayTeamLeaguePoints:0 }, // Hur blu
+        {   fixtureid:'54af2d35f1ace29007e4c0f2', homeScore:17, awayScore:21, homeTeamLeaguePoints:1 , awayTeamLeaguePoints:4 }, // fce reb
+        {   fixtureid:'54af2d35f1ace29007e4c0fa', homeScore:34, awayScore:6, homeTeamLeaguePoints: 5, awayTeamLeaguePoints:0 }, // cru lions
+        {   fixtureid:'54af2d35f1ace29007e4c0c8', homeScore:26, awayScore:19, homeTeamLeaguePoints: 5, awayTeamLeaguePoints:0 }, // hgh warr
+        {   fixtureid:'54af2d35f1ace29007e4c0ba', homeScore:0, awayScore:29, homeTeamLeaguePoints:0 , awayTeamLeaguePoints:5 }, // red brum
+        {   fixtureid:'54af2d35f1ace29007e4c0cd', homeScore:19, awayScore:28, homeTeamLeaguePoints:0 , awayTeamLeaguePoints: 4}, // stm chf
+        {   fixtureid:'54af2d35f1ace29007e4c110', homeScore:10, awayScore:27, homeTeamLeaguePoints: 0, awayTeamLeaguePoints:5 }, // che shk
 
         ];
         
