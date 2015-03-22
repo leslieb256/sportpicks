@@ -1,0 +1,102 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Sport Picks | Result Administration</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style>
+	<script type="text/javascript">
+		function localTime(utcTime){
+			var m_lng = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+			var m_sht = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+			var d_lng = new Array("Sunday","Monday","Tuesday","Wednesday","Thusday","Friday","Saturday")
+			var minutes = new String;
+			var origTime = new Date(utcTime);
+			if (origTime.getMinutes()<10){minutes = "0"+origTime.getMinutes();}else{minutes = origTime.getMinutes()}
+    		document.write(d_lng[origTime.getDay()]+" "+origTime.getHours()+":"+minutes+", "+m_sht[origTime.getMonth()]+" "+origTime.getDate()+" "+origTime.getFullYear());
+		}
+	</script>		
+	
+</head>
+<body>
+<div class="container">
+
+	<div class="page-header text-center">
+		<h1><span class="fa fa-cog"></span> Result Administration</h1>
+		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+	</div>
+
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href='/resultAdmin'>Leagues</a></li>
+			<li><a href="/resultAdmin/events?league=<%- league._id %>"><%= league.name %></a></li>
+			<li><a href="/resultAdmin/rounds?event=<%- event._id %>"><%= event.name %></a></li>
+			<li><a href="/resultAdmin/fixtures?round=<%- round._id %>"><%- round.name %></a></li>						
+			<li class="active"><%- fixture.homeTeam.name %> v <%- fixture.awayTeam.name %></li>						
+		</ol>
+	</div>
+
+	<!-- LOCAL INFORMATION -->
+	<div class="col-sm-6">
+		<!-- show any messages that come back -->
+		<% if (successMsg.length > 0) { %><div class="alert alert-success"><span class="fa fa-check"></span>&nbsp<%= successMsg %></div><% } %>
+		<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><span class="fa fa-warning"></span>&nbsp<%= dangerMsg %></div><% } %>
+		<% if (warningMsg.length > 0) { %><div class="alert alert-warning"><span class="fa fa-warning"></span>&nbsp<%= warningMsg %></div><% } %>
+		<h2>result input</h2>
+		<form action="/resultAdmin/submitResultUpdate" method="post" role="form">		
+			<% if (league.name == 'A-League') { %>
+				<fieldset>
+					<legend>Points scored by each team</legend>
+					<div class = "form-group">
+						<label for="homeScore"><%= fixture.homeTeam.name %></label>
+						<input name="homeScore" type="number" class = "form-control" id="homeScore" <% if (fixture.homeScore>=0) { %>value="<%- fixture.homeScore %>" <% } %> required />
+					</div>
+					<div class = "form-group">
+						<label for="awayScore"><%= fixture.awayTeam.name %></label>
+						<input name="awayScore" type="number" class = "form-control" id="awayScore" <% if (fixture.awayScore>=0) { %>value="<%- fixture.awayScore %>" <% } %> required />
+					</div>
+				</fieldset>
+			<% } %>
+	
+			<% if (league.name == 'Super Rugby') { %>
+				<fieldset>
+					<legend>Points scored by each team</legend>
+					<div class = "form-group">
+						<label for="homeScore"><%= fixture.homeTeam.name %></label>
+						<input name="homeScore" type="number" class = "form-control" id="homeScore" <% if (fixture.homeScore>=0) { %>value="<%- fixture.homeScore %>" <% } %> required />
+					</div>
+					<div class = "form-group">
+						<label for="awayScore"><%= fixture.awayTeam.name %></label>
+						<input name="awayScore" type="number" class = "form-control" id="awayScore" <% if (fixture.awayScore >=0 ) { %>value="<%- fixture.awayScore %>" <% } %> required />
+					</div>
+				</fieldset>
+
+				<fieldset>
+					<legend>Number of tries scored by each team (used for bonus point calculation)</legend>
+					<div class = "form-group">
+						<label for="homeTries"><%= fixture.homeTeam.name %></label>
+						<input name="homeTries" type="number" class = "form-control" id="homeTries" required />
+					</div>
+					<div class = "form-group">
+						<label for="awayTries"><%= fixture.awayTeam.name %></label>
+						<input name="awayTries" type="number" class = "form-control" id="awayTries" required />
+					</div>
+				</fieldset>
+			<% } %>
+
+			<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
+			<button type="submit" class="btn btn-warning btn-lg">Submit</button>
+		</form>					
+
+	</div>
+		
+	<div class="col-sm-6">
+		<%= fixture %>
+	</div>
+</div>
+
+</body>
+</html>
