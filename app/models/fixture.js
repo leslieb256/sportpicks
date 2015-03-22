@@ -18,7 +18,10 @@ var fixtureSchema = new mongoose.Schema({
     round: {type: mongoose.Schema.Types.ObjectId, ref: 'Round'},
     event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
     date: Date,
-    closeDate: Date
+    closeDate: Date,
+    poolName: String,
+    homeTries: Number, // used for rugby points often bonus points are given for tries number
+    awayTries: Number // used for rugby points often bonus points are given for tries number
 });
 
 

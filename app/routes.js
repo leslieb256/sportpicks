@@ -421,7 +421,7 @@ module.exports = function(app, passport) {
 		
 		if (req.user.roles.indexOf('resultAdmin')==-1){
 			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
-			res.redirect('compeitions');
+			res.redirect('competitions');
 		}
 		else {
 			var League = require('../app/models/league');
@@ -445,7 +445,7 @@ module.exports = function(app, passport) {
 		
 		if (req.user.roles.indexOf('resultAdmin')==-1){
 			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
-			res.redirect('compeitions');
+			res.redirect('competitions');
 		}
 		else {
 			var League = require('../app/models/league');
@@ -476,13 +476,13 @@ module.exports = function(app, passport) {
 		
 		if (req.user.roles.indexOf('resultAdmin')==-1){
 			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
-			res.redirect('compeitions');
+			res.redirect('competitions');
 		}
 		else {
 			var Round = require('../app/models/round');
 			var League = require('../app/models/league');
 			var Event = require('../app/models/event');
-			Round.find({event:req.param('event')}).exec(function(err,rounds){
+			Round.find({event:req.param('event')}).sort('roundPosition').exec(function(err,rounds){
 				if (err){console.log(err)}
 				else {
 					Event.findById(req.param('event')).exec(function (err,event){
@@ -508,15 +508,231 @@ module.exports = function(app, passport) {
 			});
 		}
 	});
-	
-	NEED TO PUT THE ROUNDS IN ORDER OF ROUND POSIITON , MIGH TNEED TO TEXT THE RESULT AS WELL TO ENSURE ORDER OF ROUNDS ON FOR EACH.
+	// LIST FIXTURES IN ROUND
+	app.get('/resultAdmin/fixtures', isLoggedIn, function(req, res) {
+		
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('competitions');
+		}
+		else {
+			var Fixture = require('../app/models/fixture');			
+			var Round = require('../app/models/round');
+			var League = require('../app/models/league');
+			var Event = require('../app/models/event');
+			var Team = require('../app/models/team'); // needed for populate function
+			
+			Fixture.find({round:req.param('round')}).sort('date').populate('homeTeam awayTeam').exec(function(err, fixtures){
+				if(err){console.log(err)}
+				else {
+					Round.findById(req.param('round')).sort('roundPosition').exec(function(err,round){
+						if (err){console.log(err)}
+						else {
+							Event.findById(round.event).exec(function (err,event){
+								if (err){console.log(err)}
+								else {
+									League.findById(event.league).exec(function(err, league){
+										if (err){console.log(err)}
+										else {
+											res.render('resultAdminFixture.ejs', {
+												user : req.user, // get the user out of session and pass to template
+												league: league,
+												event: event,
+												round: round,
+												fixtures: fixtures,
+												successMsg: req.flash('successMsg'),
+												dangerMsg: req.flash('dangerMsg'),
+												warningMsg: req.flash('warningMsg')
+												});
+										}
+									});										
+								}
+							});								
+						}
+					});
+				}						
+			});						
+		}
+	});
 
+	// UPDATE FIXTURE RESULT
+	app.get('/resultAdmin/updateFixture', isLoggedIn, function(req, res) {
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('competitions');
+		}
+		else {
+			var Fixture = require('../app/models/fixture');			
+			var Round = require('../app/models/round');
+			var League = require('../app/models/league');
+			var Event = require('../app/models/event');
+			var Team = require('../app/models/team'); // needed for populate function
+			
+			Fixture.findById(req.param('fixture')).populate('homeTeam awayTeam').sort('closeDate').exec(function(err, fixture){
+				if(err){console.log(err)}
+				else {
+					Round.findById(fixture.round).sort('roundPosition').exec(function(err,round){
+						if (err){console.log(err)}
+						else {
+							Event.findById(round.event).exec(function (err,event){
+								if (err){console.log(err)}
+								else {
+									League.findById(event.league).exec(function(err, league){
+										if (err){console.log(err)}
+										else {
+											res.render('resultAdminupdateFixture.ejs', {
+												user : req.user, // get the user out of session and pass to template
+												league: league,
+												event: event,
+												round: round,
+												fixture: fixture,
+												successMsg: req.flash('successMsg'),
+												dangerMsg: req.flash('dangerMsg'),
+												warningMsg: req.flash('warningMsg'),
+												});
+										}
+									});										
+								}
+							});								
+						}
+					});
+				}						
+			});						
+		}
+	});
+	
+	// PROCESS RESULT UPDATE
+	app.post('/resultAdmin/submitResultUpdate', isLoggedIn, function(req, res) {
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('competitions');
+		}
+		else {
+		    var Competition = require('../app/models/competition');
+		    var FixturePick = require('../app/models/fixturePick');
+		    var User = require('../app/models/user');
+		    var Point = require('../app/models/point');
+			var Fixture = require('../app/models/fixture');			
+			var League = require('../app/models/league');
+			var Event = require('../app/models/event');			
+			var Team = require('../app/models/team');
+
+			var async = require('async');
+			var scoring = require('./scoring');													
+			var statistics = require('./statistics');				
+
+			Fixture.findById(req.param('fixtureId')).populate('homeTeam').populate('awayTeam').exec(function (err, fixture){
+				if (err){console.log(err)}
+				else {
+					Event.findById(fixture.event).populate('league').exec(function(err, event){
+						if (err) {console.log(err)}
+						else {
+							// run the statistics for the fixture (timing is not important for this as it can be run anytime after picks are closed)
+							statistics.storeCompetitionFixtureStatistics(fixture._id);
+
+							async.series([
+								function(callback){
+									// Updating the fixcture Data before scoring
+									if (event.league.name == 'A-League') {
+										
+										var aLeagueDrawTeamId = '53fc6399b918a6b661d423b8';
+										
+										fixture.homeScore = req.param('homeScore');
+										fixture.awayScore = req.param('awayScore');
+										
+					                   if (req.param('homeScore') == req.param('awayScore')){
+					                       fixture.winner = aLeagueDrawTeamId;
+					                       fixture.scoreDifference = 0;
+					                       fixture.homeTeamLeaguePoints =1;
+					                       fixture.awayTeamLeaguePoints = 1;
+					                   }
+					                    else {
+					                        fixture.scoreDifference = Math.abs(req.param('homeScore')-req.param('awayScore'));
+					                        if(req.param('homeScore')>req.param('awayScore')){
+					                            fixture.winner = fixture.homeTeam._id;
+					                            fixture.homeTeamLeaguePoints=3;
+					                        }
+					                        else{
+					                            fixture.winner = fixture.awayTeam._id;
+					                            fixture.awayTeamLeaguePoints=3;}
+					                    }
+									}
+									// end a-lequge fixture result update
+									
+									if (event.league.name == 'Super Rugby'){
+				        				var super15DrawTeamId = '54dedf115d82d635c1c414e4';
+				        				var homeTeamLeaguePoints = 0;
+				        				var awayTeamLeaguePoints = 0;
+				
+										fixture.homeScore = req.param('homeScore');
+										fixture.awayScore = req.param('awayScore');
+										fixture.homeTries = req.param('homeTries');
+										fixture.homeTries = req.param('awayTries');	
+				
+					                   if (req.param('homeScore') == req.param('awayScore')){
+					                       fixture.winner = super15DrawTeamId;
+					                       fixture.scoreDifference = 0;
+					                       homeTeamLeaguePoints += 2;
+					                       awayTeamLeaguePoints += 2;
+					                   }
+					                    else {
+					                        fixture.scoreDifference = Math.abs(req.param('homeScore')-req.param('awayScore'));
+					                        if(req.param('homeScore')>req.param('awayScore')){
+					                            fixture.winner = fixture.homeTeam._id;
+					                            homeTeamLeaguePoints+=4;
+					                        }
+					                        else{
+					                            fixture.winner = fixture.awayTeam._id;
+					                            awayTeamLeaguePoints+=4;}
+					                    }
+					                    
+					                    // super rugby bonus points
+					                    if (req.param('homeTries')>=4){homeTeamLeaguePoints += 1 }
+					                    if (req.param('awayTries')>=4){awayTeamLeaguePoints += 1 }
+					                    if (fixture.scoreDifference < 7){
+					                        if(req.param('homeScore')>req.param('awayScore')){
+					                            awayTeamLeaguePoints+=1;
+					                        }
+					                        else{
+					                            homeTeamLeaguePoints+=1;}
+					                    }
+					                    
+					                    fixture.homeTeamLeaguePoints = homeTeamLeaguePoints;
+					                    fixture.awayTeamLeaguePoints = awayTeamLeaguePoints;
+									}
+									// end super rugby fixture result update
+									
+									// save the fixture
+									console.log('fixture saved2');
+									fixture.save();
+									callback(null);
+								},
+								function(callback){setTimeout(function(){console.log('Pause1');callback(null);},1000);}, // adding a timeout to make sure database has scoring data ready to read								
+								scoring.scoreFixture(fixture._id),
+								scoring.updateCompetitionFixtureRanking(fixture),
+								scoring.updateCompetitionRoundRanking(fixture),
+								scoring.updateCompetitionEventRanking(fixture),
+								statistics.updateCummulativeRoundPoints(fixture.event)
+								], function(err){
+									console.log('in exit fn');
+									if (err) {console.log(err);req.flash('dangerMsg', "Error in fixture ranking, check the console log")}
+									else {req.flash('successMsg', 'Fixture:'+fixture._id+'['+fixture.homeTeam.name+' v '+ fixture.awayTeam.name+'] updated');}
+									//req.flash('warningMsg', 'NO SAVE as testing mode');
+									res.redirect('/resultAdmin/fixtures?round='+fixture.round);
+
+								});
+						}
+					});
+		
+				}
+			});
+		
+		}
+	});
 	
 };
 
 
-
-		
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
 	// if user is authenticated in the session, carry on 

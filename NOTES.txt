@@ -26,19 +26,27 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 
 WORKING ON
 ==========
-* add fixture statistics. by compeition starting with who picked what winner, then do who picked which margins. need to make a new 'stats' type.
-type: fixture, event, round, team
-statistics: {type: winner, numberHome, numberAway, 5ageHome, %Away}
-            {type: scordemaring: number 0, 1 and 2, percetnage 0,1 and 2}
-            {type: score difference: median home score, median away score}
-            team wins/losses per history all teams and against this team.
 
-remvove modules from git
+* create result update thing, THEN RESCORE ALL Fixtures for super15 to incl Mark.
+
+* remvove modules from git
+
+* learn promises https://promise-nuggets.github.io/articles/01-the-simplest-example.html , looks more useful than butcherig async about.
 
 TODO - SHORT TERM
 =================
 
-* create result update thing, THEN RESCORE ALL Fixtures for super15 to incl Mark.
+
+* actually whether it closes by fixture or round should be set in the event. Where it closes by round keep as is. Where it closes by fixture need to 
+    use the fixture close data but also display grouped by round. for example for RWC this means that it will show as:
+    ROUND1
+        fix1
+        fix 2
+    ROUND2
+        fix 3
+        fix 4
+    etc..
+    with a closing soon bit at the top of all closnig soon fixtures.
 
 *   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
 * e or 1hr before each round. Will also need to change how/when it updates the
@@ -141,6 +149,8 @@ But the idea is the port type can limit what scoring option are avaailbae, soprt
 * work out why the graph does not work pepery in IE, it draw it way too big, Tried making the graph only load after the rest of the pages and this did not help.
 
 * for stats need to do "if winner required, if not erquired for score difference and exact result as it will change the graphs since they currently assume winner is required.).
+
+* team stats should be last 5 games results and last 5 games gainst this team results with a note for Home/awaty (use differnt colours for home and wawy)
 
 
 

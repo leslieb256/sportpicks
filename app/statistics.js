@@ -1,9 +1,86 @@
 // creates statistics for the fixture results
 // See statistics.js model for more information
 
-function storeCompetitionFixtureStatistics(fixtureID, competitionID){
+var updateCummulativeRoundPoints = function(eventId){
+    var async = require('async');
+    var Competition = require('../app/models/competition');
+    var Round = require('../app/models/round');
+    var Point = require('../app/models/point');
+    //following schema required for populate
+    var User = require('../app/models/user');
+    var Event = require('../app/models/event');
+
+    return function (callbackFunction){
+        //console.log('IN rankingChartData');
+    
+        Competition.find({event:eventId}).exec(function(err,competitionList){
+            if(err){console.log('\tERR in getting Comptitions List: %s',err)}
+            else {
+                //console.log('complist:');
+                //console.log(competitionList);
+                async.each(competitionList, function(competition, callbackCompetition){
+                    async.each(competition.usersAccepted, function(user, callbackUser){
+                        //console.log(user.local.name);
+                        Point.find({competition: competition, user:user, type:'round'}).populate('round').populate('user').lean().exec(function(err,points){
+                            if(err){console.log('\tERR in getting Round Points: %s',err)}
+                            else{
+
+                                // Sort the points data ascending by the round position.
+                                points.sort(function (a,b){ return a.round.roundPosition - b.round.roundPosition; });
+                                var totalPoints = 0;
+                                var newPointsHistory = [];
+                                var newCummulativePointsHistory=[];
+                                var newHistoryTitles = [];
+
+                                async.eachSeries(points, function(point, pointsCallback){
+                                   totalPoints += point.points;
+                                                                                         
+                                   //console.log('totalPoints: %s', totalPoints);
+                                   newCummulativePointsHistory.push (totalPoints);
+                                   //console.log('cummulatovePointsHistyr: %s', newCummulativePointsHistory);
+                                   newHistoryTitles.push(point.round.name);
+                                    //console.log('history titles: %s', newHistoryTitles);
+                                   
+                                   // Store cummulative point total for round in the points for the round along with the pointsHistory up to this round.
+                                   Point.findByIdAndUpdate(point._id,{ $set: {pointsHistory: newPointsHistory, cummulativePoints: totalPoints, cummulativePointsHistory: newCummulativePointsHistory, historyTitles:newHistoryTitles } },
+                                    function (err, updatedPoints){
+                                        if (err){console.log(err); pointsCallback(err);}
+                                        else {pointsCallback(null)}
+                                    });
+
+                                }, function(err){
+                                    if (err){console.log('problem in pointsCallback');console.log(err); callbackUser(err);}
+                                    else {
+                                        //console.log('TEST BEFORE PASSING: cummulativePointsHistory:%s',newCummulativePointsHistory);
+                                        Point.update({type:'event', user:user, competition:competition._id},
+                                             {$set: {pointsHistory: newPointsHistory, cummulativePointsHistory: newCummulativePointsHistory, historyTitles: newHistoryTitles}}, 
+                                             {upsert:false}, function(err){
+                                                if (err) {console.log('Failed to store cummulativePointsHistory in Point');callbackUser(err);}
+                                                else {callbackUser(null);} // store data OK
+                                                // remove points update to se if it removes errors.
+                                        });
+                                    }
+                                });
+                            }
+                        }); 
+                        
+                    },function (err) {
+                        if (err) {console.log(err); callbackCompetition(err)}
+                        else {callbackCompetition(null)} // console.log('all finished in cummulative rnd ponts for each user')
+                    });
+                }, function (err){
+                    if (err) {console.log(err); callbackFunction(err)}
+                    else {callbackFunction(null)} //console.log('all finished in cummulative rnd ponts fn for all comp')
+                });
+            }
+        });
+    };
+};
+
+function storeCompetitionFixtureStatistics(fixtureID){
     var FixturePick = require('./models/fixturePick');
     var Fixture = require('./models/fixture');
+    var Event = require('./models/event');    
     var Competition = require('./models/competition');
     var Statistic = require('./models/statistic');
     var Team = require('./models/team');
@@ -14,111 +91,113 @@ function storeCompetitionFixtureStatistics(fixtureID, competitionID){
     var DRAWRGB = "220,220,220";
 
 // See http://stackoverflow.com/questions/23667086/why-is-my-variable-unaltered-after-i-modify-it-inside-of-a-function-asynchron might need to make a call back?
-    
-    Competition.findById(competitionID).exec(function(err, competition){
-        if (err) {console.log('Error - problem with finding comp ID in statistics')}
+
+    Fixture.findById(fixtureID).populate('homeTeam').populate('awayTeam').exec(function (err, fixture){
+        if (err) {console.log('Error with finding the fixture for statistics calc')}
         else {
-            Fixture.findById(fixtureID).populate('homeTeam awayTeam').exec(function (err, fixture){
-                if (err) {console.log('Error with finding the fixture for statistics calc')}
+            Competition.find({event:fixture.event}).exec(function(err, competitionList){
+                if (err) {console.log('error finding the comps for stats scoring')}
                 else {
-                    Team.find({league:competition.league}).exec(function (err, compTeams){
-                        if (err){console.log('error finding teams')}
-                        else {
-                            var statsData = [];
-                            
-                            // NEED TO DO AN ASYNC SERIES FOR EACH. THEN IT WILL GO THROUGH EACH ONE WHICH MEANS YOU CAN DOA CALLBACK AT THE END OF EACH TO ENSURE STATS IS UPDATED.
-                            // MAYBE TRY JUST THE ASYNC FORACH IF THIS WORKS
-                            
-                            async.series([
-                                function(db_write_cb){
-                                    // here I use async.foreachseries to make sure we finish with all the
-                                    // scoring options before we pass it to the db write part
-                                    async.forEachSeries(competition.scoring, function(scoringOption, collection_cb){
-                                        if(scoringOption.type=='winner'){
-                                            FixturePick.aggregate([
-                                                {$match:{ fixture:fixture._id, competition:competition._id }},
-                                            	{$group: {_id:"$winner", count:{$sum:1}} }
-                                            ], function(err, result){
-                                                //console.log('in te result function');
-                                            	if(err){
-                                            	    console.log('ERROR: %s',err)
-                                            	    collection_cb(err);
-                                            	}
-                                            	else {
-                                            	    formatWinnerPickNumberResult(result, createIdLookup(compTeams), fixture,  function(formattedData){
-                                                	    //console.log('formatting winner data for return');
-                                                        statsData.push(formattedData);
-                                                        //console.log(formattedData);
-                                                        collection_cb();
-                                            	    })
-                                            	}
-                                            });
-                                        }
-                                        if (scoringOption.type=='scoreDifference'){
-                                            //console.log('looking at scoreDifference stats');
-                                            // should have a test, if winner required as if winner not required the split between the teams is lss important
-                                            FixturePick.aggregate([
-                                                {$match:{fixture:fixture._id, competition:competition._id}},
-                                                {$group:{_id:{winner:'$winner', scoreDifference:'$scoreDifference'}, count:{$sum:1} }} 
-                                            ], function(err, result){
-                                                //console.log('inscore diff result function');
-                                                if (err) {console.log('ERROR in scoredifference stats calc')}
-                                                else {
-                                                    formatScoreDiffNumberResult(result, createIdLookup(compTeams), fixture, scoringOption, function(formattedData){
-                                                        statsData.push(formattedData);
-                                                        collection_cb();
-                                                    })
-                                                }
-                                            });
-                                        }
-                                        
-                                        if(scoringOption.type=='exactResult'){
-                                            // This is about the mix of the selected scores, the winner is not important for the graph.
-                                            FixturePick.find({fixture:fixture._id, competition: competition._id}).exec(function (err, fixturePicks){
-                                                if (err){console.log(err)}
-                                                else{
-                                                    formatExactResultNumber(fixturePicks,fixture, function(formattedData){
-                                                        //console.log('========FORMATTED DATA ========');
-                                                        //console.log(JSON.stringify(formattedData));
-                                                        statsData.push(formattedData);                                                        
-                                                        collection_cb();
-                                                    });
-                                                }
-                                            });
-                                        }
-                                        
-                                        
-                                    }, function(err){
-                                            if (err){console.log(err)}
-                                            else {
-                                                db_write_cb(); // callback to write stats data to the DB;
+                    competitionList.forEach(function(competition){
+                        Team.find({league:competition.league}).exec(function (err, compTeams){
+                            if (err){console.log('error finding teams')}
+                            else {
+                                var statsData = [];
+                                
+                                // NEED TO DO AN ASYNC SERIES FOR EACH. THEN IT WILL GO THROUGH EACH ONE WHICH MEANS YOU CAN DOA CALLBACK AT THE END OF EACH TO ENSURE STATS IS UPDATED.
+                                // MAYBE TRY JUST THE ASYNC FORACH IF THIS WORKS
+                                
+                                async.series([
+                                    function(db_write_cb){
+                                        // here I use async.foreachseries to make sure we finish with all the
+                                        // scoring options before we pass it to the db write part
+                                        async.forEachSeries(competition.scoring, function(scoringOption, collection_cb){
+                                            if(scoringOption.type=='winner'){
+                                                FixturePick.aggregate([
+                                                    {$match:{ fixture:fixture._id, competition:competition._id }},
+                                                	{$group: {_id:"$winner", count:{$sum:1}} }
+                                                ], function(err, result){
+                                                    //console.log('in te result function');
+                                                	if(err){
+                                                	    console.log('ERROR: %s',err);
+                                                	    collection_cb(err);
+                                                	}
+                                                	else {
+                                                	    formatWinnerPickNumberResult(result, createIdLookup(compTeams), fixture,  function(formattedData){
+                                                    	    //console.log('formatting winner data for return');
+                                                            statsData.push(formattedData);
+                                                            //console.log(formattedData);
+                                                            collection_cb();
+                                                	    });
+                                                	}
+                                                });
                                             }
-                                        
-                                    });
-        
-                                },
-                                function (db_write_cb){
-                                    console.log('======STATS DATA======');
-                                    console.log(JSON.stringify(statsData));
-                        			Statistic.update({
-                        				 fixture: fixture._id,
-                        				 competition: competition._id},
-                        				 {$set: {data: statsData}},
-                        				 {upsert: true},
-                        				 function(err){
-                        				 	if(err){console.log('Error on adding stats data to mongo');}
-                        				 	else {console.log('Statistics data stored.')}
-                        				 }); 
-                                },
-        
-                            ]);
-                        }
+                                            if (scoringOption.type=='scoreDifference'){
+                                                //console.log('looking at scoreDifference stats');
+                                                // should have a test, if winner required as if winner not required the split between the teams is lss important
+                                                FixturePick.aggregate([
+                                                    {$match:{fixture:fixture._id, competition:competition._id}},
+                                                    {$group:{_id:{winner:'$winner', scoreDifference:'$scoreDifference'}, count:{$sum:1} }} 
+                                                ], function(err, result){
+                                                    //console.log('inscore diff result function');
+                                                    if (err) {console.log('ERROR in scoredifference stats calc')}
+                                                    else {
+                                                        formatScoreDiffNumberResult(result, createIdLookup(compTeams), fixture, scoringOption, function(formattedData){
+                                                            statsData.push(formattedData);
+                                                            collection_cb();
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                            
+                                            if(scoringOption.type=='exactResult'){
+                                                // This is about the mix of the selected scores, the winner is not important for the graph.
+                                                FixturePick.find({fixture:fixture._id, competition: competition._id}).exec(function (err, fixturePicks){
+                                                    if (err){console.log(err)}
+                                                    else{
+                                                        formatExactResultNumber(fixturePicks,fixture, function(formattedData){
+                                                            //console.log('========FORMATTED DATA ========');
+                                                            //console.log(JSON.stringify(formattedData));
+                                                            statsData.push(formattedData);                                                        
+                                                            collection_cb();
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                            
+                                            
+                                        }, function(err){
+                                                if (err){console.log(err)}
+                                                else {
+                                                    db_write_cb(); // callback to write stats data to the DB;
+                                                }
+                                            
+                                        });
+            
+                                    },
+                                    function (db_write_cb){
+                                        console.log('======STATS DATA======');
+                                        console.log(JSON.stringify(statsData));
+                            			Statistic.update({
+                            				 fixture: fixture._id,
+                            				 competition: competition._id},
+                            				 {$set: {data: statsData}},
+                            				 {upsert: true},
+                            				 function(err){
+                            				 	if(err){console.log('Error on adding stats data to mongo');}
+                            				 	else {console.log('Statistics data stored.')}
+                            				 }); 
+                                    },
+            
+                                ]);
+                            }
+                        });
                     });
-                }
-            });
+                }                                            
+            });                                            
         }
     });
-    
+
     function formatExactResultNumber (fixturePicks, fixture, callback){
         console.log('in foramt Exact Result');
         // create the structure for our formatted data.
@@ -329,22 +408,5 @@ function createIdLookup(queryData){
 // EXPORTS =========
 //==================
 exports.storeCompetitionFixtureStatistics = storeCompetitionFixtureStatistics;
-
-    // TEAM FIXTURE STATISTICS LAST 5 games result and last up to 5 games vs that team result.
-
-
-var mongoose = require('mongoose');
-var dbUrl = 'mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@'+process.env.DATABASE_SERVER+':'+process.env.DATABASE_PORT+'/'+process.env.DATABASE_NAME;
-mongoose.connect(dbUrl);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', function callback(){
-    console.log('starting');
-
-   storeCompetitionFixtureStatistics('542c9ae12367c9209a739150', '542a5ffa736e3e35532f2d24');
-
-    console.log("done");
-
-    
-});
+exports.updateCummulativeRoundPoints = updateCummulativeRoundPoints;
 

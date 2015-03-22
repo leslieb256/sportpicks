@@ -531,7 +531,35 @@ function testScoringOptions(scoringOptions, pick) {
     if (pick.scoreDifference == correctMargin) { totalPoints += scoringOptions.points; }
 }
 
+// HOW TO USE ASYNC SERIES AND EACH ETC.
 
+function testAsyncSeries(){
+    async.series([
+        testAsyncEach([1,2,3,4,5,6,7,8,9]),
+        testAsyncEach([10,20,30,40,50,60,70,80,90])
+        ], function(){
+            console.log('in exit SERIES funtion');
+        });
+    
+
+}
+
+var testAsyncEach = function(list){
+    return function(functionCallback){
+        async.each(list, function(item, listCallback){
+            console.log(item)
+            listCallback();
+        }, function (){
+            console.log('in exit function for list, should only appear once per list call')
+            functionCallback(null);
+            ;
+        }
+        );
+    }
+}
+
+    testAsyncSeries();
+/**
 // connect to the database
 mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
 var db = mongoose.connection;
@@ -559,8 +587,11 @@ db.once('open', function callback(){
     //console.log(testScoringOptions({type:'scoreDifference',margins:[7,14], points:5},{scoreDifference:7}));
     
     //updateCummulativeRoundPoints('542bd1842367c9209a739130');
+    
+    testAsyncEach();
 
     
 });
 
 
+**/

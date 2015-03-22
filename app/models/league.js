@@ -5,7 +5,8 @@ var mongoose = require('mongoose');
 var leagueSchema = new mongoose.Schema({
     name: String,
     logo: String,
-    sponsor: String
+    sponsor: String,
+    sport: String
 });
 
 // create the model for users and expose it to our app
