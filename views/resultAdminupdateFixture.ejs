@@ -78,11 +78,11 @@
 					<legend>Number of tries scored by each team (used for bonus point calculation)</legend>
 					<div class = "form-group">
 						<label for="homeTries"><%= fixture.homeTeam.name %></label>
-						<input name="homeTries" type="number" class = "form-control" id="homeTries" required />
+						<input name="homeTries" type="number" class = "form-control" id="homeTries" <% if (fixture.homeTries>=0) { %>value="<%- fixture.homeTries %>" <% } %> required />
 					</div>
 					<div class = "form-group">
 						<label for="awayTries"><%= fixture.awayTeam.name %></label>
-						<input name="awayTries" type="number" class = "form-control" id="awayTries" required />
+						<input name="awayTries" type="number" class = "form-control" id="awayTries" <% if (fixture.awayTries>=0) { %>value="<%- fixture.awayTries %>" <% } %> required />
 					</div>
 				</fieldset>
 			<% } %>
@@ -94,6 +94,7 @@
 	</div>
 		
 	<div class="col-sm-6">
+		<a href="/fixtureAdmin?fixture=<%= fixture.id %>" class="btn btn-default btn-sm">edit fixture details</a>		
 		<%= fixture %>
 	</div>
 </div>

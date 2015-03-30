@@ -27,11 +27,22 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-* create result update thing, THEN RESCORE ALL Fixtures for super15 to incl Mark.
+* add eventAdmin which lts you edit details about the event, ie: lets you update who is playing who.
+
+* load points scoring for RWC
 
 * remvove modules from git
 
 * learn promises https://promise-nuggets.github.io/articles/01-the-simplest-example.html , looks more useful than butcherig async about.
+
+*   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
+* e or 1hr before each round. Will also need to change how/when it updates the
+"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
+* Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
+The comp screen should go to a screen with all matches - closing soon at top and the a list with headings for each 'round' (which are the pool names).
+
+Add mat B to the competition and get him to confirm the games loaded look ok.
+
 
 TODO - SHORT TERM
 =================
@@ -48,10 +59,6 @@ TODO - SHORT TERM
     etc..
     with a closing soon bit at the top of all closnig soon fixtures.
 
-*   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
-* e or 1hr before each round. Will also need to change how/when it updates the
-"closed" status and warning on the round/fixtures. The closing date for rounds is hardcoded to hourn, needs to pull this from a variable at some stage.
-* Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
 
 * bonuspoints for selecting grand final winner for event
 * event should store which teams are relevent for the event.
@@ -152,14 +159,16 @@ But the idea is the port type can limit what scoring option are avaailbae, soprt
 
 * team stats should be last 5 games results and last 5 games gainst this team results with a note for Home/awaty (use differnt colours for home and wawy)
 
+* competition option to have random picks if person misses a fixture, should be marked as RANDOM and highlighted/noted in some way
 
+* ediing fixtures how to get a handle on the date, might need a drop down showing the possible timezxones the date could be entered as at.
 
 
 ENVIRONMENT VARIABLES
 ======================
 You can define environment variables in ~/.profile. Files outside of the workspace directory /home/ubuntu/workspace are not accessible for read only users. You can do e.g.
 
-$ export SECRET=geheim"
+$ export SECRET=geheim
 $ echo "export SECRET=geheim" >> ~/.profile
 
 to define the variable SECRET and then use it through process.env.SECRET from your application. On the restart the varaibles should be set automatically.

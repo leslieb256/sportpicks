@@ -663,34 +663,39 @@ module.exports = function(app, passport) {
 				        				var super15DrawTeamId = '54dedf115d82d635c1c414e4';
 				        				var homeTeamLeaguePoints = 0;
 				        				var awayTeamLeaguePoints = 0;
+				        				
+										if (req.param('homeScore')) {fixture.homeScore = req.param('homeScore');} else {fixture.homeScore = 0;}
+										if (req.param('awayScore')) {fixture.awayScore = req.param('awayScore');} else {fixture.awayScore = 0;}
+										if (req.param('homeTries')) {fixture.homeTries = req.param('homeTries');} else {fixture.homeTries = 0;}
+										if (req.param('awayTries')) {fixture.awayTries = req.param('awayTries');} else {fixture.awayTries = 0;}
 				
-										fixture.homeScore = req.param('homeScore');
-										fixture.awayScore = req.param('awayScore');
-										fixture.homeTries = req.param('homeTries');
-										fixture.homeTries = req.param('awayTries');	
-				
-					                   if (req.param('homeScore') == req.param('awayScore')){
+					                   if (fixture.homeScore == fixture.awayScore){
+					                   		console.log('Its a draw');
 					                       fixture.winner = super15DrawTeamId;
 					                       fixture.scoreDifference = 0;
 					                       homeTeamLeaguePoints += 2;
 					                       awayTeamLeaguePoints += 2;
 					                   }
 					                    else {
-					                        fixture.scoreDifference = Math.abs(req.param('homeScore')-req.param('awayScore'));
-					                        if(req.param('homeScore')>req.param('awayScore')){
+					                        fixture.scoreDifference = Math.abs(fixture.homeScore-fixture.awayScore);
+					                        
+					                        if(fixture.homeScore>fixture.awayScore){
+					                        	console.log('home team won!');
+					                        	console.log("Triess %s: %s", fixture.homeTries, fixture.awayTries);
 					                            fixture.winner = fixture.homeTeam._id;
 					                            homeTeamLeaguePoints+=4;
 					                        }
 					                        else{
+					                        	console.log('away team won');
 					                            fixture.winner = fixture.awayTeam._id;
 					                            awayTeamLeaguePoints+=4;}
 					                    }
 					                    
 					                    // super rugby bonus points
-					                    if (req.param('homeTries')>=4){homeTeamLeaguePoints += 1 }
-					                    if (req.param('awayTries')>=4){awayTeamLeaguePoints += 1 }
+					                    if (fixture.homeTries>=4){homeTeamLeaguePoints += 1 }
+					                    if (fixture.awayTries>=4){awayTeamLeaguePoints += 1 }
 					                    if (fixture.scoreDifference < 7){
-					                        if(req.param('homeScore')>req.param('awayScore')){
+					                        if(fixture.homeScore>fixture.awayScore){
 					                            awayTeamLeaguePoints+=1;
 					                        }
 					                        else{
@@ -729,6 +734,39 @@ module.exports = function(app, passport) {
 		
 		}
 	});
+	
+	// FIXTURE ADMIN
+	// ===============================================
+	app.get('/fixtureAdmin', isLoggedIn, function(req, res) {
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('competitions');
+		}
+		else {
+			var Fixture = require('../app/models/fixture');
+			var Team = require('../app/models/team');						
+			
+			Fixture.findById(req.body.fixture).populate('event').exec(function(err, fixture){
+				if (err) {console.log(err)}
+				else {
+					Team.find({league:fixture.event.league}).sort('name').exec(function(err,teams){
+						if (err) {console.log(err)}
+						else {
+							res.render('resultAdminupdateFixture.ejs', {
+								user : req.user, // get the user out of session and pass to template
+								fixture: fixture,
+								teams: teams,
+								successMsg: req.flash('successMsg'),
+								dangerMsg: req.flash('dangerMsg'),
+								warningMsg: req.flash('warningMsg'),
+								});
+						}
+					});
+				}
+			});
+		}
+	});
+
 	
 };
 

@@ -59,7 +59,7 @@
 			<% if (dangerMsg.length > 0) { %><div class="alert alert-danger"><span class="fa fa-warning"></span>&nbsp<%= dangerMsg %></div><% } %>
 			<% if (warningMsg.length > 0) { %><div class="alert alert-warning"><span class="fa fa-warning"></span>&nbsp<%= warningMsg %></div><% } %>		
 			
-			<h2>fixture</h2>
+			<h2>fixture picks</h2>
 			<h3><%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %></h3>
 			<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>
 			<form action="/submitPick" method="post" role="form">
