@@ -27,7 +27,8 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-* add eventAdmin which lts you edit details about the event, ie: lets you update who is playing who.
+* add editing date and time to fixture admin - will need drop down for timezone. html5 Date input type, need to see how it comes through/get filled with default values. Will need to add a timezone somehow to it
+* fixture will need a timezone setting to convert the date to utc. use datetime-local to get time as well
 
 * load points scoring for RWC
 
@@ -42,6 +43,8 @@ WORKING ON
 The comp screen should go to a screen with all matches - closing soon at top and the a list with headings for each 'round' (which are the pool names).
 
 Add mat B to the competition and get him to confirm the games loaded look ok.
+
+* when I change teams it should change any picks on that fixture who had selected the old teams to the new home/away temas.
 
 
 TODO - SHORT TERM

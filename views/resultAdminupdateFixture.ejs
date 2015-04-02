@@ -94,8 +94,30 @@
 	</div>
 		
 	<div class="col-sm-6">
-		<a href="/fixtureAdmin?fixture=<%= fixture.id %>" class="btn btn-default btn-sm">edit fixture details</a>		
-		<%= fixture %>
+		<h2>fixture details</h2>
+		<form action="/fixtureAdmin" method="post" role="form">		
+			<fieldset>
+				<legend>Teams in fixture</legend>
+				<div class = "form-group">
+					<label for="homeTeam">Home team</label>
+					<select class="form-control" id="homeTeam" name="homeTeam">
+						<% teams.forEach(function (team){ %>
+							<option value="<%- team._id %>" <% if(team.id == fixture.homeTeam.id){ %>selected="selected"<%}%>><%- team.name %></option>
+						<% }) %>
+					</select>
+				</div>
+				<div class = "form-group">
+					<label for="awayTeam">Away team</label>
+					<select class="form-control" id="awayTeam" name="awayTeam">
+						<% teams.forEach(function (team){ %>
+							<option value="<%- team._id %>" <% if(team.id == fixture.awayTeam.id){ %>selected="selected"<%}%>><%- team.name %></option>
+						<% }) %>
+					</select>
+				</div>
+			</fieldset>
+			<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
+			<button type="submit" class="btn btn-warning btn-lg">Submit</button>
+		</form>					
 	</div>
 </div>
 

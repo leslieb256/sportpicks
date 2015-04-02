@@ -353,7 +353,7 @@ function updateFixtures(leagueName, eventName){
     var fixtureList = [
 
         // *** ROUND 3 ***
-        {type: 'match', homeSht:'MBV',awaySht:'BBR', roundName: 'Round 3',date: convertTime("2013-10-25 19:30", "Australia/Brisbane","UTC")},
+        {type: 'match', homeSht:'TBC',awaySht:'BBR', roundName: 'Round 3',date: convertTime("2013-10-25 19:30", "Australia/Brisbane","UTC")},
         {type: 'match', homeSht:'CCM',awaySht:'ADU', roundName: 'Round 3',date: convertTime("2013-10-26 17:30", "Australia/Brisbane","UTC")},
         {type: 'match', homeSht:'SFC',awaySht:'WSW', roundName: 'Round 3',date: convertTime("2013-10-26 19:45", "Australia/Brisbane","UTC")},
         {type: 'match', homeSht:'WPX',awaySht:'NUJ', roundName: 'Round 3',date: convertTime("2013-10-27 17:00", "Pacific/Auckland","UTC")},

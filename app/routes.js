@@ -580,16 +580,22 @@ module.exports = function(app, passport) {
 									League.findById(event.league).exec(function(err, league){
 										if (err){console.log(err)}
 										else {
-											res.render('resultAdminupdateFixture.ejs', {
-												user : req.user, // get the user out of session and pass to template
-												league: league,
-												event: event,
-												round: round,
-												fixture: fixture,
-												successMsg: req.flash('successMsg'),
-												dangerMsg: req.flash('dangerMsg'),
-												warningMsg: req.flash('warningMsg'),
-												});
+											Team.find({league:league}).exec(function (err, teams){
+												if(err) {console.log('could not find teams')}
+												else {
+													res.render('resultAdminupdateFixture.ejs', {
+														user : req.user, // get the user out of session and pass to template
+														league: league,
+														event: event,
+														round: round,
+														fixture: fixture,
+														teams: teams,
+														successMsg: req.flash('successMsg'),
+														dangerMsg: req.flash('dangerMsg'),
+														warningMsg: req.flash('warningMsg'),
+														});
+													}
+											});
 										}
 									});										
 								}
@@ -737,6 +743,8 @@ module.exports = function(app, passport) {
 	
 	// FIXTURE ADMIN
 	// ===============================================
+	
+	// THIS BIT BEING MOVED TO THE SCORE ADMIN PART
 	app.get('/fixtureAdmin', isLoggedIn, function(req, res) {
 		if (req.user.roles.indexOf('resultAdmin')==-1){
 			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
@@ -744,15 +752,18 @@ module.exports = function(app, passport) {
 		}
 		else {
 			var Fixture = require('../app/models/fixture');
-			var Team = require('../app/models/team');						
+			var Team = require('../app/models/team');
+			var Event = require('../app/models/event');	
 			
-			Fixture.findById(req.body.fixture).populate('event').exec(function(err, fixture){
+			//console.log('FIXTURE ID');console.log(req.param('fixture'));
+			Fixture.findById(req.param('fixture')).populate('event homeTeam awayTeam').exec(function(err, fixture){
 				if (err) {console.log(err)}
 				else {
+					//console.log(fixture);
 					Team.find({league:fixture.event.league}).sort('name').exec(function(err,teams){
 						if (err) {console.log(err)}
 						else {
-							res.render('resultAdminupdateFixture.ejs', {
+							res.render('fixtureAdmin.ejs', {
 								user : req.user, // get the user out of session and pass to template
 								fixture: fixture,
 								teams: teams,
@@ -766,8 +777,30 @@ module.exports = function(app, passport) {
 			});
 		}
 	});
-
 	
+	app.post('/fixtureAdmin', isLoggedIn, function (req, res){
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('competitions');
+		}
+		else {
+			//console.log('FIXTURE ID'); console.log(req.param('fixtureId'))
+			//console.log('AWAYTEAM body'); console.log(req.param('awayTeam'));
+			var Fixture = require('../app/models/fixture');
+            Fixture.update({_id: req.param('fixtureId')},
+                {$set: {homeTeam:req.param('homeTeam'), awayTeam: req.param('awayTeam') }},
+                {upsert: false},
+                function(err){
+                    if (err) {req.flash('dangerMsg','Fixture failed to update'); res.redirect('/resultAdmin/updateFixture?fixture='+req.param('fixtureId'))}
+                    else {
+                    	req.flash('successMsg','Fixture updated, you may have to resubmit the round for scoring');res.redirect('/resultAdmin/updateFixture?fixture='+req.param('fixtureId'));
+                    }
+                    
+                }
+            );
+		}
+	});
+
 };
 
 
