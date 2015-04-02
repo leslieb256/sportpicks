@@ -741,43 +741,6 @@ module.exports = function(app, passport) {
 		}
 	});
 	
-	// FIXTURE ADMIN
-	// ===============================================
-	
-	// THIS BIT BEING MOVED TO THE SCORE ADMIN PART
-	app.get('/fixtureAdmin', isLoggedIn, function(req, res) {
-		if (req.user.roles.indexOf('resultAdmin')==-1){
-			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
-			res.redirect('competitions');
-		}
-		else {
-			var Fixture = require('../app/models/fixture');
-			var Team = require('../app/models/team');
-			var Event = require('../app/models/event');	
-			
-			//console.log('FIXTURE ID');console.log(req.param('fixture'));
-			Fixture.findById(req.param('fixture')).populate('event homeTeam awayTeam').exec(function(err, fixture){
-				if (err) {console.log(err)}
-				else {
-					//console.log(fixture);
-					Team.find({league:fixture.event.league}).sort('name').exec(function(err,teams){
-						if (err) {console.log(err)}
-						else {
-							res.render('fixtureAdmin.ejs', {
-								user : req.user, // get the user out of session and pass to template
-								fixture: fixture,
-								teams: teams,
-								successMsg: req.flash('successMsg'),
-								dangerMsg: req.flash('dangerMsg'),
-								warningMsg: req.flash('warningMsg'),
-								});
-						}
-					});
-				}
-			});
-		}
-	});
-	
 	app.post('/fixtureAdmin', isLoggedIn, function (req, res){
 		if (req.user.roles.indexOf('resultAdmin')==-1){
 			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');

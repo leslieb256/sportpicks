@@ -27,6 +27,7 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
+create branh before doing this
 * add editing date and time to fixture admin - will need drop down for timezone. html5 Date input type, need to see how it comes through/get filled with default values. Will need to add a timezone somehow to it
 * fixture will need a timezone setting to convert the date to utc. use datetime-local to get time as well
 
