@@ -567,6 +567,7 @@ module.exports = function(app, passport) {
 			var League = require('../app/models/league');
 			var Event = require('../app/models/event');
 			var Team = require('../app/models/team'); // needed for populate function
+			var moment = require('moment-timezone');
 			
 			Fixture.findById(req.param('fixture')).populate('homeTeam awayTeam').sort('closeDate').exec(function(err, fixture){
 				if(err){console.log(err)}
@@ -590,6 +591,7 @@ module.exports = function(app, passport) {
 														round: round,
 														fixture: fixture,
 														teams: teams,
+														timezones: moment.tz.names(),
 														successMsg: req.flash('successMsg'),
 														dangerMsg: req.flash('dangerMsg'),
 														warningMsg: req.flash('warningMsg'),
@@ -762,6 +764,36 @@ module.exports = function(app, passport) {
                 }
             );
 		}
+	});
+	
+	app.post('/fixtureAdmin/updateDate', isLoggedIn, function(req,res){
+		if (req.user.roles.indexOf('resultAdmin')==-1){
+			req.flash('dangerMsg', 'You do not have authoirsation to access the Result Administration page');
+			res.redirect('competitions');
+		}
+		else{
+			// take timezone and date and convert to new UTC date and update the fixture.
+			console.log('DATE');console.log(req.param('date'));
+			console.log('TIMEZONE'); console.log(req.param('timezone'));
+			var newTime = convertTime(req.param('date'), req.param('timezone'),"UTC"); // convert input time to UTC for storing in database.
+			if (newTime==undefined){
+				req.flash('dangerMsg', 'Error in time format use YYYY-MM-DD HH:mm'); res.redirect('/resultAdmin/updateFixture?fixture='+req.param('fixtureId'));
+			}
+			else {
+				var Fixture = require('../app/models/fixture');
+				Fixture.update({_id: req.param('fixtureId')},
+	                {$set: {date: newTime }},
+	                {upsert: false},
+	                function(err){
+	                    if (err) {req.flash('dangerMsg','Fixture date failed to store in database'); res.redirect('/resultAdmin/updateFixture?fixture='+req.param('fixtureId'))}
+	                    else {
+	                    	req.flash('successMsg','Fixture date updated, UTC Time of: '+newTime+' stored');res.redirect('/resultAdmin/updateFixture?fixture='+req.param('fixtureId'));
+	                    }
+	                    
+		            }
+	            );
+			}
+		}		
 	});
 
 };
@@ -980,5 +1012,18 @@ function localiseCloseDates(data,localTimezone){
 		item.closeDateLocalTime == localiseTime(item.closeDate,localTimezone);
 	});
 	return data;
+}
+
+function convertTime(time,inZone,outZone){
+    var moment = require('moment-timezone');
+    if (moment(time,'YYYY-MM-DD HH:mm',true).isValid() && moment.tz.zone(inZone)!=null && moment.tz.zone(inZone)!=null ) {
+    	// check if time is in correct format and if the timezones passed are valid.
+        var inTime = moment.tz(time, inZone);
+        var outTime = inTime.clone().tz(outZone);
+       	return outTime.format();        	
+    }
+    else {
+    	return undefined;
+    }
 }
 

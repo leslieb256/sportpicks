@@ -7,51 +7,12 @@ var Fixture = require('../models/fixture');
 
 function updatePicks(user_email, comp_name){
     var picks = [
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '549dbc89f1ace29007e4bff0', 
-        winner: 'BBR',
-        homeScore: 2,
-        awayScore: 1,
-        roundName: 'Round 17'
-        },
+        {user: user_email, competition: comp_name, fixture: '549dbc89f1ace29007e4c01d', winner: 'CCM', homeScore:0 ,awayScore: 1        },
+        {user: user_email, competition: comp_name, fixture: '549dbc89f1ace29007e4c003', winner: 'MCY', homeScore:1 ,awayScore: 2        },
+        {user: user_email, competition: comp_name, fixture: '549dbc89f1ace29007e4c007', winner: 'SFC', homeScore:1 ,awayScore:  0       },
+        {user: user_email, competition: comp_name, fixture: '549dbc89f1ace29007e4c01f', winner: 'WPX', homeScore: 2,awayScore: 0        },
+        {user: user_email, competition: comp_name, fixture: '549dbc89f1ace29007e4c01b', winner: 'PTH', homeScore: 0,awayScore: 3        },
 
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '549dbc89f1ace29007e4bff7',
-        winner: 'WPX',
-        homeScore: 2,
-        awayScore: 0,
-        roundName: 'Round 17'
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '549dbc89f1ace29007e4c011',
-        winner: 'DRW',
-        homeScore: 2,
-        awayScore: 2,
-        roundName: 'Round 17'
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '549dbc89f1ace29007e4bfec',
-        winner: 'MBV',
-        homeScore: 1,
-        awayScore: 3,
-        roundName: 'Round 17'
-
-        },
-
-        {user: user_email, 
-        competition: comp_name, 
-        fixture: '549dbc89f1ace29007e4bffd',
-        winner: 'PTH',
-        homeScore: 1,
-        awayScore: 3,
-        roundName: 'Round 17'
-        }
     ];
     
     picks.forEach(function(pick){
@@ -115,7 +76,8 @@ function showallPicksforUserForROund(user_email,round_id){
     
 }
 
-var dbUrl = 'mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@'+process.env.DATABASE_SERVER+':'+process.env.DATABASE_PORT+'/'+process.env.DATABASE_NAME;
+//var dbUrl = 'mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@'+process.env.DATABASE_SERVER+':'+process.env.DATABASE_PORT+'/'+process.env.DATABASE_NAME;
+var dbUrl = 'mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@dogen.mongohq.com:10055/tippingComp';
 mongoose.connect(dbUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));

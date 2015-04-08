@@ -95,9 +95,10 @@
 		
 	<div class="col-sm-6">
 		<h2>fixture details</h2>
+		<div>
 		<form action="/fixtureAdmin" method="post" role="form">		
 			<fieldset>
-				<legend>Teams in fixture</legend>
+				<legend>teams in fixture</legend>
 				<div class = "form-group">
 					<label for="homeTeam">Home team</label>
 					<select class="form-control" id="homeTeam" name="homeTeam">
@@ -117,8 +118,30 @@
 			</fieldset>
 			<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
 			<button type="submit" class="btn btn-warning btn-lg">Submit</button>
-		</form>					
+		</form>
+		</div>
+		<div>
+		<form action="/fixtureAdmin/updateDate" method="post" role="form">
+			<fieldset>
+				<legend>fixture date</legend>
+				<div class="form-group">
+					<label for="date">date [<%- fixture.date %>]</label>
+					<input class="form-control" name="date" type="text" placeholder="YYYY-MM-DD HH:mm" required />
+					<label for ="timezone">timezone for entered date</label>
+					<select class="form-control" name="timezone">
+						<% timezones.forEach(function (timezone){ %>
+							<option value="<%- timezone %>"><%- timezone %></option>
+						<% }) %>
+					</select>
+					<p class="help-block">Timezones loaded in to the system are UTC. When you enter a new time you also have to tell the system what timezone this time is in.</p>
+				</div>
+			</fieldset>
+			<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
+			<button type="submit" class="btn btn-warning btn-lg">Submit</button>
+		</form>
+		</div>
 	</div>
+	<p>Fixture<br><%- fixture %></p>
 </div>
 
 </body>
