@@ -67,38 +67,6 @@ function fixturesInRound(round_id){
     });
 }
 
-function scoreFixture(fixture){
-    /**
-     * Takes a fixture object and calcuates the score for each user who has a pick for that fixture.
-     **/
-    SoccerPickFixture.find({fixture:fixture._id}).exec(function(err,picks){
-       //console.log('PICKS\n%s',picks);
-       picks.forEach(function(userPick){
-            console.log("PICKS\n%s",userPick);
-            console.log('FIXTURE\nfixture:%s', fixture);
-            console.log('\n=====================\n');
-            // calc winning score and update db if score is not zero
-
-            var pickPoints = scoring.soccerFixtureScoring(userPick, fixture, [{type:"winner", points:7},{type:"scoreDifference", points:3}]);
-            Point.update({
-                type: 'fixture',
-                user: userPick.user,
-                competition: userPick.competition,
-                event: fixture.event,
-                round: fixture.round,
-                fixture: fixture._id},
-                {$set: {points: pickPoints}},
-                {upsert: true},
-                function(err){
-                    if (err) console.log("ERROR:"+err.toString());
-            console.log("FIXTURE SCORED");
-                }
-            );
-            
-       });
-    });
-}
-
 function updateCompetitionFixtureRanking(fixture){
     /**
      * Takes a fixture object and puts the users in order based on their points for the fixture.
@@ -558,40 +526,39 @@ var testAsyncEach = function(list){
     }
 }
 
-    testAsyncSeries();
-/**
+function mergeFixtureOptions () {
+    /**
+    Fixture.find().exec(function(err, fixtures){
+        fixtures.forEach(function(fixture){
+            fixture.date = fixture.closeDate;
+            fixture.save();
+            console.log(fixture._id);
+            console.log(fixture.closeDate+ '    |   '+fixture.date);
+        });
+    });
+    **/
+    Round.find().populate('event').exec(function(err, rounds){
+        rounds.forEach(function (round){
+            round.firstFixtureDate = round.closeDate;
+            console.log('FFdate: %s LFdate: %s   closeDate: %s event:%s', round.firstFixtureDate, round.lastFixtureDate, round.closeDate, round.event.name);
+            round.save();
+        });
+    });
+    //WAIT TO SEE FOR ROUNDS, Lastfixdate is not the same as closedate! closedate is date of the first fixture, maybechange closedate to fistfixture
+}
+
 // connect to the database
-mongoose.connect('mongodb://golog:gogogadget@kahana.mongohq.com:10088/tipping2');
+
+//TESTING DB
+//console.log('TESTING db');mongoose.connect('mongodb://myTippingUser:superpassword96@dogen.mongohq.com:10029/tc-TESTING');
+
+// PRODUCTION DB
+//console.log('PRODCUTION db');mongoose.connect('mongodb://myTippingUser:superpassword96@dogen.mongohq.com:10055/tippingComp');
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
-   // TEST UPDATE SCORE
-   //updateScoreByFixtureId('53fc6408b918a6b661d423df'); //ROUND1
-   //updateScoreByFixtureId('53fc6408b918a6b661d423e4'); //ROUND2
-    //bulkScoreUpdate(['53fc6408b918a6b661d423df','53fc6408b918a6b661d423e0','53fc6408b918a6b661d423e1','53fc6408b918a6b661d423de','53fc6408b918a6b661d423e6']); //ROUND1
-    //bulkScoreUpdate(['53fc6408b918a6b661d423e4','53fc6408b918a6b661d423e2','53fc6408b918a6b661d423e3','53fc6408b918a6b661d423e5','5401748eb918a6b661d42b7c']); //ROUND2
-    //fixturesInRound('53fc63e6b918a6b661d423c1');
-    
-    //usersCompetitions('5401512fb918a6b661d42b77');
-    //User.findById('5401512fb918a6b661d42b77').exec(function(err,user){
-    //        user.competitionRanking(function(err, comps){
-    //            console.log(comps);
-    //        });
-    //});
-    
-    //testDrill('540151b0b918a6b661d42b7a','53fc63e6b918a6b661d423bf');
-    //getFixtures()
-   // console.log('TEST: %s',picksAvailByComp('5401512fb918a6b661d42b77'));
-    //picksMade();
-    //console.log(testScoringOptions({type:'scoreDifference',margins:[7,14], points:5},{scoreDifference:7}));
-    
-    //updateCummulativeRoundPoints('542bd1842367c9209a739130');
-    
-    testAsyncEach();
-
+mergeFixtureOptions()
     
 });
-
-
-**/

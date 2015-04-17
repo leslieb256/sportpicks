@@ -27,15 +27,24 @@ How to tlayout columsn in Bootstrap: http://scotch.io/bar-talk/understanding-the
 WORKING ON
 ==========
 
-create branh before doing this
-* add editing date and time to fixture admin - will need drop down for timezone. html5 Date input type, need to see how it comes through/get filled with default values. Will need to add a timezone somehow to it
-* fixture will need a timezone setting to convert the date to utc. use datetime-local to get time as well
+DONE * standardise on fixture: date and round: last fixture date and firstFixtureDate
+* fix backend code refernce fixture.date and round.lastFixtureDate, round.firstfixtureDate (which is the old CloseDate)
+* fix frontend code to fixture.date and round.lastFixtureDate and round.firstfixtureDate (which is the old CloseDate)
+* set round.closeDate and fixture.closeDate to undefined in testing
+* test
+* close branch
+* roll out to production (push out code THEN update production db)
+* test production
+* go back to working on selection by fixtures. (make new branch etc)
 
-* load points scoring for RWC
+* set closeby and closebyhours on all current competitions (need to do this for ACTUAL DB as well).
+* redesign the code to use the compeitition details for setting the round closing information
+* THEN go back and start working on the fixture thing.
+* copy closevy to last fixture date in round
+* copy closedate to date in fixture (and vice cersa) later work out which one to use.
 
-* remvove modules from git
-
-* learn promises https://promise-nuggets.github.io/articles/01-the-simplest-example.html , looks more useful than butcherig async about.
+*   Should have ALL fixtures listed in a table with competition and date. OR somthing like that. The people can sort the list by date and it can show cloed rounds/fixtures ealiy as all data will be there.
+* Make the list of rounds a table of links, later can make it sortable or something.
 
 *   Closing date should be set in the compeition as being by round or by fixture. closeDate should be settable eg: closingRules: {by: round, time: -1 (hrs)}
 * e or 1hr before each round. Will also need to change how/when it updates the
@@ -43,7 +52,11 @@ create branh before doing this
 * Rounds closing within 2 weeks should be in a "closing soon" thing on the top of the page (later this shuld be settable in competiion options)
 The comp screen should go to a screen with all matches - closing soon at top and the a list with headings for each 'round' (which are the pool names).
 
-Add mat B to the competition and get him to confirm the games loaded look ok.
+* load points scoring for RWC
+
+* remvove modules from git
+
+* learn promises https://promise-nuggets.github.io/articles/01-the-simplest-example.html , looks more useful than butcherig async about.
 
 * when I change teams it should change any picks on that fixture who had selected the old teams to the new home/away temas.
 
@@ -136,12 +149,7 @@ But the idea is the port type can limit what scoring option are avaailbae, soprt
 
 * also need to be able to delete all data relating to a user (eg: the test user). OR at least make user login "inactive"
 
-*   Should have ALL fixtures listed in a table with competition and date. OR somthing like that. The people can sort the list by date and it can show cloed rounds/fixtures ealiy as all data will be there.
-* Make the list of rounds a table of links, later can make it sortable or something.
-
 *    when users are added it should take the first part of the email address and make that the display name by default. The user should also be able to change displayname at anytime.
-
-*   should page scrape results or have a decent results entry screen
 
 * on th epicks screen need to be able to speciy in competiton or event whether a draw can be selected as some comeption types may not be able to draw (eg: world cup)
 

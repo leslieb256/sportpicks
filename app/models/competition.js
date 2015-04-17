@@ -9,7 +9,9 @@ var competitionSchema = new mongoose.Schema({
     usersAccepted: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     league: {type: mongoose.Schema.Types.ObjectId, ref: 'League'},
     event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
-    scoring: [{type: mongoose.Schema.Types.Mixed}] // See notes at bottom of page for notes on scoring options.
+    scoring: [{type: mongoose.Schema.Types.Mixed}], // See notes at bottom of page for notes on scoring options.
+    closeBy: String, // [ fixture | round ]
+    closeHours: Number // number of hours to close round or fixture before the first fixture in the round OR the fixture date.
 });
 
 //create the model for Competitions

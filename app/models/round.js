@@ -10,6 +10,7 @@ var roundSchema = new mongoose.Schema({
     event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
     closeDate: Date, //latest closing date, based on datetime of first fixture
     lastFixtureDate: Date,
+    firstFixtureDate: Date,
     type: String,
     numberOfFixtures: Number
 });
