@@ -28,14 +28,21 @@ WORKING ON
 ==========
 
 DONE * standardise on fixture: date and round: last fixture date and firstFixtureDate
-* fix backend code refernce fixture.date and round.lastFixtureDate, round.firstfixtureDate (which is the old CloseDate)
-* fix frontend code to fixture.date and round.lastFixtureDate and round.firstfixtureDate (which is the old CloseDate)
-* set round.closeDate and fixture.closeDate to undefined in testing
-* test
+DONE * fix backend code refernce fixture.date and round.lastFixtureDate, round.firstfixtureDate (which is the old CloseDate) (routes file, not any of the admin files)
+DONE * fix frontend code to fixture.date and round.lastFixtureDate and round.firstfixtureDate (which is the old CloseDate)
+DONE * set round.closeDate and fixture.closeDate to undefined in testing
+DONE * test
 * close branch
 * roll out to production (push out code THEN update production db)
+* set round.closeDate and fixture.closeDate to undefined in production
 * test production
+
+
+* find out why elimiation finals are not appearing in Aleague!
+
 * go back to working on selection by fixtures. (make new branch etc)
+
+
 
 * set closeby and closebyhours on all current competitions (need to do this for ACTUAL DB as well).
 * redesign the code to use the compeitition details for setting the round closing information

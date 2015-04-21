@@ -352,13 +352,14 @@ function updateFixtures(leagueName, eventName){
 
     var fixtureList = [
 
-        // *** ROUND 3 ***
-        {type: 'match', homeSht:'TBC',awaySht:'BBR', roundName: 'Round 3',date: convertTime("2013-10-25 19:30", "Australia/Brisbane","UTC")},
-        {type: 'match', homeSht:'CCM',awaySht:'ADU', roundName: 'Round 3',date: convertTime("2013-10-26 17:30", "Australia/Brisbane","UTC")},
-        {type: 'match', homeSht:'SFC',awaySht:'WSW', roundName: 'Round 3',date: convertTime("2013-10-26 19:45", "Australia/Brisbane","UTC")},
-        {type: 'match', homeSht:'WPX',awaySht:'NUJ', roundName: 'Round 3',date: convertTime("2013-10-27 17:00", "Pacific/Auckland","UTC")},
-        {type: 'match', homeSht:'PTH',awaySht:'MCY', roundName: 'Round 3',date: convertTime("2013-10-27 14:00", "Australia/Perth","UTC")},
+        {type: 'match', homeSht:'TBC',awaySht:'TBC', roundName: 'Elimination Finals',date: convertTime("2015-05-01 19:40", "Australia/Brisbane","UTC")},
+        {type: 'match', homeSht:'TBC',awaySht:'TBC', roundName: 'Elimination Finals',date: convertTime("2015-05-03 17:00", "Australia/Brisbane","UTC")},
         
+        {type: 'match', homeSht:'TBC',awaySht:'TBC', roundName: 'Semi Finals',date: convertTime("2015-05-08 19:30", "Australia/Brisbane","UTC")},
+        {type: 'match', homeSht:'TBC',awaySht:'TBC', roundName: 'Semi Finals',date: convertTime("2015-05-10 17:00", "Australia/Brisbane","UTC")},                
+
+        {type: 'match', homeSht:'TBC',awaySht:'TBC', roundName: 'Grand Final',date: convertTime("2015-05-17 16:00", "Australia/Brisbane","UTC")},                
+
     ];
         
     League.findOne({name:leagueName}, function (err, league) {
@@ -390,7 +391,7 @@ function updateFixtures(leagueName, eventName){
                                                                 else{
                                                                 Fixture.update({homeTeam: homeTeam, awayTeam: awayTeam, closeDate: fixtureData.date,date: fixtureData.date, event: event._id, league: league._id},
                                                                 {$set:{round: round._id}},
-                                                                    {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString())}
+                                                                    {upsert: true}, function(err) {if (err) console.log("Fixture update Error:"+err.toString());else {console.log('fixture updated')}}
                                                                     );
                                                                 }
                                                             });
@@ -502,8 +503,12 @@ function convertTime(time,inZone,outZone){
 }
 
 // connect to the database
-var dbUrl = 'mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@'+process.env.DATABASE_SERVER+':'+process.env.DATABASE_PORT+'/'+process.env.DATABASE_NAME;
-mongoose.connect(dbUrl);
+
+//TESTING DB
+//console.log('TESTING db');mongoose.connect('mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@dogen.mongohq.com:10029/tc-TESTING');
+
+// PRODUCTION DB
+console.log('PRODCUTION db');mongoose.connect('mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@dogen.mongohq.com:10055/tippingComp');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
@@ -511,7 +516,7 @@ db.once('open', function callback(){
     //updateEvent();
     //updateTeams();
     //updateRounds("A-League","2014/15 Season");
-    updateFixtures("A-League","2013/14 Season");
+    updateFixtures("A-League","2014/15 Season");
     //updateUsers();
     //loadCompetitions();
     //updatePicks('leslie@araitanga.com', 'test Comp-leslieonly')

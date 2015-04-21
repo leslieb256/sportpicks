@@ -61,7 +61,7 @@
 			
 			<h2>fixture picks</h2>
 			<h3><%= teams[fixture.homeTeam].name %> v <%= teams[fixture.awayTeam].name %></h3>
-			<script type="text/javascript">localTime("<%= fixture.closeDate %>");</script>
+			<script type="text/javascript">localTime("<%= fixture.date %>");</script>
 			<form action="/submitPick" method="post" role="form">
 				<% competition.scoring.forEach(function (scoringOption){ %>
 					<% if (scoringOption.type == 'winner') { %>
@@ -72,7 +72,7 @@
 								<label for="<%= fixture.homeTeam %>">
 									<input type="radio" name="winner" id="<%= fixture.homeTeam %>" value="<%= fixture.homeTeam %>"
 										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.homeTeam==pick.winner.toString()) { %> checked <% } %> <% } %>
-										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
+										<% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
 										<%if (teams[fixture.homeTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.homeTeam].logo %>" height=16em width=16em><% } else { %><img src="/images/none.png" height="16" width="16"> <% } %>
 									<%=teams[fixture.homeTeam].name %>
 								</label>
@@ -81,7 +81,7 @@
 								<label for="<%= draw.id %>">
 									<input type="radio" name="winner" id="<%= draw.id %>" value="<%= draw.id %>"
 										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (draw.id==pick.winner.toString()) { %> checked <% } %> <% } %>
-										   <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/>
+										   <% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/>
 										   <img src="/images/none.png" width=16em height =16em>
 									<%=draw.name %>
 								</label>
@@ -90,7 +90,7 @@
 								<label for="<%= fixture.awayTeam %>">
 									<input type="radio" name="winner" id="<%= fixture.awayTeam %>" value="<%= fixture.awayTeam %>"
 										<% if (pick === null || pick.winner === undefined ) { %><% } else { %><% if (fixture.awayTeam==pick.winner.toString()) { %> checked <% } %>  <% } %>
-										 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
+										 <% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
 										 <%if (teams[fixture.awayTeam].logo != undefined){ %><img src="/images/team/logo/sm/<%=teams[fixture.awayTeam].logo %>" height=16em width=16em><% } else { %><img src="/images/none.png" height=16em width=16em> <% } %>
 									<%=teams[fixture.awayTeam].name %>
 								</label>
@@ -105,12 +105,12 @@
 							<div class = "form-group">
 								<label for="homeScore"><%= teams[fixture.homeTeam].name %></label>
 								<input name="homeScore" type="number" class = "form-control" id="homeScore" value="<% if (pick === null || pick.homeScore === undefined){ %>0<% } else { %><%= pick.homeScore %><% } %>" 
-									 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
+									 <% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
 							</div>
 							<div class = "form-group">
 								<label for="awayScore"><%= teams[fixture.awayTeam].name %></label>
 								<input name="awayScore" type="number" class = "form-control" id="awayScore" value="<% if (pick === null || pick.awayScore === undefined){ %>0<% } else { %><%= pick.awayScore %><% } %>" 
-								 <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
+								 <% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> />
 							</div>
 						</fieldset>
 					<% } %>
@@ -124,7 +124,7 @@
 									<label for="SD-0">
 										<input type="radio" name="scoreDifference" id="SD-0" value = "0" 
 										<% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==0) ) { %>checked <% } %> 
-										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> /> 0
+										<% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %> /> 0
 									</label>
 								</div>
 							<% } else { %>
@@ -132,7 +132,7 @@
 									<label for="SD-<%= scoringOption.margins[0] %>" >
 										<input type="radio" name="scoreDifference" id="SD-<%= scoringOption.margins[0] %>" value = "<%= scoringOption.margins[0] %>" 
 										<% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==scoringOption.margins[0]) ) { %>checked <% } %>
-										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> 0 - <%= scoringOption.margins[0] %>
+										<% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> 0 - <%= scoringOption.margins[0] %>
 									</label>
 								</div>
 							<% } %>
@@ -141,7 +141,7 @@
 									<label for="SD-<%= scoringOption.margins[i] %>" >
 										<input type="radio" name="scoreDifference" id="SD-<%= scoringOption.margins[i] %>" value = "<%= scoringOption.margins[i] %>"
 										<% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==scoringOption.margins[i]) ) { %>checked <% } %>
-										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> 
+										<% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> 
 										<% if ( scoringOption.margins[i-1]+1 == scoringOption.margins[i]) { %><%= scoringOption.margins[i] %><% } else { %><%= scoringOption.margins[i-1] + 1 %> - <%= scoringOption.margins[i] %> <% } %>
 									</label>
 								</div>
@@ -151,7 +151,7 @@
 									<label for="SD--1" >
 										<input type="radio" name="scoreDifference" id="SD--1" value = "-1" 
 										<% if ( (!(pick === null || pick.scoreDifference === undefined )) && (pick.scoreDifference==-1) ) { %> checked <% } %>
-										<% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> 
+										<% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>/> 
 										<%= scoringOption.margins[scoringOption.margins.length - 1 ] + 1 %> +
 									</label>
 								</div>
@@ -163,7 +163,7 @@
 				<input type="hidden" name="fixtureId" value="<%= fixture.id %>" >
 				<input type="hidden" name="roundId" value="<%= fixture.round %>" >
 				<input type="hidden" name="competitionId" value="<%= competition.id %>" >
-				<button type="submit" class="btn btn-warning btn-lg" <% if (round.closeDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>>Submit</button>
+				<button type="submit" class="btn btn-warning btn-lg" <% if (round.firstFixtureDate<= (Date.now()+(1000*60*60))) { %> disabled <% } %>>Submit</button>
 			</form>		
 		</div>
 		

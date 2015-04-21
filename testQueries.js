@@ -547,18 +547,29 @@ function mergeFixtureOptions () {
     //WAIT TO SEE FOR ROUNDS, Lastfixdate is not the same as closedate! closedate is date of the first fixture, maybechange closedate to fistfixture
 }
 
+function clearData() {
+    Round.find().exec(function (err, rounds){
+        rounds.forEach(function (round){
+            //round.closeDate = undefined;
+            //round.save();
+            console.log("ID: %s : %s",round.id, round.closeDate);
+        })
+    })
+}
+
 // connect to the database
 
 //TESTING DB
-//console.log('TESTING db');mongoose.connect('mongodb://myTippingUser:superpassword96@dogen.mongohq.com:10029/tc-TESTING');
+console.log('TESTING db');mongoose.connect('mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@dogen.mongohq.com:10029/tc-TESTING');
 
 // PRODUCTION DB
-//console.log('PRODCUTION db');mongoose.connect('mongodb://myTippingUser:superpassword96@dogen.mongohq.com:10055/tippingComp');
+//console.log('PRODCUTION db');mongoose.connect('mongodb://'+process.env.DATABASE_USER+':'+process.env.DATABASE_PASSWORD+'@dogen.mongohq.com:10055/tippingComp');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function callback(){
 
-mergeFixtureOptions()
+//mergeFixtureOptions()
+clearData();
     
 });

@@ -47,7 +47,7 @@
 		<h2>fixtures</h2>
 		<div class="list-group">
 			<% fixtures.forEach(function(fixture){ %>
-					<a href="/resultAdmin/updateFixture?fixture=<%= fixture.id %>" class="list-group-item"><%- fixture.homeTeam.name %> v <%- fixture.awayTeam.name %><span class="label label-default pull-right"><script type="text/javascript">localTime("<%= fixture.closeDate %>");</script></span></a>
+					<a href="/resultAdmin/updateFixture?fixture=<%= fixture.id %>" class="list-group-item"><%- fixture.homeTeam.name %> v <%- fixture.awayTeam.name %><span class="label label-default pull-right"><script type="text/javascript">localTime("<%= fixture.date %>");</script></span></a>
 			<% }) %>
 		</div>
 	</div>

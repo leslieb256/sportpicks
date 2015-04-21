@@ -213,7 +213,7 @@ module.exports = function(app, passport) {
 		var User = require('../app/models/user');		//needed for the populate for users
 		//console.log('FIXTURES: PARAM REQ:',req.param);
 		
-		Fixture.find({round:req.param('round'), type:'match'}).populate('homeTeam awayTeam').sort('closeDate').lean().exec(function (err,fixtures){
+		Fixture.find({round:req.param('round'), type:'match'}).populate('homeTeam awayTeam').sort('date').lean().exec(function (err,fixtures){
 		if (err) {console.log('ERR: fixtures page on fixtures')}
 			else{
 				FixturePick.find({competition:req.param('competition'), round:req.param('round'), user:req.user.id}).exec(function(err,picks){
@@ -569,7 +569,7 @@ module.exports = function(app, passport) {
 			var Team = require('../app/models/team'); // needed for populate function
 			var moment = require('moment-timezone');
 			
-			Fixture.findById(req.param('fixture')).populate('homeTeam awayTeam').sort('closeDate').exec(function(err, fixture){
+			Fixture.findById(req.param('fixture')).populate('homeTeam awayTeam').sort('date').exec(function(err, fixture){
 				if(err){console.log(err)}
 				else {
 					Round.findById(fixture.round).sort('roundPosition').exec(function(err,round){
@@ -841,7 +841,7 @@ function roundsStatusDisplay(rounds,userPoints,fixturePicksByRound){
 
 	rounds.forEach(function (round){
 		round.closingSoon = false;
-		if (round.closeDate<Date.now()){
+		if (round.firstFixtureDate<Date.now()){
 			//if round is closed
 			if(round.lastFixtureDate>(Date.now())-(1000*60*60*24*2)){ //+(1000*60*60*24*2)
 				//but the last fixture date + 2 days is before now (added two days to give me a chance to do the scoring)
@@ -867,7 +867,7 @@ function roundsStatusDisplay(rounds,userPoints,fixturePicksByRound){
 		else {
 			// round has not closed yet
 
-			if (round.closeDate <= (Date.now()+(1000*60*60*24*7))){
+			if (round.firstFixtureDate <= (Date.now()+(1000*60*60*24*7))){
 				// if there are rounds closing soon we mark round[0] so that the page generator
 				// can put in the relevent heading and mark the rounds as closing soon.
 				round.closingSoon = true;
@@ -877,16 +877,16 @@ function roundsStatusDisplay(rounds,userPoints,fixturePicksByRound){
 			// find how many picks theuser has done for the round
 			if (fixturePicksByRound[round._id]>=round.numberOfFixtures){ 
 				// if the user has done all the picks in the rounds mark it done.
-				round.viewBadge = '<span class="label label-success pull-right"><span class="fa fa-check"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
+				round.viewBadge = '<span class="label label-success pull-right"><span class="fa fa-check"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.firstFixtureDate+'","-1");</script></span>';
 			}
 			else {
 				//not all picks done for round
-				if (round.closeDate <= (Date.now()+(1000*60*60*24*3))){
+				if (round.firstFixtureDate <= (Date.now()+(1000*60*60*24*3))){
 					// if round closes in the next 3 days mark it red to warn player
-					round.viewBadge='<span class="label label-danger pull-right\"><span class="fa fa-warning"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
+					round.viewBadge='<span class="label label-danger pull-right\"><span class="fa fa-warning"></span>&nbsp closes:<script type="text/javascript">localTime("'+round.firstFixtureDate+'","-1");</script></span>';
 				}
 				else {
-					round.viewBadge='<span class="label label-default pull-right">closes:<script type="text/javascript">localTime("'+round.closeDate+'","-1");</script></span>';
+					round.viewBadge='<span class="label label-default pull-right">closes:<script type="text/javascript">localTime("'+round.firstFixtureDate+'","-1");</script></span>';
 				}
 			}
 		}
